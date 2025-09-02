@@ -3,17 +3,17 @@
 function print_header()
 {
   global $headerclass;
-  include("indb.php");
+  include ('indb.php');
   if ($opt_backend) {
-    $TEMPLATEDIR = "https://cbtmyid.b-cdn.net/wp-content/themes/unbk";
+    $TEMPLATEDIR = 'https://cbtmyid.b-cdn.net/wp-content/themes/unbk';
   } else {
     $TEMPLATEDIR = get_template_directory_uri();
   }
   $TEMPLATEDIR = get_template_directory_uri();
 
-  $headerclass = (isset($headerclass)) ? $headerclass : "";
-  $lisensi = getLisensi("Tq8p9rMiQ8hpgNxd7EYOABGGUKCrJozAVIZNpUdArLCbsuvrwZ7xOTCW1aNh");
-?>
+  $headerclass = (isset($headerclass)) ? $headerclass : '';
+  $lisensi = getLisensi('Tq8p9rMiQ8hpgNxd7EYOABGGUKCrJozAVIZNpUdArLCbsuvrwZ7xOTCW1aNh');
+  ?>
   <!DOCTYPE html>
   <html lang="en">
 
@@ -22,7 +22,7 @@ function print_header()
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google" content="notranslate">
-    <title><?php echo $lisensi["namasekolah"] ?> CBT TEST <?php echo date("Y"); ?></title>
+    <title><?php echo $lisensi['namasekolah'] ?> CBT TEST <?php echo date('Y'); ?></title>
     <link href="<?php echo "$TEMPLATEDIR" ?>/archives/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo "$TEMPLATEDIR" ?>/archives/css/style.css?bv=13.10.3" rel="stylesheet">
     <link href="<?php echo "$TEMPLATEDIR" ?>/archives/css/fonts.css" rel="stylesheet">
@@ -171,10 +171,10 @@ function print_header()
           }
         });
 
-        $('.summary-log .content').html('<a href="#" title="Simulasi Mandiri">Aplikasi Simulasi Mandiri</a> :<strong> #13.10.3</strong><br>')
+        $('.summary-log .content').html('<span style="color: #007bff; text-decoration: underline; cursor: pointer;">Aplikasi Simulasi Mandiri</span> :<strong> #13.10.3</strong><br>')
         <?php
         if ($opt_iframe) {
-        ?>
+          ?>
           if (inIframe() || (window.location.href.indexOf('bimasoftcbt') >= 0)) {
 
           } else {
@@ -186,7 +186,7 @@ function print_header()
       });
       <?php
       if ($opt_backend) {
-      ?>
+        ?>
         localStorage.setItem("backend", "<?php echo $opt_backend ?>");
         localStorage.setItem("themedir2", '<?php echo $opt_backend ?>wp-content/themes/unbk');
         localStorage.setItem("themedir3", '<?php echo $opt_backend ?>wp-content/themes/unbk');
@@ -194,7 +194,7 @@ function print_header()
         localStorage.setItem("templatedir", '<?php echo $opt_backend ?>wp-content/themes/unbk');
       <?php
       } else {
-      ?>
+        ?>
         localStorage.setItem("backend", "./");
         localStorage.setItem("themedir2", '../wp-content/themes/unbk');
         localStorage.setItem("themedir3", '../../wp-content/themes/unbk');
@@ -223,7 +223,7 @@ function print_header()
               <div id='logo-container'>
                 <img src='<?php echo $lisensi['logo'] ?>' />
               </div>
-              <?php if ($opt_shownamasekolah == "1") : ?>
+              <?php if ($opt_shownamasekolah == '1'): ?>
                 <div id='text-container'>
                   <h1><?php echo $lisensi['namasekolah'] ?></h1>
                   <h3><?php echo $opt_blogdescription ?></h3>
@@ -241,7 +241,7 @@ function print_header()
                 <p><b id='nama_siswa2'></b></p>
                 <input type="hidden" id="localstorage">
                 <p>(<b id='userid'></b>)</p>
-                <?php if ($opt_bolehlogout) : ?>
+                <?php if ($opt_bolehlogout): ?>
                   <p><a href='<?php echo $home_url ?>'>Logout</a></p>
                 <?php endif; ?>
               </div>
