@@ -1,0 +1,3 @@
+console.log ("READY !");
+setTimeout(() => {
+}, 24 * 60 * 60 * 1000);

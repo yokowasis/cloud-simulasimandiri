@@ -1,0 +1,135 @@
+.table-hover > tbody > tr:hover {
+    background-color: #eaeaea;
+    cursor: pointer;
+}
+
+.core-date-picker {
+	border: 1px solid #ccc; 
+	padding: 8px; 
+	line-height: 2.5;
+	border-radius: 4px;
+}
+.core-date-picker select { border: none; }
+
+.bg-info p#progress_upload:after {
+	content: "";
+	clear: both;
+	display: block;
+}
+
+.bg-info p#progress_asset, .bg-info p#progress_upload {
+	display: block;
+}
+
+.bg-info p span.bar {
+	display: block;
+	float: left;
+	margin-right: 1px;
+	width: 15px;
+	background: #777;
+	height: 5px;
+	margin-bottom: 2px;
+}
+
+.bg-info p span.bar.complete {
+	background: #2eb3a6;
+}
+
+
+#uploadasset2,
+#uploadasset3 {
+	display: none;
+}
+
+small {
+	color: green;
+	font-size: 70%;
+}
+
+/* .k-grid td:nth-child(6) {
+	text-indent: -9999px;  
+	white-space: nowrap;
+} */
+
+button.dt-button,
+button.dt-button:hover
+{
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;	
+    color: #333;
+    background: #fff;
+    border-color: #ccc;
+	box-shadow: none!important;
+}
+
+button.dt-button.buttons-excel:hover,
+button.dt-button.buttons-excel {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+
+button.dt-button.buttons-excel:hover,
+button.dt-button.buttons-excel {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+
+button.dt-button.buttons-pdf:hover,
+button.dt-button.buttons-pdf {
+    color: #fff;
+    background-color: #ed6b75;
+    border-color: #ea5460;
+}
+
+#StatusPesertaGrid {
+	display: none;
+}
+
+#table-loading {
+	text-align: center;
+}
+
+#table-loading div.loader {
+	margin: auto;
+	border: 16px solid #f3f3f3;
+	border-radius: 50% !important;
+	border-top: 16px solid #3498db;
+	width: 120px;
+	height: 120px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+}
+
+.dataTables_length {
+	margin-right: 15px;
+}
+  
+/* Safari */
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}

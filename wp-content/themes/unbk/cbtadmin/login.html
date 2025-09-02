@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="assets/bootstrap.min.css" rel="stylesheet" />
+    <title>CBTAdmin</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col px-0">
+          <img
+            class="vh-100"
+            style="object-fit: cover"
+            src="assets/cbtbg.jpg"
+            alt="logo"
+          />
+        </div>
+        <div class="col">
+          <div class="d-flex flex-column justify-content-center h-100">
+            <div class="display-4 mb-3">CBT Admin</div>
+            <p>
+              Selamat datang di aplikasi CBT Admin. Silahkan masukkan ID Server
+            </p>
+            <div>
+              <select
+                class="form-select w-100 p-2"
+                aria-label="Default select example"
+              >
+                <option value="SERVER 1">SERVER 1</option>
+                <option value="SERVER 2">SERVER 2</option>
+                <option value="SERVER 3">SERVER 3</option>
+              </select>
+              <button id="masuk" class="btn btn-primary w-100 mt-3">
+                Masuk
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("masuk").addEventListener("click", function () {
+        localStorage.setItem("server", document.querySelector("select").value);
+        window.location.href = "dashboard.html";
+      });
+    </script>
+  </body>
+</html>

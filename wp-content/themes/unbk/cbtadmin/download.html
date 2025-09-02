@@ -1,0 +1,724 @@
+<h1>Sync</h1>
+<hr class="margin-top-10">
+
+<div class="row" style="margin-top:20px;">
+	<div class="col-md-7">
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="server" class="col-sm-2 control-label">Server</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="server" name="server" placeholder="Server">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="username" class="col-sm-2 control-label">ID Server</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="password" class="col-sm-2 control-label">Password</label>
+		    <div class="col-sm-10">
+		      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="localfolder" class="col-sm-2 control-label">Local&nbsp;Folder</label>
+		    <div class="col-sm-10">
+		      <input type="text" placeholder="Kosongkan Jika Menggunakan VHD" class="form-control" id="localfolder" name="localfolder">
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-2">
+		      <button type="button" id="submit" class="btn btn-default">Start Sync</button>
+		    </div>
+		    <div class="col-sm-2">
+		      <button type="button" id="submit3" class="btn btn-primary">Save</button>
+		    </div>
+		    <div class="col-sm-3" style="display:none">
+		      <button type="button" id="submit2" class="btn btn-success">Upload Hasil</button>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		  	<div class="col-sm-offset-2 col-sm-12">
+		  		<div class="panel panel-info"> <div class="panel-heading"> 
+		  			<h3 class="panel-title">Selective Sinkronisasi</h3> </div> 
+		  			<div class="panel-body"> 
+		  				<button type="button" class="btn btn-success" id="syncsiswabutton">Siswa</button>
+		  				<button type="button" class="btn btn-primary" id="syncsoalbutton">Soal</button>
+		  				<button style="display:none;" type="button" class="btn btn-default" id="syncassetbutton">Asset</button>
+						  <button type="button" class="btn btn-default" id="testdownload">Asset</button>
+						  <button style='display:none' type="button" class="btn btn-default" style="display:inline-block" id="uploadasset3">Upload Asset</button>
+						
+						<p>
+							Offline Asset <br/>
+							<input type='file' id="offlineasset" />
+						</p>
+						<button type="button" class="btn btn-default" style="display:inline-block" id="uploadasset4">Upload Asset</button>
+						<div id="offlineAssetStatus"></div>
+		  			</div> 
+		  		</div>
+		  	</div>
+		  </div>
+		</form>		
+		<div class="bg-info" style="padding : 10px;">
+			<p class="text-primary" style="font-weight:bold">Proses Sinkronisasi</p>
+			<p class="text-danger" id='text-siswa'>Sinkronisasi siswa..... <span class="text-success">ok</span></p>
+			<p class="text-danger" id='text-test'>Sinkronisasi test..... <span class="text-success">ok</span></p>
+			<p class="text-danger" id='text-bobot'>Sinkronisasi bobot..... <span class="text-success">ok</span></p>
+			<p class="text-danger" id='text-soal'>Sinkronisasi soal..... <span></span></p>
+			<p class="text-danger" id='text-group'>Sinkronisasi group..... <span class="text-success">ok</span></p>
+			<p class="text-danger" id='text-asset'>Sinkronisasi asset..... <span class="text-success">ok</span></p>
+			<p id="progress_asset">
+			</p>
+			<p class="text-danger" id='text-hasil'>Upload hasil test..... <span class="text-success">ok</span> %</p>
+			<p id="progress_upload">
+			</p>
+		</div>
+	</div>
+</div>
+
+<style>
+	.bg-info p {
+		padding: 0;
+		margin : 0;
+		display: none;
+	}
+	.bg-info p:first-child {
+		display: block;
+	}
+	.bg-info p span {
+		display: none;
+	}
+</style>
+
+<script>
+
+	var lanjut;
+	var excelkey = "0b7e3866342961390b19933c66c05d34";
+
+	function emptydatabase(){
+		$.post(url+'trun.php', {}, function(data, textStatus, xhr) {
+		});
+	}
+
+	function uploadkeVHD(){
+		var FtpDeploy = require("ftp-deploy");
+		var ftpDeploy = new FtpDeploy();
+		var _0x48d7=['f80f3cd875fb8523945153329e9b2f5e','192.168.0.207','/htdocs/wp-content/uploads/','*.*'];(function(_0x42a546,_0x5744b4){var _0x2a3159=function(_0x3bb33b){while(--_0x3bb33b){_0x42a546['push'](_0x42a546['shift']());}};_0x2a3159(++_0x5744b4);}(_0x48d7,0xac));var _0xb945=function(_0x1fecdf,_0x3dcee7){_0x1fecdf=_0x1fecdf-0x0;var _0xee2d27=_0x48d7[_0x1fecdf];return _0xee2d27;};var config={'user':'bimasoft','password':_0xb945('0x0'),'host':_0xb945('0x1'),'port':0x15,'localRoot':'file.zip_ex','remoteRoot':_0xb945('0x2'),'include':[_0xb945('0x3')],'deleteRemote':![],'forcePasv':!![]};
+
+		$('#offlineAssetStatus').html("Upload Asset ke VHD");
+
+		ftpDeploy.deploy(config, function(err, res) {
+			if (err) {
+				alert ("Gagal Upload Asset ke VHD. Cek Error Log");
+				console.log(err);
+			} else {
+				$('#offlineAssetStatus').html("Extract Asset ....");
+				console.log("finished:", res);
+				$.post('http://192.168.0.207/wp-content/uploads/unzip.php', {}, function(data, textStatus, xhr) {
+					alert (data);
+					$('#offlineAssetStatus').html(data);
+				});
+			}
+		});
+	}
+
+	function uploadofflineAsset(){
+		var fs = require('fs');
+		var localpath = $('#offlineasset').val();
+		fs.createReadStream(localpath).pipe(
+			fs.createWriteStream('file.zip_ex/file.zip')
+		).on('finish',function(){
+			uploadkeVHD();
+		})
+	}
+
+	function syncsiswa(server,username,password) {
+		$('#text-siswa').show();
+
+		var vhdurl = url.replace('wp-content/themes/unbk/api-18575621/','');
+
+		$.ajax({
+			url: server+'wp-json/bimasoft-unbk/v1/server-getsiswa/'+username+'/'+password,
+		}).done(function(e) {
+			if (e.status == "OK") {
+				if (e.res == "Login Gagal") {
+					$('#text-siswa span').text(e.res).show();
+				} else {
+					var rows = e.res.rows;
+					var mapels = e.res.mapels;
+
+					// http://localhost:8888/cloud-simulasimandiri/
+
+					var x = vhdurl + "wp-json/bimasoft-unbk/v1/server-setsiswa/"+excelkey+"/";
+					var s = JSON.stringify(e.res);
+
+					
+					// Set Siswa di Dalam VHD
+					$.ajax({
+						url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setsiswa/"+excelkey+"/",
+						type: "POST",
+						data: { res : s },
+					}).done(function(e) {
+						if (e.status == "OK") {
+							$('#text-siswa span').text(" OK. " + e.res.insertedrows + " entries").show();
+						} else {
+							$('#text-siswa span').text(" Error." + e.status).show();
+						}
+					}).fail(function(e) {
+						console.log (e);
+						$('#text-siswa span').text(" Error Sinkron Siswa.").show();
+					}).always(function(e) {
+					});
+
+					// GET Option
+					// http://localhost:8888/cloud-simulasimandiri/wp-json/bimasoft-unbk/v1/server-getoptions/P2302020/123123
+					var mapels = [];
+					localStorage.removeItem('daftarmapel');
+					var i = 0;
+					e.res.mapel.forEach(element => {
+						mapels[i] = element.mapel;
+						i++;
+					});
+
+					localStorage.setItem('daftarmapel',JSON.stringify(mapels));
+
+					var getoptionrul = server+'wp-json/bimasoft-unbk/v1/server-getoptions/'+username+'/'+password;
+
+					$.ajax({
+						url: getoptionrul,
+						type: 'POST',
+						data: {mapels: mapels},
+					}).done(function(e) {
+
+						var mapels = [];
+						var i = 0;
+						e.res.rows.forEach(element => {
+							mapels[i] = element.kode;
+							i++;
+						});
+
+						// SET OPTION
+						$.ajax({
+							url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setoptions/"+excelkey+"/",
+							type: "POST",
+							data: { res : (JSON.stringify(e.res)) },
+						}).done(function(e) {
+							var statustext = $('#text-siswa span').text();
+							if (e.status == "OK") {
+								$('#text-siswa span').text(statustext + ". " + e.res.insertedrows+ " Mapel ").show();
+
+								// GET---------------
+								$.ajax({
+									url: server+'wp-json/bimasoft-unbk/v1/server-getlocking/'+username+'/'+password,
+									type: 'POST',
+									data: {mapels : mapels}
+								}).done(function(e) {
+									//SET -----------------
+									$.ajax({
+										url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setlocking/"+excelkey+"/",
+										type: "POST",
+										data: { res : (JSON.stringify(e.res)) }
+									}).done(function(e) {
+										var statustext = $('#text-siswa span').text();
+										$('#text-siswa span').text(statustext + ". " + e.res.insertedrows+ " Locking. ").show();
+									}).fail(function(e) {
+									}).always(function(e) {
+									});
+								}).fail(function(e) {
+									console.log("error");
+								}).always(function(e) {
+									// console.log("complete");
+								});
+
+								// GET---------------
+								$.ajax({
+									url: server+'wp-json/bimasoft-unbk/v1/server-getkuncipg/'+username+'/'+password,
+									type: 'POST',
+									data: {mapels : mapels}
+								}).done(function(e) {
+									//SET -----------------
+									$.ajax({
+										url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setkuncipg/"+excelkey+"/",
+										type: "POST",
+										data: { res : (JSON.stringify(e.res)) }
+									}).done(function(e) {
+										var statustext = $('#text-siswa span').text();
+										$('#text-siswa span').text(statustext + ". " + e.res.insertedrows+ " kuncipg. ").show();
+									}).fail(function(e) {
+									}).always(function(e) {
+									});									
+								}).fail(function(e) {
+									console.log("error");
+								}).always(function(e) {
+									// console.log("complete");
+								});
+
+								// GET---------------
+								$.ajax({
+									url: server+'wp-json/bimasoft-unbk/v1/server-getkunciessay/'+username+'/'+password,
+									type: 'POST',
+									data: {mapels : mapels}
+								}).done(function(e) {
+									//SET -----------------
+									$.ajax({
+										url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setkunciessay/"+excelkey+"/",
+										type: "POST",
+										data: { res : (JSON.stringify(e.res)) }
+									}).done(function(e) {
+										var statustext = $('#text-siswa span').text();
+										$('#text-siswa span').text(statustext + ". " + e.res.insertedrows+ " kunciessay. ").show();
+									}).fail(function(e) {
+									}).always(function(e) {
+									});
+									
+								}).fail(function(e) {
+									console.log("error");
+								}).always(function(e) {
+									// console.log("complete");
+								});
+
+								// GET---------------
+								$.ajax({
+									url: server+'wp-json/bimasoft-unbk/v1/server-getkdsoal/'+username+'/'+password,
+									type: 'POST',
+									data: {mapels : mapels}
+								}).done(function(e) {
+									//SET -----------------
+									$.ajax({
+										url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setkdsoal/"+excelkey+"/",
+										type: "POST",
+										data: { res : (JSON.stringify(e.res)) }
+									}).done(function(e) {
+										var statustext = $('#text-siswa span').text();
+										$('#text-siswa span').text(statustext + ". " + e.res.insertedrows+ " kdsoal. ").show();
+									}).fail(function(e) {
+									}).always(function(e) {
+									});
+
+								}).fail(function(e) {
+									console.log("error");
+								}).always(function(e) {
+									// console.log("complete");
+								});
+
+
+								// GET---------------
+								$.ajax({
+									url: server+'wp-json/bimasoft-unbk/v1/server-getkd/'+username+'/'+password,
+									type: 'POST',
+									data: {mapels : mapels}
+								}).done(function(e) {
+									//SET -----------------
+									$.ajax({
+										url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setkd/"+excelkey+"/",
+										type: "POST",
+										data: { res : (JSON.stringify(e.res)) }
+									}).done(function(e) {
+										var statustext = $('#text-siswa span').text();
+										$('#text-siswa span').text(statustext + ". " + e.res.insertedrows+ " kd. ").show();
+									}).fail(function(e) {
+									}).always(function(e) {
+									});
+								}).fail(function(e) {
+									console.log("error");
+								}).always(function(e) {
+									// console.log("complete");
+								});
+
+
+								// GET---------------
+								$.ajax({
+									url: server+'wp-json/bimasoft-unbk/v1/server-getgrouping/'+username+'/'+password,
+									type: 'POST',
+									data: {mapels : mapels}
+								}).done(function(e) {
+									//SET -----------------
+									$.ajax({
+										url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setgrouping/"+excelkey+"/",
+										type: "POST",
+										data: { res : (JSON.stringify(e.res)) }
+									}).done(function(e) {
+										var statustext = $('#text-siswa span').text();
+										$('#text-siswa span').text(statustext + ". " + e.res.insertedrows+ " grouping. ").show();
+									}).fail(function(e) {
+									}).always(function(e) {
+									});
+								}).fail(function(e) {
+									console.log("error");
+								}).always(function(e) {
+									// console.log("complete");
+								});
+
+								// GET---------------
+								$.ajax({
+									url: server+'wp-json/bimasoft-unbk/v1/server-getbobot/'+username+'/'+password,
+									type: 'POST',
+									data: {mapels : mapels}
+								}).done(function(e) {
+									//SET -----------------
+									$.ajax({
+										url: vhdurl + "wp-json/bimasoft-unbk/v1/server-setbobot/"+excelkey+"/",
+										type: "POST",
+										data: { res : (JSON.stringify(e.res)) }
+									}).done(function(e) {
+										var statustext = $('#text-siswa span').text();
+										$('#text-siswa span').text(statustext + ". " + e.res.insertedrows+ " bobot. ").show();
+									}).fail(function(e) {
+									}).always(function(e) {
+									});
+
+								}).fail(function(e) {
+									console.log("error");
+								}).always(function(e) {
+									// console.log("complete");
+								});
+
+							} else {
+								$('#text-siswa span').text(statustext + " Error." + e.status).show();
+							}
+						}).fail(function(e) {
+							console.log("error");
+						}).always(function(e) {
+							// console.log("complete");
+						});
+					}).fail(function(e) {
+						console.log("error");
+						console.log (e);
+					}).always(function(e) {
+						// console.log("complete");
+					});
+
+				}
+			} else {
+				$('#text-siswa span').text("Error...");
+			}
+		}).fail(function(e) {
+			console.log("error");
+		}).always(function(e) {
+			// console.log("complete");
+		});
+	}
+
+	function syncsoal(server,username,password) {
+		$('#text-soal').show();
+		serv = server;
+		server = server+'wp-content/themes/unbk/api-18575621/';
+		baseurl = url.replace('wp-content/themes/unbk/api-18575621/','');
+
+		//console.log (server+'getsyncsoal.php');
+
+		var mapels = JSON.parse(localStorage.getItem('daftarmapel'));
+		var s = $('#text-soal span').html();
+		s += "<br/>";
+		$('#text-soal span').html(s);
+		$('#text-soal span').show();
+
+		mapels.forEach(namamapel => {
+
+			var s = $('#text-soal span').html();
+			s += "<span style='display:inline' class='text-danger'>Proses</span> : " + namamapel + "<br/>";
+			$('#text-soal span').html(s);
+
+			$.ajax({
+				url: server+'getsyncsoal.php?mapel=' + namamapel,
+				type: 'POST',
+			}).done(function(data) {
+				var s = $('#text-soal span').html();
+				s += "<span style='display:inline' class='text-warning'>Menyimpan</span> : " + namamapel + "<br/>";
+				$('#text-soal span').html(s);
+
+				$.ajax({
+					url: url+'savesyncsoal.php',
+					type: 'POST',
+					data: {
+						server : serv,
+						url    : baseurl,
+						data   : data
+					},
+				}).done(function(e) {
+					var s = $('#text-soal span').html();
+					s += "<span style='display:inline' class='text-success'>Sukses</span> : " + namamapel + "<br/>";
+					$('#text-soal span').html(s);
+				}).fail(function(e) {
+					alert ("Gagal Menyimpan " + namamapel + ". Cek log untuk pesan error");
+					console.log (e);
+				}).always(function(e) {
+				});
+
+			}).fail(function(e) {
+				alert ("Gagal Proses " + namamapel + ". Cek log untuk pesan error");
+				console.log (e);
+			}).always(function(e) {
+			});
+		});
+
+	}
+
+	function syncasset(server,username,password) {
+		$('#testdownload').click();
+	}
+
+	function kirimhasil(data,idx){
+		if ($('#bar'+idx).length) {
+
+		} else {
+			$('#progress_upload').append('<span class="bar" id="bar' + idx + '"></span>');
+		}
+		server = $('#server').val();
+		server = server+'wp-content/themes/unbk/api-18575621/';
+		$.post(server+'savesynchasil.php',{
+			data : data
+		},function(res){
+			$('#bar' + idx).addClass('complete');
+			$('#text-hasil span').show();
+			val = parseInt($('#text-hasil span').html());
+			idx = parseInt(idx);
+			if (idx < val) {
+				idx = val;
+			}
+			$('#text-hasil span').html(idx);
+		})
+	}
+
+	function synchasil(server,username,password) {
+		$('#text-hasil').show();
+		server = server+'wp-content/themes/unbk/api-18575621/';
+		$.post(url+'getsynchasil.php', {
+		}, function(data, textStatus, xhr) {
+			var jsonhasil = JSON.parse(data);
+			var count = Object.keys(jsonhasil).length;
+			//4953
+			//console.log (jsonhasil['0'].test);
+			var s = "";
+			for (var i = 0; i < count; i++) {
+				s += JSON.stringify(jsonhasil[i.toString()]);
+				if ( (i % 20 == 0) || (i == count-1 ) )  {
+					s = "[" + s + "]";
+					kirimhasil (s, Math.floor (  ( i / count ) * 100 ) );
+					s = "";
+				} else {
+					s += ",";
+				}
+			}
+			kirimhasil (s, Math.floor (  ( i / count ) * 100 ) );
+			//console.log (data);
+		});
+	}
+
+	jQuery(document).ready(function($) {
+
+		console.clear();
+
+		$('#uploadasset4').click(function(){
+			uploadofflineAsset();
+		})
+
+		var progress_asset = '';
+
+		function download(file_url){
+			var fs = require('fs');
+			var url = require('url');
+			var https = require('https');
+
+			var options = {
+				host: url.parse(file_url).host,
+				port: 443,
+				path: url.parse(file_url).pathname,
+			};
+
+			var file_name = url.parse(file_url).pathname.split('/').pop();
+			var file = fs.createWriteStream('./' + file_name);
+
+			https.get(options, function(res) {
+				var fsize = res.headers['content-length'];
+				res.on('data', function(data) {
+					file.write(data);
+					progress(100-(((fsize-file.bytesWritten)/fsize)*100), $('#progressBar'));
+				}).on('end', function() {
+					file.end();
+					$('#progress_asset').html("Step 1 - Download: 100 %");
+					$('#uploadasset2').show();
+					if ($('#localfolder').val() == '') {
+						fs.rename("file.zip","file.zip_ex/file.zip",function(err){
+							if (err) throw err 
+							else {
+								$('#progress_asset').html($('#progress_asset').html() + "<br>Step 2 - Processing : 100 %");
+								uploadkeVHD();
+							}
+						})
+					}
+				});
+			});
+		}
+
+		function progress(percent, $element) {
+			$('#progress_asset').html("Step 1 - Download: "+parseInt(percent)+" %");
+			//var progressBarWidth = percent * $element.width() / 100;
+			//$element.find('div').css( "width", progressBarWidth );
+		}
+
+		$('#testdownload').click(function(event) {
+			download($('#server').val() + 'wp-content/file.zip');
+		});
+
+		$('#uploadasset3').click(function(event) {
+			var FtpDeploy = require('ftp-deploy');
+			var ftpDeploy = new FtpDeploy();
+			var fs = require('fs');
+			var rimraf = require('rimraf');
+
+			rimraf('./file.zip_ex/*', function () { 
+				console.log('Done Deleting'); 
+				fs.rename('file.zip', 'file.zip_ex/file.zip', function(){
+					var stream0 = fs.createReadStream('node_modules\\update\\unzip.php').pipe(fs.createWriteStream('file.zip_ex/unzip.php'));
+					stream0.on('finish', function(event) {
+						console.log('Done Moving');
+						if (progress_asset == '') {
+							progress_asset = $('#progress_asset').html();
+						}
+
+						var _0x48d7=['f80f3cd875fb8523945153329e9b2f5e','192.168.0.207','/htdocs/wp-content/uploads/','*.*'];(function(_0x42a546,_0x5744b4){var _0x2a3159=function(_0x3bb33b){while(--_0x3bb33b){_0x42a546['push'](_0x42a546['shift']());}};_0x2a3159(++_0x5744b4);}(_0x48d7,0xac));var _0xb945=function(_0x1fecdf,_0x3dcee7){_0x1fecdf=_0x1fecdf-0x0;var _0xee2d27=_0x48d7[_0x1fecdf];return _0xee2d27;};var config={'user':'bimasoft','password':_0xb945('0x0'),'host':_0xb945('0x1'),'port':0x15,'localRoot':'file.zip_ex','remoteRoot':_0xb945('0x2'),'include':[_0xb945('0x3')],'deleteRemote':![],'forcePasv':!![]};
+
+						ftpDeploy.deploy(config, function(err, res) {
+							if (err) console.log(err);
+							else {
+								console.log("finished:", res);
+							}
+						});						
+						
+						ftpDeploy.on('uploading', function(data) {
+						    data.totalFilesCount;       // total file count being transferred
+						    data.transferredFileCount; // number of files transferred
+						    data.percentComplete;      // percent as a number 1 - 100
+						    data.filename;             // partial path with filename being uploaded
+						});
+
+						ftpDeploy.on('uploaded', function(data) {
+							numb = (data.transferredFileCount / data.totalFilesCount) * 100;
+							numb = numb.toFixed(2);
+							$('#progress_asset').html(progress_asset + '<br>' + 'Step 3 - ('+data.transferredFileCount+'/'+data.totalFilesCount+') - '+ numb +'% ');
+							if ( data.transferredFileCount == data.totalFilesCount) {
+								rimraf('./file.zip_ex/*', function () { console.log('Done Cleaning Up'); });
+								$('#uploadasset2').hide();
+								$('#uploadasset3').hide();									
+								$.post('http://192.168.0.207/wp-content/uploads/unzip.php', {}, function(data, textStatus, xhr) {
+									alert (data);
+								});
+							}
+						});
+					});
+				})
+			});
+			
+		});
+
+		db.transaction(function(transaction) {
+			var sql = 'SELECT * FROM settings';
+			transaction.executeSql(sql, [], function (tx, results) {
+				var len = results.rows.length, i;
+				for (i = 0; i < len; i++){
+					$('#server').val(results.rows.item(i).server);
+					$('#username').val(results.rows.item(i).username);
+					$('#password').val(results.rows.item(i).password);
+					$('#localfolder').val(results.rows.item(i).localfolder);
+				}
+			}, null);
+		});
+
+		$('#syncsiswabutton').click(function(event) {
+			$('p.text-danger').hide();
+			$('p.text-danger span').hide();
+
+			lanjut = false;
+
+			db.transaction(function(transaction) {
+				server = $('#server').val();
+				username = $('#username').val();
+				password = $('#password').val();
+				localfolder = $('#localfolder').val();
+				var sql = 'update settings set server="'+server+'", username="'+username+'", localfolder="'+localfolder+'", password="'+password+'"';
+				transaction.executeSql(sql, [], function (tx, results) {
+					syncsiswa(server,username,password);
+				}, null);
+			});
+		});
+
+		$('#syncsoalbutton').click(function(event) {
+			$('p.text-danger').hide();
+			$('p.text-danger span').hide();
+
+			lanjut = false;
+
+			db.transaction(function(transaction) {
+				server = $('#server').val();
+				username = $('#username').val();
+				password = $('#password').val();
+				localfolder = $('#localfolder').val();
+				var sql = 'update settings set server="'+server+'", username="'+username+'", localfolder="'+localfolder+'", password="'+password+'"';
+				transaction.executeSql(sql, [], function (tx, results) {
+					syncsoal(server,username,password);
+				}, null);
+			});
+		});
+
+		$('#syncassetbutton').click(function(event) {
+			$('p.text-danger').hide();
+			$('p.text-danger span').hide();
+
+			lanjut = false;
+
+			db.transaction(function(transaction) {
+				server = $('#server').val();
+				username = $('#username').val();
+				password = $('#password').val();
+				localfolder = $('#localfolder').val();
+				var sql = 'update settings set server="'+server+'", username="'+username+'", localfolder="'+localfolder+'", password="'+password+'"';
+				transaction.executeSql(sql, [], function (tx, results) {
+					syncasset(server,username,password);
+				}, null);
+			});
+		});
+
+		$('#submit2').click(function(event) {
+			server = $('#server').val();
+			username = $('#username').val();
+			password = $('#password').val();
+			synchasil(server,username,password);
+		});
+
+		$('#submit').click(function(event) {
+			$('p.text-danger').hide();
+			$('p.text-danger span').hide();
+
+			lanjut = true;
+
+			db.transaction(function(transaction) {
+				server = $('#server').val();
+				username = $('#username').val();
+				password = $('#password').val();
+				localfolder = $('#localfolder').val();
+				var sql = 'update settings set server="'+server+'", username="'+username+'", localfolder="'+localfolder+'", password="'+password+'"';
+				transaction.executeSql(sql, [], function (tx, results) {
+					emptydatabase();
+					syncsiswa(server,username,password);
+				}, null);
+			});
+		});
+
+		$('#submit3').click(function(event) {
+			db.transaction(function(transaction) {
+				server = $('#server').val();
+				username = $('#username').val();
+				password = $('#password').val();
+				localfolder = $('#localfolder').val();
+				var sql = 'update settings set server="'+server+'", username="'+username+'", localfolder="'+localfolder+'", password="'+password+'"';
+				transaction.executeSql(sql, [], function (tx, results) {
+					alert ('Save Server Berhasil');
+				}, null);
+			});
+		});
+
+	});
+</script>

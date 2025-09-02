@@ -1,0 +1,534 @@
+04dabdcf readme
+cd982000 asd
+1c869152 cbtadmin on progress
+aa708905 cleaning
+64c956b2 Update version to 13.10.2 and improve code formatting across multiple files
+1881bef1 update
+19eb6327 Remove commented option for Android exam client in settings
+2b66c94f Update version to 13.10.1 across theme files and related scripts
+a441d274 Add logout timer and notification to prevent accidental logouts
+977f2960 Refactor logout and alert handling for improved user experience
+507a9a54 Refactor JSBridge function exports to improve code clarity
+88828443 Update version to 13.10.0 in theme files and related scripts
+ac1123e3 Add JSBridge utility functions for app pinning and exam checks
+58d728ad Implement code refactoring for improved readability and maintainability
+ef3de13d Implement code refactoring for improved readability and maintainability
+402f21a0 json
+c06a2621 aaa
+076630a9 13.9.8
+454766c9 peningkatan security
+80fd4eb6 hapus subtest dan nama
+ab50c658 video lucu
+53b2ed05 gitpod
+62f662e4 fix url
+80fbc0ec fix deprecated
+84419273 ganti versi
+ed7ef0d9 style.css version
+fad700bb fix halaman cek nilai
+92c37258 asd
+dac95299 fix bug infinite looping
+4c739619 prettier
+2e017fac update wp
+68771d8a 13.9.5
+b9018a42 update versi 13.9.5
+083407b2 autoexamkey
+01906d73 10 detik
+b028e539 logoutomatis examclient
+4c239335 toast library
+30b7cef9 format
+bbd40ed3 reload
+08585ce2 format
+8bed994b format
+aafa6e4a update wp
+50f0e246 Embed Content
+bdcc0739 Embed Content
+efdb91e9 test soal new
+f091bd47 alokasi php 8
+1fc1353f Fix Freeze ketika tanda kutip
+a97ef540 Fix Bug, setelah logout, examkey tidak muncul sehingga harus restart hp jika menggunakan exam client. #13.8.8
+75554466 ganti versi
+0557dddb fix bug gdrive kembali berubah ketika pengaturan test di save
+7b561bc4 pesan error
+a92b1d9b obs
+9e5854c7 13.8.6 Fix bug error di wp-admin > post dan cbtAdmin reset selesai dan force selesai
+aab6b719 fix obf
+09d66b38 hapus printr
+99e4e4c7 fix save lisensi bug
+73c03262 fake save lisensi
+65ffcbff oversoul
+c8c747e6 FIX OPTIONAL PENGATURAN TEST
+9d312170 cekversi
+fc0e348a versi.txt
+0aa7eaf6 huruf kecil
+ee825884 test
+822c6f4b @dk
+344f935e disable obs
+b8fec620 fix cek versi
+9fb77720 legacy cbt version
+ba094383 13.8.5
+16fe99b6 Bimasoft
+abaaec16 13.8.4
+6e03b022 cekversi
+30b8fe3c force selesai
+d3698bff ganti require jadi include
+6bef49c0 fix bug database test tidak muncul
+48612d7d fix bug opt backend
+8d4a72dc fix auto login
+bc6729b3 Force Logout Reset Selesai
+2caf0bb1 Ganti Versi 13.8.3
+009498ae Fix Force Selesai, langsung keluar otomatis
+927f50fe 13.8.2
+1800b8aa update
+d3346155 Catatan Pengaturan Test
+c6208a40 ganti versi
+7b9f4b6c fix bug soal error lupa dihapus
+664ea841 Update 13.8.0
+f4860e6e update keterangan error
+bd256a96 .
+6bf5d842 404.php edited online with Bitbucket
+4feb3cfe Fix Bug Pilihan Mapel tidak bisa ketika menggunakn exam browser
+5ce03e23 capture camera
+e6a0b1ba update
+034d0b3a chmod
+88c57451 update
+0b5ef095 update wp fastest
+c6a785d7 update plugin
+5936088a update plugin and wordpress
+2c06252c 13.7.12 Fix Bug Soal AKM tidak bekerja, tambah tombol refresh di offline
+eb328f04 kembali ke awal
+e2f11064 partner
+9c6b8470 version
+e98be72a 13.7.11
+c3d613dc fix logout tidak ke examkey
+c9a87c45 fix examkey kosong bisa bypass examkey
+12974eaa fix bug get mapel
+2bff1d46 update get mapel jangan pake json
+92b33bac 13.7.10
+fc09d296 13.7.9
+d8fe8c7e mix cache header getmapel
+86f944fd obf
+4d112e3a obf
+da664bc6 remove disable emojis
+89b1408d getlisensi randomize
+a6a5f897 Pengaturan Judul
+12a57d54 disable check lisensi
+929390e6 [test]
+1dd9e4d2 fix absolute url
+9e95faee #13.7.8 - Fix Bug Jika salah kode soal, soal dari mapel lain yg muncul
+767034f7 #13.7.7 - fix bug error di generate token pada wp-admin > database.
+a4de93e0 fix various bug undefined variable
+c1ab2e78 #13.7.6
+ca88524c fix bug vhd tidak bisa ngesave dan reset database
+70e6dc08 13.7.5 - Fix Bug xmlrpc.php tidak bisa publish word
+af3133bc 13.7.4
+eabc1855 fix bug fail compiled
+6f406528 13.7.3
+57b36f04 dont die on style.css
+0e554ca9 debug
+4a80ed44 style
+0c91d420 login google
+16e22c70 pentest html
+4480ebc3 fix bug tidak bisa save online cdn
+7d15fc44 hanya admin yg punya akses ke halaman lisensi
+f5fa01d3 supress error lisensi not found
+ceaf3037 fix reset databae
+4ba39b03 Reset Database
+d9d4b948 table prefix
+0bc5f862 13.7.2
+61413ec5 hide ganti token untuk yg offline
+85af333f 13.7.1
+8fdb575f absensi
+56211891 token OK
+64dce11a include indb di header dan footer
+4b8a45cd Dynamic Key
+84ee1de2 functions
+d9e8ba71 hapus
+894a7a95 hapus
+19a2a4d8 hapus
+fa03c443 hapus titik koma
+189e6a55 ganti global
+f6f4154f test global
+189e74d4 fix bug safedecrypt
+de48594e save lisensi
+b06011be fix Bug Lisensi
+bcf4476f trim ioncube ;
+ea52d92d onlinecdn
+98bb77f6 Logout
+915be0be header Class
+9ff11bcf penjodohan
+5e5e872b printLogin
+60151474 mass reset
+eb401659 database edit
+96486c17 delete edit save database
+f1e95244 Fix bug Skoring CheckBox
+55893b76 mengumpulkan
+401dc67e menjawab
+78f48ccc Login Berhasil
+43f4e2ee Index Page - Done
+7572291c fix pengaturan test yg kurang
+7584fcb0 getMapel
+b4f922c2 save lisensi
+be7026bd fix bug semua di save, harusnya halaman yg dibuka saja yg di save
+6414adbc reset cache dan save file
+059c99ec Besarkan width textarea
+ec584378 Hapus Halaman Options Lama
+a77fbcba print_footer
+16a1f120 header
+35911b34 pengaturan test
+4c2aa9d2 experimental
+62010ee0 savedb.php
+83690bed save to json, save to callback
+2ee9766b hr
+a7857c1c save option
+a6029239 save tp json
+0fe14739 styling
+f8959eb5 Class Pengaturan Test. On Progress
+9b28d928 update wordpress
+2f97148a 13.7.0
+1932464d Google Drive
+89dc78fc upload google drive
+af700c40 kosmetik fix bug
+0c3b7c58 fix bug examkey
+809ca594 style table akm
+7bfbe99a simpan
+60216100 Penjodohan
+a8d7d01e update alert
+78fd0b5f ganti alert
+7bfeec9b hapus refresh
+c32f30a1 Pesan Error siswa gagal login
+3df3ddba asd
+cc6bb4da Login Google
+7569ed1d fix upload
+dce126db ajaxsubmit
+24c2c51f redirect
+4fe9397a update versi
+72a64a6f revert
+8039aede fix bug summary
+2df2e72a shortcode ambil soal buat firebase
+40c6292f fix bug kolom AKM di browser firefox terlalu kecil
+ad10c287 style
+70332449 ganti versi
+dbc5d606 drag and drop
+52d842a8 drag and drop
+3bc05d03 universal embed
+1bc62e77 ljk
+cfb1443b ignore percuma
+2af9b98e ignore header
+8d0bccde logout
+e1c78f55 script.js soal penjodohan
+caf9888b 13.0.2
+8c4d4fbf ganti versi
+6d7e119f 13.0.1
+ed77f4bb templatedir
+111281e9 admindebug
+5b403f82 bug habis waktu tidak langsung selesai
+7c376d9b 13.0.0
+c48017fd client side pengaturan test
+ae088aa3 get hasil
+6f78c4f8 2021
+e9625aeb sinkronisasi dan zip 20020
+37572f95 ID Server CBT ADMIN
+60616e5c update
+8e970a65 12.2.7
+a73d5e93 kartu dan absensi
+cd5e2f40 halaman admin
+67c3659c 12.2.6
+42fa8dfe sekolah dynamic
+e7faeeac update
+e4476c69 12.2.5
+74fd115a versi
+e2063d47 tablecss
+ae21af96 versi
+94d018d6 randomgstring
+1654a629 atitle
+b2730c99 unable
+741b346b token
+0ddf8ba0 token
+74dce5bb save lisensi harus panjang
+30f8a84b gagal koneksi
+087a8da6 verifikasi token
+1d111169 verifikasi token save
+da84646d sementara savedb
+4b21c79a update
+e54d2aba fix bug kumpul
+b5dffb65 uppercase
+f9e166c4 username huruf besar
+8df83872 12.2.2
+656870dd update
+0dd91439 laporan nomor
+45ae8c1f laporan
+35dd566f log siswa
+027c1ec2 update token
+03fc8488 updatge
+0518412d reset database
+46b4735c sql revisi
+68d786ad fix index reset database
+340afd2d selective database
+1e1ffeaa bugfix iframe
+a6c837c2 12.2.0
+14685859 halaman admin tetap muncul walaupun iframe
+cdafdc40 12.2.0 - Opsi Wajib Examclient
+9f22f722 token
+2512bbcf 12.1.5
+80b659ea remote backend
+6b78ad08 admin huruf besar
+26d49943 save remote pentest
+f8920cca reset database post juga terhapus
+b5b75b7a remote reset database
+e14660ad ajax no refresh
+927fd41a 12.1.3
+447c2921 notif login admin
+5306abe8 12.1.2
+8d072c3a update admin bimasoftcbt
+c0881acb fix glyphicon
+77081a4d 12.1.1
+a127c1c0 data nomor asli essay
+34af63db balik ke backend
+3149717d server side select dan cdn dipake jika ada cdnid
+725e6e14 update
+369136eb update
+c4994b23 update
+8fe86034 update
+5db74840 update
+54355902 soal lists fix bug
+e2ca803e move cdn
+bb4fde46 CDN
+7ae81761 CDN
+563146cd update plugin and wp
+edec89d3 https lagi
+1593b2fa https jquery form
+5b35ef68 Update PLugin
+87cb25b1 separator
+eb974a96 fix resonse dan accept only image
+3e8b6094 jQuery Form
+17d0787e revisi upload
+bd10a893 "
+92b48009 update lagi
+fb7542da update
+bf3edb04 update
+413ac98e cdn
+b8bb1d26 Bunnycdn
+97295eaa simple ssl
+89d6dda3 update wordpress
+af66a7e8 copy protector
+9c2689e9 relative home url
+f36bcd6f lihat nilai relative url
+a0d93829 bunny cdn js and css
+6232c19d soal list / penjodohan
+ce7dddca lazy
+40c4d933 Ganti Versi
+b7601f3e fix error shortcode
+4c258286 auto save jawaban pada upload
+60a0124d File Upload
+117b788e isian singkat
+e1b65e7f PDF
+6dbe3ba6 fix laporan
+29b78e89 plugin
+cc7e4984 update plugin
+0d9b850a disable custom admin css
+5e3801f7 disable footer
+23f1591c Disable Inject Indihome
+8c757cce Revert to 3
+3e3132ec Merge branch 'master' of bitbucket.org:yokowasis/cloud-simulasimandiri
+880599fc Revert to b412a074e73d4a4100853563ba3ed4dec25ee4f7
+1781d3e0 wp 5.3
+259c0a1c role author
+2dd59916 remove role
+2e82a6c3 entah
+a763d685 username tanda baca
+3d9dd501 prom
+72303640 Cloudflare
+858a5bbb update
+ca70a081 Merge branch 'master' of bitbucket.org:yokowasis/cloud-simulasimandiri
+23191186 update
+b412a074 tanda baca username
+f061bd3d nolog cdnid
+d01af013 no-log
+880e98b1 update
+32c4b341 update
+a765fc06 update
+4d0b2edf WARNING
+fdb368ea OFFKAN
+0a4e1352 12.0.4
+3713b207 asd
+fa83f07f Update
+7297442b clear cek nilai
+0f0f6e25 Update Sortir
+fc571b87 Update
+9d90a936 cf 1 line
+caad6b89 Cloudflare
+af03c162 update
+6d919546 12.0.1
+2ddffa13 Update
+d7f2c6aa revert
+4b8be909 update
+8ccc06fa test redirrect
+305b64eb git inside git
+f222cf34 Delete
+aed2afb4 Update
+41fa5e08 Versi
+9834e87c update bugfix masalah nomor yg tidak terbaca
+5a7e4ec5 not verbose
+07784c32 cache clear
+ecc5016e Update
+05a3cb79 Emergency
+1b7af907 update
+2955db57 asdsad
+192e46d6 %20
+d2fcfd5c ww
+90570b65 oko
+6e5110bc asd
+9a2276c5 asd
+354c9b0a a
+ddbac94a up
+1a5df124 secret header purge
+78482b7d ajaxscript cache
+e9e956a8 Update
+103d2a23 update
+541cd3d4 Update
+17cc368b update
+9b14ce52 update
+69f2cbbe Update
+c26f4bd6 Update
+c1488f66 Update
+0d3ac137 Update
+993a5731 wildcard bugfix
+f5f12e40 update
+105eac57 wildcard cloudflare
+889f2056 auto reset cache
+100aa521 Update
+9e727690 LOGOUT
+2ea847a1 update lagi
+75e4edbf Update
+aa874047 Delete Pentest
+b487b44c Update
+6e1daeea Update
+124d2cab Update
+1454d9a3 Update
+8f33903d v
+56ba208f .
+8be211c7 .
+18a69423 .
+5fd37e01 Update
+7e095cba Delete Tema
+6529899b versi
+e4be79f3 update lisensi
+1575d9d7 not ignoring advanced cache
+b035d23a Delete Jetpack
+5cb4b5cf Update
+574d4149 Update
+1b6c480f Update
+2638ef37 Update
+9430f78a Update
+f10ff36d Update
+bdfc87c4 Update
+23298c70 Test Photon
+61787151 Update
+c4bc2f56 Update
+b5e7ef9a Update
+249679f6 Update
+a4d97560 Update
+07b0aa4e Update Versi
+893e30e3 Fix Bug Ketika Realtime Dynamic
+0a7a05a6 Online CDN TextBox
+7e9c025b 11.0.2
+a80203d6 Ignore
+2fc30400 Versi
+c4c195e2 Update Lagi
+1b53b4ae Update
+63aae6ac Update
+cf9743b4 KadalUarsa
+4b0aceba Delete Plugins
+99f48cfd Delete
+d69d531d dbinfo step 1
+96d3986e del
+18783b11 delete
+32639a53 Update
+edfc528e remove sync soal
+5dcd314a Update Database
+aaa5c861 Update 10.7.6
+d0dc0adc Update
+1570ed03 Update Database
+92bc3602 Update
+1baae126 Update
+5c8eba14 Update
+10a42ba9 ignore
+592593ad Update
+d61aa04c update
+1b7ccee3 Update Versi
+bbf6a78f REST API
+8bfdb32f Database
+69956b68 Update
+1f67ebec Save KD
+02330823 Update Versi
+155702b8 Update
+29c909ae Update
+aaf4643a Update
+4ac560aa Update
+7a441e42 git ignore admin.css
+9f83910f Update
+22df455d Update
+11af9e92 Update
+c4f85db5 Update Simulasi Mandiri
+a2d034a8 Update
+53b29227 Update
+b38d620f delete seventeen
+56f318b0 Update
+bea34262 Role and WP Update
+edd0e68f Update
+fcd790b3 Update
+54509488 Update
+0cd4140b Update
+13410bf3 Update
+26aad689 Update
+a544ab6c ajax
+17eb5a14 Update wp-admin
+d68b4850 Update
+fb553d49 Update lagi
+33d9b7b9 Update versi
+1dc775c2 asd
+47ea9ee5 Update
+cdcf35da kembali
+45d0e0a8 a
+353ef59a update
+c955b98e Update
+a7855b44 Update
+78d4c466 Update
+085861df Update
+f6c45e8e Update
+71b88a82 Update
+49faf0b1 Delete
+a7ac5672 Wordpress 5
+338061d7 Update
+6c441998 Update
+a071efd4 Update
+c7b29704 protect wp-admin
+10880826 ari-adminer
+4f09f7bf Update
+61a5ec3d update
+6d78c980 -
+6a792469 -
+ef5d25aa -
+1ae55880 Update
+a74382eb Update
+82243530 tidak bisa if exist indb.php
+c3277c74 Update
+0a73f487 Update
+08431e98 update
+434b8a4c wp-content/themes/unbk/indb.php edited online with Bitbucket
+23d94002 ignore
+a7a143ff Update
+c649425c Delete Updraft
+fffb1b9a Update
+3dbb7d36 Update
+032539d9 Delete OLD
+be217ebb Update
+e736cd02 Always Backup, even with no Prefix
+1af4bf98 Updraft Update
+af53b78f indb
+79499624 Twenty
+4b3e72bc updraft
+acc646d8 updraft
+f8ca11db Plugins
+b473ab18 Init Tema
+dbde0ac0 INIT WP

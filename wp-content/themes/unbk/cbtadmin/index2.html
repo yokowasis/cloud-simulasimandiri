@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>CBT Sync</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <script src="CBTSYNCWEB/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="CBTSYNCWEB/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="core/js/core.js"></script>
+    <script src="core/js/core.nw.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/DataTables/datatables.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Oswald:400,300,700" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="CBTSYNCWEB/assets/layouts/layout6/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/assets/layouts/layout6/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/assets/global/css/cbtsync.css" rel="stylesheet" type="text/css" />
+    <link href="js/DataTables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="CBTSYNCWEB/Styles/sweetalert.css">
+    <style>
+        .blue {
+            color: blue;
+        }
+        .darkred {
+            color: darkred;
+        }
+    </style>
+    <!-- END THEME LAYOUT STYLES -->
+    <link href="CBTSYNCWEB/Content/kendo/2015.3.1111/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/Content/kendo/2015.3.1111/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/Content/kendo/2015.3.1111/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/Content/kendo/2015.3.1111/kendo.flat.min.css" rel="stylesheet" type="text/css" />
+    <link href="CBTSYNCWEB/Content/kendo/2015.3.1111/kendo.dataviz.flat.min.css" rel="stylesheet" type="text/css" />
+    <link href="core/css/core.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body style="height: 100%">
+    <!-- BEGIN HEADER -->
+    <header class="page-header">
+        <nav class="navbar" role="navigation">
+            <div class="container-fluid">
+                <div class="havbar-header">
+                    <a id="index" class="navbar-brand" href="CBTSYNCWEB/Home">
+                        <img src="CBTSYNCWEB/assets/layouts/layout6/img/logo.png" alt="Logo">
+                    </a>
+                    <div class="topbar-actions" style="padding: 15px;">
+                        <div style="display: block; text-align:center">
+                            <span class="statusaktif text-success bold" style="font-size: 2em; margin: 0px 20px 0px 0px; ">AKTIF</span>
+                            <span class="statustidakaktif text-danger bold" style="font-size: 2em; margin: 0px 20px 0px 0px; ">TIDAK AKTIF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid" style="height: 90%">
+        <div class="page-content page-content-popup" style="min-height: 80%">
+            <div class="page-content-fixed-header">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <a href="#">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="page-sidebar-wrapper">
+                <div class="page-sidebar navbar-collapse collapse">
+                    <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" id="menubar">
+                        <li class="nav-item start ">
+                            <a href="dashboard.html" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Beranda</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="download.html" class="nav-link ">
+                                <i class="icon-cloud-download"></i>
+                                <span class="title">Status Sinkronisasi</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="daftar.html" class="nav-link ">
+                                <i class="icon-docs"></i>
+                                <span class="title">Daftar Peserta</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="test.html" class="nav-link ">
+                                <i class="icon-note"></i>
+                                <span class="title">Status Test</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="status.html" class="nav-link ">
+                                <i class="icon-user-following"></i>
+                                <span class="title">Status Peserta</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="laporan.html" class="nav-link ">
+                                <i class="icon-printer"></i>
+                                <span class="title">Laporan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="resetlogin.html" class="nav-link ">
+                                <i class="icon-refresh"></i>
+                                <span class="title">Reset Login Peserta</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="status.html" class="nav-link" target="_blank" id="kartupeserta">
+                                <i class="icon-credit-card"></i>
+                                <span class="title" id="m_kartu">Kartu Peserta</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="status.html" class="nav-link" target="_blank" id="absensi">
+                                <i class="icon-calendar"></i>
+                                <span class="title" id="m_absensi">Absensi</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="logout.html" class="nav-link ">
+                                <i class="icon-logout"></i>
+                                <span class="title">Log Out</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-fixed-main-content" id="mainpage">
+                
+            </div>
+        </div>
+        <div style="height: auto">
+            <p class="copyright-v2">
+                v13.0.0 - 2022 © Bimasoft.web.id.
+                <a href="#" >CBT Sync</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var gui = require('nw.gui');
+
+    window.onerror = function(msg, url, linenumber) {
+        alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+        return true;
+    }
+    
+    jQuery(document).ready(function($) {
+
+            $('.statusaktif').hide();
+            $('.statustidakaktif').show();
+
+            $('.statusdetailaktif').hide();                                    
+            $('.statusdetailtidakaktif').show();
+
+            var cekkoneksi = setInterval(function(){
+                $.post(url, { }, function(data) {
+                    $('.statusaktif').show();
+                    $('.statustidakaktif').hide();
+
+                    $('.statusdetailaktif').show();                                    
+                    $('.statusdetailtidakaktif').hide();                                    
+                }).fail(function(){ 
+                    $('.statusaktif').hide();
+                    $('.statustidakaktif').show();
+
+                    $('.statusdetailaktif').hide();                                    
+                    $('.statusdetailtidakaktif').show();
+                });
+            }, 5000);
+
+            $('a[target=_blank]').on('click', function(){
+               //require('nw.gui').Shell.openExternal( this.href );
+               var win = gui.Window.open (this.href, {
+                 position: 'center',
+                 width: 901,
+                 height: 600
+
+               });
+
+               return false;
+            });
+
+            db.transaction(function(transaction) {
+                var sql = 'SELECT * FROM settings';
+                transaction.executeSql(sql, [], function (tx, results) {
+                    var len = results.rows.length, i;
+                    for (i = 0; i < len; i++){
+                        if (results.rows.item(i).server) {
+                            // $('#kartupeserta').hide();
+                            // $('#absensi').hide();
+                        }
+                    }
+                }, null);
+            });
+
+        });    
+</script>

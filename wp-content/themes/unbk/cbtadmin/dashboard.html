@@ -1,0 +1,37 @@
+                <h1>Dashboard</h1>
+                <hr class="margin-top-10" />
+                <div class="row">
+                    <div class="col-md-5 font">
+                        <div style="display:block">
+                            <span class="statusaktif text-success bold" style="font-size: 2em; margin: 0px 20px 0px 0px; ">AKTIF</span>
+                            <span class="statustidakaktif text-danger bold" style="font-size: 2em; margin: 0px 20px 0px 0px; ">TIDAK AKTIF</span>
+                        </div>
+                        <div class="statusdetailaktif alert alert-success">
+                            <span>CBTSync telah berhasil terkoneksi ke server simulasi</span>
+                        </div>
+                        <div class="statusdetailtidakaktif alert alert-danger">
+                            <span>CBTSync belum terkoneksi ke server simulasi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 font">
+                        <div class="well">
+                            <h3>
+                                Server ID :
+                                <span class="label label-success"> BSF-SML </span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+
+                <script type="text/javascript">
+                    jQuery(document).ready(function($) {
+                        $('.statusaktif').hide();
+                        $('.statustidakaktif').show();
+
+                        $('.statusdetailaktif').hide();                                    
+                        $('.statusdetailtidakaktif').show();
+                    });
+                </script>

@@ -1,0 +1,359 @@
+<h1>Status Peserta</h1>
+<p>
+	<div style="float: left">
+		<a class="btn btn-danger" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+		  Daftar Test
+		</a>
+		<button type="button" id="filter" class="btn btn-primary">Filter</button>
+		<button type="button" id="upload" class="btn btn-success">Upload</button>
+		<button type="button" id="resetstatus" class="btn btn-primary">Reset Selesai</button>
+		<button type="button" id="resetlogin" class="btn btn-info">Reset Login</button>
+		<button type="button" id="forceselesai" class="btn btn-danger">Force Selesai</button>
+	</div>
+	<div style="float: right">
+		<button type="button" id="mapelall" class="btn btn-primary">Pilih Semua Mapel</button>
+		<button type="button" id="checkall" class="btn btn-danger">Pilih Semua Siswa</button>
+	</div>
+	<div style="clear:both"></div>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="well">
+	  <div id="daftartest">
+	  </div>
+  </div>
+</div>
+
+<hr class="margin-top-10">
+
+<div class="row-fluid margin-top-10">
+	<div>
+		<div id="table-loading">
+			<div class="loader"></div>			
+		</div>
+		<table id="StatusPesertaGrid">
+			<thead>
+				<tr>
+					<th><input type="checkbox" class="rselect" /></th>
+					<th>Nama Peserta</th>
+					<th>Username</th>				
+					<th>Mapel</th>
+					<th>Benar/Salah</th>
+					<th>Nilai</th>
+					<th>Keterangan</th>
+					<th>Status</th>
+					<th>TTD</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function checkbox(){
+		$('#StatusPesertaGrid tbody input[type=checkbox]').closest('th').remove();
+		$('#StatusPesertaGrid tbody tr').prepend('<td><input type="checkbox" class="rselect" /></td>');
+	}
+
+	function filter(test,i,j){
+		var aktif0 = test[i].replace(/ /g, '%20');
+		$.post(url + 'showstatuspeserta.php?aktif=' + aktif0,{
+			server: localStorage.getItem('idserver'),
+		},function(html){
+			if (i == 0) {
+				$('#StatusPesertaGrid tbody').html('');
+			}
+			if (html == '') {
+				if (i<=j) {
+					filter (test,i+1,j);
+				} else {
+					checkbox();
+				}
+			} else {
+				$('#StatusPesertaGrid tbody').html($('#StatusPesertaGrid tbody').html() + csv2tr(html)).promise().done(function(){
+					if (i<=j) {
+						filter (test,i+1,j);
+					} else {
+						checkbox();
+					}
+				});
+			}
+		})
+	}
+
+	function listsiswa(){
+		var aktif0 = aktif.replace(/ /g, '%20');
+		$.post(url + 'showstatuspeserta.php?aktif=' + aktif0,{
+			server: localStorage.getItem('idserver')
+		},function(html){
+			$('#StatusPesertaGrid tbody').html(csv2tr(html));
+			checkbox();
+			$('#StatusPesertaGrid').find('tr').each(function(index, el) {
+				var status;
+				status = $(this).find('td').eq(7).text();
+				if ( status == 'Selesai' ) {
+					console.log ('Selesai');
+				}
+			});
+			$('#table-loading').hide();
+			$('#StatusPesertaGrid').show();
+			$('#StatusPesertaGrid').DataTable( {
+				"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+				dom: 'lBfrtip',
+				buttons: [
+					'excel', 'pdf', 'print'
+				]
+			} );
+		})
+	}
+
+	jQuery(document).ready(function($) {
+
+		$('#checkall').click(function(event) {
+			alert ('WARNING !!! Apabila mengupload hasil siswa yang sedang mengerjakan, siswa tersebut akan dirubah statusnya menjadi selesai');
+			$('.rselect').prop({
+				checked: true
+			})
+		});
+
+		$('#mapelall').click(function(event) {
+			$('input[name=statusmapel]').prop({
+				checked: true
+			})
+		});
+
+		$('body').on('click', '.k-grid-header input', function(event) {
+			if ($(this).is(':checked')) {
+				$(".rselect").prop('checked', true);
+				$('span.text-danger').closest('tr').find('input').prop('checked',false);
+				$('small').closest('tr').find('input').prop('checked',false);
+			} else {
+				$(".rselect").prop('checked', false);
+			}
+		});
+
+		if (aktif) {
+			listsiswa();
+		} else {
+			//alert ('Belum ada mata pelajaran yang aktif');
+			var x = $.post(url + 'showtest.php',{
+				server: localStorage.getItem('idserver')
+			});
+			x.done(function(s){
+				s = s.split('|');
+				aktif = s[0];
+				listsiswa();
+			})
+			x.fail(function(){
+				alert ('Gagal Terhubung ke Server');
+			})
+		}
+
+		$('#cetak').click(function(event) {
+			window.print();
+		});
+
+		function resetLogin() {
+			// get checked items
+			const items = $('#StatusPesertaGrid tbody').find('input[type=checkbox]:checked');
+			const server = localStorage.getItem('idserver').trim();
+			const mapel = aktif.trim();
+
+			// loop trough items
+			items.each(function(index, el) {
+				const row = $(this).closest('tr');
+				const username = row.find('td').eq(2).text().trim();
+				fetch(`${url}reset.php?mapel=${mapel}&user=${username}&server=${server}`,{
+					method: "GET",
+				})
+				.then(res => res.text())
+				.then(
+					(result) => {
+						row.closest('tr').find('.rselect').prop({
+							checked: false
+						});
+						row.closest('tr').find('td').eq(7).html("Logout");
+					}
+				)
+			});
+		}
+
+		function forceSelesai() {
+			// get checked items
+			const items = $('#StatusPesertaGrid tbody').find('input[type=checkbox]:checked');
+			const server = localStorage.getItem('idserver').trim();
+			const mapel = aktif.trim();
+			const s = url.replace(/wp-content\/themes\/unbk\/api-18575621\//g, '');
+
+
+			// loop trough items
+			items.each(function(index, el) {
+				const row = $(this).closest('tr');
+				const username = row.find('td').eq(2).text().trim();
+				fetch(`${s}wp-json/bimasoft-unbk/v1/server-forceselesai/${server}/${mapel}/${username}/null`,{
+					method: "GET",
+				})
+				.then(res => res.text())
+				.then(
+					(result) => {
+						row.closest('tr').find('.rselect').prop({
+							checked: false
+						});
+						row.closest('tr').find('td').eq(7).html("Selesai");
+					}
+				)
+			});
+		}
+
+		function resetstatus() {
+			$('.k-grid-header').removeClass('rselect');
+			row = $(".rselect:checked").eq(0);
+			if (row.length>0) {
+				kode = row.closest('tr').find('td').eq(2).html();
+				mapel = row.closest('tr').find('td').eq(3).html();
+				keterangan = row.closest('tr').find('td').eq(6).html();
+				username = kode;
+				if (username) username = username.trim();
+				if (mapel) mapel = mapel.trim();
+
+				var s = url.replace(/wp-content\/themes\/unbk\/api-18575621\//g, '');
+				
+				$.ajax({
+					url: s + 'wp-json/bimasoft-unbk/v1/server-resetstatus/'+ encodeURI(localStorage.getItem('idserver')) +'/'+ encodeURI(mapel)+'/'+encodeURI(username),
+				}).done(function(e) {
+					row.closest('tr').find('.rselect').prop({
+						checked: false
+					});
+					row.closest('tr').find('td').eq(7).html("Belum Mulai");
+					resetstatus();
+				}).fail(function(e) {
+					console.log(e);
+				}).always(function(e) {
+					// console.log("complete");
+				});
+			}
+		}
+
+		function upload(url,server){
+			$('.k-grid-header').removeClass('rselect');
+			row = $(".rselect:checked").eq(0);
+			if (row.length>0) {
+				kode = row.closest('tr').find('td').eq(2).html();
+				mapel = row.closest('tr').find('td').eq(3).html();
+				keterangan = row.closest('tr').find('td').eq(6).html();
+				username = kode;
+
+				if (username) username = username.trim();
+				if (mapel) mapel = mapel.trim();
+
+				h = row.closest('tr').find('td').eq(6).html();
+				h = h + '';
+				h = h.split('<')[0];
+				keterangan = h;
+				ket = h + '<small class="uploaded"> / Proses Upload</small>';
+				row.closest('tr').find('td').eq(6).html(ket);
+
+				// GET JAWABAN
+				$.ajax({
+					url: url + 'wp-json/bimasoft-unbk/v1/server-rethasil/'+ encodeURI(mapel)+'/'+encodeURI(username),
+					type: 'GET',
+				}).done(function(e) {
+					console.log (e);
+
+					// SET JAWABAN
+					// http://localhost:8888/cloud-simulasimandiri/wp-json/bimasoft-unbk/v1/server-puthasil/BAHASA INDONESIA/Z					
+					posturl = server + "wp-json/bimasoft-unbk/v1/server-puthasil/"+encodeURI(mapel)+"/"+encodeURI(username)+'/';
+					$.ajax({
+						url: posturl,
+						type: "POST",
+						data: {res: (JSON.stringify(e.res))},
+					}).done(function(e) {
+					}).fail(function(e) {
+					}).always(function(e) {
+						if (e.res == 'Success' && e.status == "OK") {
+							$.post(url+'wp-content/themes/unbk/api-18575621/uploaded.php', {
+								kode: kode,
+								mapel: mapel,
+								keterangan: keterangan,
+								server : server,
+								OK : 'OK'
+							},function(data){
+
+								row.closest('tr').find('.rselect').prop({
+									checked: false
+								});
+
+								if (data=='OK') {
+									ket = h + '<small class="uploaded"> / Terupload</small>';
+									row.closest('tr').find('td').eq(6).html(ket);
+									upload(url,server);
+								} else {
+									ket = h + '<small class="uploaded"> / Upload Gagal</small>';
+									row.closest('tr').find('td').eq(6).html(ket);				
+									upload(url,server);
+									console.log (data);
+								}
+							})
+						} else {
+							row.closest('tr').find('.rselect').prop({
+								checked: false
+							});
+							ket = h + '<small class="uploaded"> / Upload Error</small>';
+							row.closest('tr').find('td').eq(6).html(ket);				
+							upload(url,server);
+							console.log (e);
+						}
+					});
+				}).fail(function(e) {
+				}).always(function(e) {
+				});
+			}
+		}
+
+		$('#resetstatus').click(function(){
+			resetstatus();			
+		})
+		$('#resetlogin').click(function(){
+			resetLogin();
+		})
+		$('#forceselesai').click(function(){
+			forceSelesai();
+		})
+
+		$('#upload').click(function(event) {
+			db.transaction(function(transaction) {
+				var sql = 'SELECT * FROM settings';
+				transaction.executeSql(sql, [], function (tx, results) {
+					var len = results.rows.length, i;
+					for (i = 0; i < len; i++){
+						serverx = results.rows.item(i).server;
+						urlx = results.rows.item(i).url;
+						upload (urlx,serverx);
+					}
+				}, null);
+			});
+		});
+
+		$.post(url + 'showtest.php',{server: localStorage.getItem('idserver')},function(s){
+			s = s.split('|');
+			html = '';
+			for (var i = 0; i < s.length-1; i++) {
+				html += '<span style="margin-bottom: -1px; margin-right : -1px;width:200px; display : inline-block; padding : 3px 10px; border : solid 1px #ccc;" clas="pilihmapel"><input type="checkbox" name="statusmapel" value="'+s[i]+'"> ' + s[i] + '</span>';
+			}
+
+			$('#daftartest').html(html);
+		})
+
+		$('#filter').click(function(event) {
+			var count;
+			var test = [];
+			count = -1;
+			$("input:checked").each(function () {
+				count++;
+				test.push($(this).val());
+		    });
+		    filter(test,0,count);
+		});
+	});
+</script>

@@ -1,0 +1,154 @@
+<h1>Laporan Hasil</h1>
+<hr class="margin-top-10">
+
+<form class="form-horizontal">
+	<input type="hidden" value="laporan" name="cetak" />
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Sekolah / Rombel</label>
+		<div class="col-sm-6">
+			<select class="form-control" id="daftarsekolah" name="sekolah">
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Jumlah Mapel</label>
+		<div class="col-sm-2">
+			<input value="1" type="text" id="jumlahmapel" style="padding : 5px;" />
+		</div>
+		<div class="col-sm-3">
+			<button type="button" id="jumlahmapel_btn" class="btn btn-default">Submit</button>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-6">
+			<table id="tablemapel" class="tablemapel">
+				<tr>
+					<td>Kode Mapel</td>
+					<td>Nama Mapel</td>
+				</tr>
+				<tr class="mapelrow" data-row=1>
+					<td>
+						<select class="form-control daftartest" name="mapel[]">
+						</select>
+					</td>
+					<td><input type="text" name="nama[]"></td>
+				</tr>
+			</table>
+			<hr>
+			<h3>Penandatangan</h3>
+			<hr>
+			<table class="tablemapel">
+				<tr>
+					<td>Jabatan</td>
+					<td>Nama</td>
+				</tr>
+				<tr>
+					<td><input type="text" name="ttdjabatan"></td>
+					<td><input type="text" name="ttdnama"></td>
+					<td><input type="text" name="ttdnip"></td>
+				</tr>
+			</table>
+			<hr>
+			<h3>Mengetahui</h3>
+			<hr>
+			<table class="tablemapel">
+				<tr>
+					<td>Kota / Tgl.</td>
+					<td>Jabatan</td>
+					<td>Nama</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="tgl"></td>
+					<td><input type="text" name="mengetahuijabatan"></td>
+					<td><input type="text" name="mengetahuinama"></td>
+					<td><input type="text" name="nip"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label"></label>
+		<div class="col-sm-6">
+			<button type="button" class="btn btn-primary" id="rilistoken">Print</button>
+		</div>
+		<div class="col-sm-4">
+		</div>
+	</div>
+
+
+
+</form>
+
+<style>
+	.tablemapel { width: 100% }
+	.tablemapel td { padding : 3px;}
+	.tablemapel input {padding: 5px};
+</style>
+
+<script>
+
+	jQuery(document).ready(function($) {
+
+		$("[name='ttdjabatan']").val(localStorage.getItem("ttdjabatan"));
+		$("[name='ttdnama']").val(localStorage.getItem("ttdnama"));
+		$("[name='ttdnip']").val(localStorage.getItem("ttdnip"));
+		$("[name='tgl']").val(localStorage.getItem("tgl"));
+		$("[name='mengetahuijabatan']").val(localStorage.getItem("mengetahuijabatan"));
+		$("[name='mengetahuinama']").val(localStorage.getItem("mengetahuinama"));
+		$("[name='nip']").val(localStorage.getItem("mengetahuinip"));
+
+
+		$.post(url + 'showhasil.php',{server: localStorage.getItem('idserver')},function(s){
+			s = s.split('|');
+			html = '';
+			for (var i = 0; i < s.length-1; i++) {
+				html += '<option value="'+s[i]+'">'+s[i]+'</option>'
+			}
+			$('.daftartest').html(html);
+			$('.daftartest').val('');
+			$('select').find('option').eq(0).attr({
+				selected: 'selected'
+			});
+		})
+
+		$('#jumlahmapel_btn').click(function(event) {
+			$('.mapelrow:gt(0)').remove();
+			for (var i = 2; i <= $('#jumlahmapel').val(); i++) {
+				$('.mapelrow[data-row=1]').clone().attr('data-row',i).appendTo('#tablemapel');
+			}
+		});
+
+		$.post(url + 'showsekolah.php',{server: localStorage.getItem('idserver')},function(s){
+			s = s.split('|');
+			html = '';
+			for (var i = 0; i < s.length-1; i++) {
+				html += '<option value="'+s[i]+'">'+s[i]+'</option>'
+			}
+			$('#daftarsekolah').html(html);
+		})
+	
+		$('#rilistoken').click(function(event) {
+
+			localStorage.setItem("ttdjabatan",$("[name='ttdjabatan']").val());
+			localStorage.setItem("ttdnama",$("[name='ttdnama']").val());
+			localStorage.setItem("ttdnip",$("[name='ttdnip']").val());
+			localStorage.setItem("tgl",$("[name='tgl']").val());
+			localStorage.setItem("mengetahuijabatan",$("[name='mengetahuijabatan']").val());
+			localStorage.setItem("mengetahuinama",$("[name='mengetahuinama']").val());
+			localStorage.setItem("mengetahuinip",$("[name='nip']").val());
+
+			var s = url + $('form').serialize();
+			s = s.replace('wp-content/themes/unbk/api-18575621/','index.php?');
+			console.log (s);
+			var win = gui.Window.open (s, {
+			  position: 'center',
+			  width: 901,
+			  height: 600
+			});
+		});
+	});
+</script>
+

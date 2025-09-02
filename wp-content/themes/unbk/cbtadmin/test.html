@@ -1,0 +1,111 @@
+<h1>Status Test</h1>
+<hr class="margin-top-10">
+
+<form class="form-horizontal">
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Status</label>
+		<div class="col-sm-6">
+			<span class="text-success bold form-control" style="border-color:#fff">SIAP TEST</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Kelompok</label>
+		<div class="col-sm-6">
+			<select class="form-control">
+				<option>1</option>
+			</select>
+		</div>
+		<div class="col-sm-4">
+			<button type="submit" class="btn btn-primary">Kelompok</button>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Daftar Test</label>
+		<div class="col-sm-6">
+			<select class="form-control" id="daftartest">
+			</select>
+		</div>
+		<div class="col-sm-4">
+			<button type="submit" class="btn btn-primary" id="pilihtest">Pilih</button>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Token</label>
+		<div class="col-sm-6">
+			<input type="text" name="" class="form-control" readonly="" value="Klik Release Token" id="tokenbox">
+		</div>
+		<div class="col-sm-4">
+			<button type="submit" class="btn btn-primary" id="rilistoken">Rilis Token</button>
+		</div>
+	</div>
+
+
+
+</form>
+
+<script>
+
+	function rilistoken(){
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd = '0'+dd;
+		} 
+
+		if(mm<10) {
+		    mm = '0'+mm;
+		} 
+
+		today = yyyy + '/' + mm + '/' + dd;
+
+		if ($('#kartupeserta').is(':visible')) {
+			update_token();
+		} else {
+			$.post('https://portal.bimasoft.web.id/wp-content/themes/bimasoft-portal-ubk/date.php', function(data, textStatus, xhr) {
+				if (data == today) {
+					update_token();
+				} else {
+					alert ('Tanggal Server Tidak Sesuai');
+				}
+			});
+		}
+	}
+
+	jQuery(document).ready(function($) {
+		$.post(url + 'showtest.php',{ server: localStorage.getItem('idserver') },function(s){
+			s = s.split('|');
+			html = '';
+			for (var i = 0; i < s.length-1; i++) {
+				html += '<option value="'+s[i]+'">'+s[i]+'</option>'
+			}
+			$.post(url + 'showaktif.php', {server: localStorage.getItem('idserver')}, function(mapel){
+				mapel = mapel.split('|');
+				mapel = mapel[0];
+				$('#daftartest').html(html);
+				$('#daftartest').val(aktif);
+			})
+
+		})
+		$('#pilihtest').click(function(event) {
+			db.transaction(function (tx) {
+				aktif = $('#daftartest').val();
+				alert ("Test Berhasil Diganti");
+				s = url.replace('wp-content/themes/unbk/api-18575621/','');
+				$('#kartupeserta').prop({
+				    href: s+'?cetak=kartu&mapel='+aktif+'&server='+localStorage.getItem('idserver')
+				})
+				$('#absensi').prop({
+				    href: s+'?cetak=absensi&mapel='+aktif+'&server='+localStorage.getItem('idserver')
+				})
+			});
+			return false;
+		});
+		$('#rilistoken').click(function(event) {
+			rilistoken();
+			return false;
+		});
+	});
+</script>

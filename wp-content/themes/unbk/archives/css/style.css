@@ -1,0 +1,730 @@
+body {
+	background : #e9e9e9;
+	padding : 0;
+	margin : 0;line-height: 1.42857;
+	width: 100%;
+	overflow-x: hidden;
+	font-family : "Droid Sans", sans-serif;
+	color: #5a5a5a;
+}
+
+.b,.bold {font-weight : bold;}
+.clear {clear : both;}
+p {text-align : justify}
+#header {
+	background-image: url("../../images/lines-background-png-17.png");
+	color : #fff;
+	background-color : #1565C0;
+	border-bottom : 4px solid #adadad;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 100% 100%;
+	padding-bottom : 110px;
+	margin-bottom: -75px;
+}
+#header .col-md-12 {text-align: center;}
+#header.konfirmasi .col-md-12 {text-align: left;}
+#logo {margin-top : 25px; display: inline-block; text-align: left;}
+
+#logo img {margin-top : 0;margin-left : 15px!important;
+}
+
+#header.konfirmasi #welcome
+{
+	display: block;
+}
+
+#welcome {
+	padding : 20px 25px;
+	position : absolute;
+	width : 300px;
+	top : 0;
+	right : 0;
+	height : 100%;
+	display: none;
+}
+
+#notif {
+	width: 100%; 
+	/* background: #eff6f4; */
+	transition: background 0.05s linear;
+	-webkit-transition: background 0.05s linear;
+	-moz-transition: background 0.05s linear;
+}
+
+#notif .col-md-12 {
+	color : #FF6050;
+}
+
+#loginfooter, #loginbox {
+	max-width:100%;
+	width : 464px;
+	margin : auto;
+}
+
+#loginbox {
+	background : #fff;
+	border-radius : 15px 15px 0 0;
+	padding : 35px 65px;
+	padding-bottom : 0px;
+	color : #5a5a5a;
+}
+
+#loginfooter {
+	border-top : solid 1px #ddd;
+	background : #fff;
+	border-radius : 0px 0px 15px 15px;
+	text-align: center;
+	font-size: 12px;
+	padding: 5px;
+}
+
+#loginfooter p {
+	text-align: center;
+}
+
+#loginbody {
+	font-weight : bold; 	
+	color : #5a5a5a;
+	padding-bottom : 20px;
+}
+
+#loginbody select, 
+#loginbody input[type=text], 
+#loginbody input[type=password] {
+
+  width: 90%;
+  font-weight: normal;
+  box-shadow: 0 0 0 30px white inset !important;
+  border: none;
+  border-bottom: solid 1px #ccc;
+  margin-left: 6px;
+  display: inline-block;
+  padding: 5px;
+  color : #5a5a5a;
+  -webkit-appearance:none;
+  margin-left : 30px;
+}
+
+#loginbody select {
+	padding-top: 9.5px;
+}
+
+
+table table col {width : auto  !important}
+
+#loginbody table { margin: auto; width: 100%;}
+#loginbody table td { }
+input#mulai {background : #55A958; color : #fff; border : none; padding : 10px 15px; width : 100%}
+input#mulai.btn-danger {margin-top : 25px; border-radius : 25px; background : #007aff; color : #fff; border : none; padding : 10px 15px; width : 100%}
+input[type=submit] {background : #55A958; color : #fff; border : none; padding : 10px 15px; width : 100%; display: block; margin-bottom: 10px;}
+input[type=submit].btn-danger {background : #d9534f; color : #fff; border : none; padding : 10px 15px; width : 100%}
+
+.btn-danger {background : #ef143e;}
+.btn-success {background: #00ab34}
+.btn { border-radius : 25px;}
+
+
+.konfirm3 #logintitle p {
+	font-size : 22px;
+}
+
+#logintitle p {
+}
+
+#logintitle {
+	font-size: 14px;
+	/* margin-bottom: 20px; */
+}
+
+#logintitle h3 {}
+
+#welcome p  { margin : 0;}
+#avatar { float : right; margin-top : 10px; margin-right : 9.5px; overflow: hidden; border-radius: 10px; }
+#avatar img {}
+#selamat { float: right; margin-right: 10px;}
+#selamat p {text-align: center}
+#selamat p a { display: block; background : #fff; padding : 5px 25px; border-radius: 25px; font-weight: bold; margin-top : 5px;}
+
+#loginbox.konfirm  { width : 800px; height : auto; margin-bottom : 30px;}
+#loginbox.konfirm  #loginfooter { height : auto; padding : 10px 30px; width: auto; border-top: none;}
+
+#loginbox.konfirm input { width : 150px; margin-left: 0;}
+#loginbox.konfirm input[type=submit] { float : right;}
+#loginbox.konfirm #loginbody {height : auto;}
+#loginbox .datasiswa {
+	border-bottom : solid 1px #ECECEC;
+	margin-bottom: 22px;
+}
+#loginbox .datasiswa p.bold 
+{
+    font-weight: bold;
+    margin-bottom: 3px;
+    font-size: 12px;	
+}
+#loginbox .datasiswa p {font-weight : normal; margin : 0;padding-bottom: 3px;}
+
+#loginbox.konfirm.konfirm2  { width : auto; height : auto; margin-bottom : 30px;border-radius:15px}
+#loginbox.konfirm.konfirm3 { width : 365px;
+	height : auto;
+	margin-bottom : 30px;
+	border-radius : 25px;
+	padding : 40px;
+}
+#loginbox.konfirm.konfirm3 #loginbody { font-weight : normal; font-size : 14px; }
+#loginbox.konfirm.konfirm3 #loginfooter {text-align : center;}
+#loginbox.konfirm.konfirm3 input[type=submit] {float : none; margin-top : 30px;}
+
+p.warn {
+    color: #5a5a5a;
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px 55px;
+    font-size: 15px;
+    text-align: center;
+    line-height: 1.7em;
+}
+
+p.warn input {
+	display: block;
+}
+
+#soal{background : #fff; position: relative;}
+#soal-head {padding : 42px; font-size : 17px; padding-bottom: 20px;}
+div#soal-head.fixed-top {padding-top : 10px; padding-bottom : 10px}
+#nomor {float : left;}
+#nomor span {margin-left : 8px; background : #0094e5; color:#fff; padding : 5px 10px; display : inline-block; text-align : center; border-radius: 5px;}
+#waktu {float : right; border: solid 1px red; border-radius: 25px;}
+#waktu span {padding : 7px 0px; display : inline-block; font-weight: bold;}
+#waktu span.sisa { float : right; padding-right: 20px;}
+#waktu span p {float : left; margin : 0;}
+
+#font-size {background : #f6f6f6; font-weight : bold; font-size : 14px; padding : 10px 15px;border-top : solid 1px #c9c9c9;border-bottom : solid 1px #c9c9c9;}
+#font-size span { display : inline-block; margin: 0 10px;}
+#font-size span.a1 { font-size : 12px;}
+#font-size span.a2 { font-size : 18px;}
+#font-size span.a3 { font-size : 22px;}
+
+
+#soal { margin-bottom : 20px;}
+#soal-body {padding : 20px; padding-bottom:0}
+#soal-body {display: none}
+#soal-body table p {margin: 0}
+#soal-body table td {padding: 0}
+
+.soal { border : solid 1px #ccc; padding : 20px; display : none;}
+.soal.active {display : block;}
+.options-group {margin-top : 40px;}
+.options-group table { margin-left : 35px;}
+.options {margin : 20px 0;position : relative;}
+.options p {position : relative; left : 35px; max-width : 90%}
+span.option {
+	position: absolute;
+	top: -1px;}
+.option {display : inline-block; width : 26px; height:26px; border-radius : 90px; border : solid 3px #bdbdbd; text-align : center;
+		 margin-right : 10px; cursor : pointer; color : #bdbdbd; position : relative; padding-top : 0; font-size : 17px;
+		 font-weight : bold;}
+
+.options.checklist .option {
+	border-radius : 0;
+	
+}
+
+
+.option.checked { background : #2F659C;color : #2F659C; border-color : #2F659C}
+#soal-foot {padding : 10px 20px; }
+#soal-foot .btn {font-size : 14px;padding : 10px 20px;border-radius : 25px;}
+#soal-foot .btn .glyphicon {
+    background: #fff;
+    color: #007aff;
+    border-radius: 25px;
+    font-size: 10px;
+    padding: 2px;
+    top: 1px;
+}
+
+#soal-foot .btn.btn-success  {
+	padding-left: 52px;
+	padding-right: 52px;
+}
+
+#soal-foot .btn.btn-success .glyphicon {
+    color: #5cb85c;
+}
+
+#soal-foot .btn.btn-warning .glyphicon {
+    color: #f0ad4e;
+}
+
+#soal-foot .btn.btn-info .glyphicon {
+    color: #5bc0de;
+}
+
+.modal-backdrop.fade.in {
+	display: none;
+}
+
+#summary {
+	/* background  : #fff;
+	right : 0;
+	overflow-y:scroll; 
+	z-index  : 100; */
+	text-align: center;
+}
+#summary .no {display: inline-block; font-size : 18px; text-align: center; border : solid 10px #fff; position : relative; cursor : pointer;}
+#summary p {margin : 0; width : 37px;padding : 3px; text-align : center;border : solid 1px #333;}
+
+#summary span {
+  position: absolute;
+  top: -10px;
+  right: -9px;
+  border-radius: 90px;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;	
+  background: #fff;
+  border: solid 1px #333;
+
+}
+#summary .no.active,
+#summary .no.done.active p,
+#summary .no.ragu-ragu.active.done p {background: #336799;color: #000;}
+#summary .no.done p { background : #444; color : #fff;}
+#summary .no.ragu-ragu.done p,
+#summary .no.ragu-ragu {color : #fff; background : #edcb08}
+#summary .no.ragu-ragu span {border-color : #edcb08; color  :#edcb08 }
+#summary-button {float: right;}
+
+.nomor {display : none;}
+
+
+#konfirmasi-ragu {}
+.modal{background:#000; opacity:0.95; color:#000;}
+.modal-title { font-weight: bold;}
+.red {color : red; font-weight:bold;}
+
+td,th { padding : 5px;}
+#ajax {display : none; position:fixed;bottom:0;left:0;width: 100%;text-align: center;background: rgba(0, 0, 0, 0.7);padding: 10px;z-index: 9999;}
+#ajax p {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.a1,.a2,.a3 {cursor:pointer}
+.mjx-chtml.MJXc-display {text-align: left !important}
+
+#soal-body>div>table{ width: 100% }
+#soal-body>div>div>table{ width: 100% }
+#soal-body>div>div>div>table{ width: 100% }
+#soal-body>div>div>div>div>table{ width: 100% }
+
+#soal-body>div>table>colgroup>col{ width: auto !important}
+#soal-body>div>div>table>colgroup>col{ width: auto !important}
+#soal-body>div>div>div>table>colgroup>col{ width: auto !important}
+#soal-body>div>div>div>div>table>colgroup>col{ width: auto !important}
+
+.summary-log {
+	font-size: 10px;
+	text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    font-size: 1.2em;
+    padding-top: 12px;
+    text-align: center;
+    height: 40px;
+    font-size: 12px;
+}
+footer p {
+  width: 100%;
+  text-align: center;
+
+}
+
+#eye {
+	color : #c9c9c9;
+	cursor: pointer;
+}
+
+#eye:hover {
+	color : #000;
+}
+
+#loginbody table td:last-child {
+}
+
+#loginbody .glyphicon-list-alt, #loginbody .glyphicon-lock, #loginbody .glyphicon-user {
+  background-color: #c9c9c9;
+  color: #fff;
+  /* padding: 12px;
+  font-size: 15px;
+  top: 2px;
+ */
+}
+
+#loginbody .glyphicon-eye-open {
+	position: absolute;
+	right : 2px;
+}
+
+#loginbody .glyphicon-lock:before {
+	position: relative;
+	left : 1px;
+}
+#loginbody .glyphicon {
+	border-radius : 100px;
+	padding : 4px;
+	position: absolute;
+	top : 8px;
+}
+#loginbody .glyphicon-list-alt {
+}
+
+#loginbody .glyphicon-user {
+}
+
+
+#soal-body {
+	font-size: 17.6px;
+}
+
+#summary-button .btn {
+	background: #007aff;
+	border: #007aff;
+	border-radius: 25px;
+	padding: 10px 30px;
+	margin-left: 25px;
+}
+
+#summary-button.show .btn {
+	padding: 8px 13px;
+	font-size: 24px;
+}
+
+#summary .no.active span, #summary .no.active p {
+	border-color: #336799;
+
+}
+
+#summary .no.active span {
+	color : #336799;
+}
+
+#summary .no.ragu-ragu p {
+	border-color: #ffbf00;
+}
+
+#summary .no.done.active p, #summary .no.ragu-ragu.active.done p {
+	border-color: #336799;
+}
+
+#soal-foot .btn.btn-default {
+	background: #979797;
+	color: #fff;
+
+}
+
+#soal-foot .btn.btn-primary:hover {
+	background: #005ec2;	
+}
+#soal-foot .btn.btn-primary {
+	background: #007aff	
+}
+
+
+#soal-foot .btn.btn-default:hover {
+	background: #646464;
+}
+
+#waktu span:first-child {
+	font-weight: normal;
+	padding-left: 20px;
+	padding-right: 15px;
+}
+
+#soal-head #nomor {
+	font-size: 15px;
+
+}
+span.inneroption {
+	position: absolute;
+	left: 4px;
+	top: -2px;
+
+}
+
+#summary span.inneroption {
+  top: -1px;
+  left: -1px;
+  font-size: 14px;	
+  border : none;
+  background: none;
+}
+
+audio {
+	width: 50% !important;
+    margin-left: 30px;
+    position: relative;
+    top: -4px;
+}
+
+#logo-container img {
+	max-height: 75px;
+}
+#logo-container, 
+#text-container { float: left; }
+#text-container { margin-left: 10px; }
+#text-container { margin-top: 10px; }
+#text-container h1,
+#text-container h3
+ { 
+ 	margin : 0; padding: 0;
+ }
+#text-container h1 { font-family: 'Lato', sans-serif; font-size: 29px;}
+#text-container h3 { font-family: 'Inconsolata', monospace; font-size: 18px; margin-left: 2px}
+
+#text-container {}
+
+ .fixed-top {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width : 100%;
+    background: #fff;
+    border: solid thin #c9c9c9;
+    margin-right : 15px;
+    z-index: 99;
+}
+
+#loginbody button {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    padding: 12px 10px;
+    border-radius: 0;
+    font-weight: bold;
+    font-size: 16px;
+	border-radius: 20px;
+}
+
+#loginbody #submitlogin {
+	background : #007aff;
+}
+
+
+#loginbox.konfirm.konfirm3 input[type=submit] {
+    float: none;
+	margin: auto;
+	background: #00ab34; 
+	border-radius: 25px; 
+	font-size: 14px;
+	padding : 10px;
+	width:100%;
+}
+
+.margin0 {
+	margin: 0;
+}
+
+#refresh {
+	display: none;
+}
+
+@media only screen and (max-width: 500px) {
+
+	#loginfooter { width: auto;}
+
+	#logo img {
+		margin-left : 0px!important;
+		padding : 0 15px;
+	}	
+
+	.nomobile {
+		display: none;
+	}
+
+	#refresh {
+		display: block;
+	}
+
+	#selamat, #avatar {
+		float: none;
+		margin-right: 0;		
+	}
+
+	#selamat p a {
+		width: 150px;
+		margin : auto;
+		margin-top: 10px;
+	}
+
+	div#soal-head.fixed-top {
+		padding-top : 10px;
+		padding-bottom: 0px;
+	}
+
+	div#soal-head.fixed-top #waktu span:first-child {
+		display: none;
+	}
+
+	div#soal-head.fixed-top  #waktu span.sisa {
+		padding-left : 10px;
+		padding-right: 10px;
+	}
+
+	div#soal-head.fixed-top #waktu {
+		float: left;
+		margin-left: 10px;
+	}
+
+	div#soal-head.fixed-top #summary-button {
+		float: left;		
+	}
+
+	div#soal-head.fixed-top #nomor{
+		display: none;
+	}
+
+	#welcome, #logo {
+		width: 100%;
+		position: static;
+		margin-top: 20px;
+		margin-bottom: 0px;
+		text-align: center;
+	}
+	
+	#summary-button {
+		float: none;
+		text-align: center;
+		margin-bottom: 10px;
+	}
+
+	#text-container, #logo-container {
+		display: block;
+		text-align: center;
+		float: none;
+	}
+
+	#welcome:after, #logo:after {
+		display: block;
+		content: "";
+		clear: both;
+	}
+	#header .col-md-12 {
+		height: auto;
+	}
+	.col-md-4, .col-md-8, .col-md-12 {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	#loginbox {
+		margin-left: 0;
+		margin-right: 0;
+		text-align: center;
+		width: 100%;
+	}
+	#loginbox.konfirm.konfirm3 {
+		width: 100%;
+	}
+	#logintitle p {
+		text-align: center;
+	}
+	#waktu, #nomor {
+		float: none;
+	}
+	#nomor {
+		margin-bottom: 10px;
+		text-align: center;
+	}
+	#soal-foot td { display: block; text-align: center;}
+	#soal-foot td button {
+		width: 100%;
+	}
+	.modal-dialog {
+		width: 75% !important;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.row {
+	}
+}
+
+img {
+	max-width: 100%;
+}
+
+.et_pb_widget {
+	display: none;
+}
+
+
+#nama_siswa2 {
+	overflow: hidden;
+	display: block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+#userid, #nama_siswa2 {
+	font-size: 12px;	
+}
+
+.listeningwrapper {
+	position: relative;
+}
+
+.listeningwrapper .layer {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 99;
+}
+
+#blocker {
+	display: none;
+	background: none;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+.options table p {
+    left: 0;
+}
+
+#soal-body .soal {
+	overflow-x : scroll;
+	position: relative;
+}
+
+connection {
+    border: 2px solid #b51c29;
+}
+
+.mobileOnly {
+	display: none !important;
+}
+
+ul.dropdown-menu {
+	left : 28px;
+}
+
+.dropdown-menu li {
+	padding: 3px 10px;
+	font-weight: normal;
+	cursor: pointer;	
+}
+
+/* mobile only */
+@media only screen and (max-width: 500px) {
+	.mobileOnly {
+		display: block !important;
+	}
+}
