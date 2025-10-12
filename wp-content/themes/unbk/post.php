@@ -8,6 +8,7 @@
     localStorage.setItem('siswa.namasiswa', '__ADMINTESTSOAL__');
     localStorage.setItem('ADMINDEBUG', 1);
     localStorage.setItem('siswa.mapel', mapel);
+    localStorage.setItem('mapel.kode', mapel);
     var url = `<?php echo $_POST['backend'] ?>wp-json/bimasoft-unbk/v1/uploadsoal/` + mapel;
     $.ajax({
       url: url,
