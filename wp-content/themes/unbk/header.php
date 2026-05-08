@@ -1,5 +1,5 @@
 <?php
-// @ioncube.dk cekversi() -> 'Bimasoft 13.10.5'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.10.6'
 function print_header()
 {
   global $headerclass;
@@ -24,7 +24,7 @@ function print_header()
     <meta name="google" content="notranslate">
     <title><?php echo $lisensi['namasekolah'] ?> CBT TEST <?php echo date('Y'); ?></title>
     <link href="<?php echo "$TEMPLATEDIR" ?>/archives/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo "$TEMPLATEDIR" ?>/archives/css/style.css?bv=13.10.5" rel="stylesheet">
+    <link href="<?php echo "$TEMPLATEDIR" ?>/archives/css/style.css?bv=13.10.6" rel="stylesheet">
     <link href="<?php echo "$TEMPLATEDIR" ?>/archives/css/fonts.css" rel="stylesheet">
     <link href="<?php echo "$TEMPLATEDIR" ?>/archives/css/jquery.toast.min.css" rel="stylesheet">
 
@@ -171,7 +171,7 @@ function print_header()
           }
         });
 
-        $('.summary-log .content').html('<span style="color: #007bff; text-decoration: underline; cursor: pointer;">Aplikasi Simulasi Mandiri</span> :<strong> #13.10.5</strong><br>')
+        $('.summary-log .content').html('<span style="color: #007bff; text-decoration: underline; cursor: pointer;">Aplikasi Simulasi Mandiri</span> :<strong> #13.10.6</strong><br>')
         <?php
         if ($opt_iframe) {
         ?>

@@ -1,6 +1,6 @@
 <?php
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.10.5'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.10.6'
 function printLogin()
 {
   $lisensi = getLisensi("Tq8p9rMiQ8hpgNxd7EYOABGGUKCrJozAVIZNpUdArLCbsuvrwZ7xOTCW1aNh");
@@ -65,7 +65,7 @@ function printLogin()
           <p>© Copyright <?php echo date("Y"); ?>, <?php echo $lisensi['namasekolah'] ?></a></p>
           <div class="summary-log">
             <div class="content">
-              <?php // echo ('<a href="#bimasoft.web.id" title="https://bimasoft.web.id/">Aplikasi Simulasi Mandiri</a> :<strong> #13.10.5</strong><br>') 
+              <?php // echo ('<a href="#bimasoft.web.id" title="https://bimasoft.web.id/">Aplikasi Simulasi Mandiri</a> :<strong> #13.10.6</strong><br>') 
               ?>
             </div>
           </div>
@@ -106,6 +106,6 @@ function printLogin()
     </div>
   </div>
 
-  <script src="<?php echo get_template_directory_uri(); ?>/archives/js/login-lihat-nilai.js?bv=13.10.5"></script>
+  <script src="<?php echo get_template_directory_uri(); ?>/archives/js/login-lihat-nilai.js?bv=13.10.6"></script>
 <?php
 }
