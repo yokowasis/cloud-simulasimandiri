@@ -5,7 +5,7 @@ require_once('header.php');
 require_once('login.php');
 require_once('footer.php');
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.10.3'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.10.5'
 function indexPage()
 {
   print_header();
