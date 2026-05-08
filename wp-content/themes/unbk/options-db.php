@@ -289,7 +289,7 @@ function bimasoft_database_tambah_siswa_slug_content()
 
   echo "<tr><td style='padding:5px;text-align:left;vertical-align:top'>Data (Tab Delimited):</td><td style='padding:5px'>";
   echo "<textarea id='siswaData' name='siswaData' rows='10' style='width:100%;padding:5px' placeholder='Paste data siswa dari excel ke sini'></textarea>";
-  echo "<small style='color:#666'>Format: NIS | USER | NAMA | PASS | NIK | NIK2 (Nama Sekolah) | SERVER | SESI</small>";
+  echo "<small style='color:#666'>Format: NIS | USER | NAMA | PASS | NIK | NIK2 | SERVER | SESI</small>";
   echo "</td></tr>";
 
   echo "<tr><td colspan='2' style='padding:10px;text-align:center'>";
