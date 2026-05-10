@@ -969,6 +969,7 @@ bimasoft_database_slug_content
 bimasoft_database_reset_siswa_slug_content
 bimasoft_database_tambah_siswa_slug_content
 bimasoft_database_hasil_slug_content
+print_footer
 shortcode_opsi
 shortcode_checklist
 shortcode_isian
