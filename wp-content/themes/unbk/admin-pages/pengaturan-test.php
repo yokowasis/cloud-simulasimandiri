@@ -2,7 +2,7 @@
 
 require_once('functions.php');
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.10.6'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.10.7'
 function resetdatabase()
 {
 
@@ -158,7 +158,7 @@ function savefiledb()
 	Author: Bimasoft 
 	Author URI: https://bimasoft.web.id;
     Description: Aplikasi Bimasoft Simulasi Mandiri UNBK 2020. Jika Anda Mendapatkan Aplikasi ini Dari Pihak Lain Selain Bimasoft / Atau Reseller / Help Desk yg tertera di Website Bimasoft. Itu Artinya Anda Telah Ditipu, Dan Mengeluarkan Uang Untuk Membeli Barang Curian. Hati - Hati Terhadap Aplikasi Bajakan. Karena Anda Tidak Akan Mendapatkan Update dan Support Jika Terjadi Masalah. Pastikan hanya membeli aplikasi lewat Jalur Resmi di No. HP / WA. 08234-003-9781 atau Authorized Reseller : Seperti https://test.co.id/
-	Version: 13.10.6
+	Version: 13.10.7
 	Text Domain: unbk
 	*/';
 
