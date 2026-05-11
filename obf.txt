@@ -963,6 +963,7 @@ my_custom_dashboard_widgets
 disable_emojis_remove_dns_prefetch
 safeEncrypt
 get_home_url
+bimasoft_print_footer
 bimasoft_css_customizer
 themename_customize_register
 bimasoft_database_slug_content
