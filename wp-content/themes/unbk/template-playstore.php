@@ -151,4 +151,4 @@ print_header() ?>
 </script>
 
 <?php include('footer.php');
-print_footer(); ?>
+bimasoft_print_footer(); ?>

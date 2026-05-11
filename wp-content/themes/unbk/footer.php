@@ -1,7 +1,7 @@
 <?php
 
 // @ioncube.dk cekversi() -> 'Bimasoft 13.10.5'
-function print_footer()
+function bimasoft_print_footer()
 {
   $mapel = (isset($mapel)) ? $mapel : ""; ?>
   <input type="hidden" id="mapel" value="<?php echo $mapel ?>">

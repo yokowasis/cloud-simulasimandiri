@@ -958,7 +958,6 @@ wpmu_current_site
 show_admin_bar
 disable_emojis
 bimasoft_database_add_admin_page
-print_footer
 remove_dashboard_widgets
 my_custom_dashboard_widgets
 disable_emojis_remove_dns_prefetch

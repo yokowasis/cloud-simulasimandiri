@@ -77,6 +77,6 @@ function indexPage()
     printLogin();
   }
 
-  print_footer();
+  bimasoft_print_footer();
 }
 indexPage();
