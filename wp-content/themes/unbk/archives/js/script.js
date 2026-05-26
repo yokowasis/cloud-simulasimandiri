@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 var themedir2 = localStorage.getItem("themedir2");
 var themedir3 = localStorage.getItem("themedir3");
 var themedir = localStorage.getItem("themedir");
@@ -16,7 +18,7 @@ function selesaiTest() {
       window.location.href = "../";
     }, 2000);
     toast(
-      "Anda teredeteksi keluar dari aplikasi, anda akan logout dalam 2 detik. Silakan menjawab soal untuk membatalkan logout"
+      "Anda teredeteksi keluar dari aplikasi, anda akan logout dalam 2 detik. Silakan menjawab soal untuk membatalkan logout",
     );
   }
 }
@@ -30,6 +32,15 @@ function selesaiTest() {
       toast("Logout di dibatalkan");
     }
   });
+
+  // trigger focus-loss logout only on the exam question page
+  if (document.body.classList.contains("soal-in")) {
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        selesaiTest();
+      }
+    });
+  }
 })(jQuery);
 
 function toast(text) {
@@ -99,7 +110,7 @@ function savewaktu() {
     var sisawaktu = $("#countdown").text();
     localStorage.setItem(
       "ls[" + mapel + "," + userid + ",sisawaktu]",
-      sisawaktu
+      sisawaktu,
     );
   })(jQuery);
 }
@@ -112,7 +123,7 @@ function jawabsoal(
   sisawaktu,
   mapel,
   kodemapel,
-  act_no
+  act_no,
 ) {
   (function ($) {
     if ($("#localstorage").val() == "realtime") {
@@ -150,7 +161,7 @@ function jawabsoal(
             //act_no.removeClass('checked');
             /*********/
             $("#ajax p").html(
-              "Gagal Terhubung ke server. Periksa jaringan dan sambungan ke server"
+              "Gagal Terhubung ke server. Periksa jaringan dan sambungan ke server",
             );
             console.log(s);
             console.log("Jawaban Gagal Tersimpan");
@@ -165,17 +176,17 @@ function jawabsoal(
                 sisawaktu,
                 mapel,
                 kodemapel,
-                act_no
+                act_no,
               );
             }, randomint);
           }
         })
         .fail(function () {
           console.log(
-            "Gagal Terhubung ke Server. Periksa Kembali Jaringan / Refresh Browser"
+            "Gagal Terhubung ke Server. Periksa Kembali Jaringan / Refresh Browser",
           );
           $("#ajax p").html(
-            "Gagal Terhubung ke server. Periksa jaringan dan sambungan ke server"
+            "Gagal Terhubung ke server. Periksa jaringan dan sambungan ke server",
           );
           var randomint;
           randomint = Math.floor(Math.random() * 31) * 1000;
@@ -188,7 +199,7 @@ function jawabsoal(
               sisawaktu,
               mapel,
               kodemapel,
-              act_no
+              act_no,
             );
           }, randomint);
         })
@@ -225,16 +236,16 @@ function jawabsoal(
 
       localStorage.setItem(
         "ls[" + mapel + "," + userid + "," + nomor + "]",
-        opt
+        opt,
       );
       localStorage.setItem(
         "ls[" + mapel + "," + userid + ",sisawaktu]",
-        sisawaktu
+        sisawaktu,
       );
       localStorage.setItem("ls[" + mapel + "," + userid + ",mapel]", mapel);
       localStorage.setItem(
         "ls[" + mapel + "," + userid + ",kodemapel]",
-        kodemapel
+        kodemapel,
       );
 
       $("#serial-no-" + nomor).val(opt);
@@ -244,7 +255,7 @@ function jawabsoal(
       $(".no.no-" + nomor).removeClass("not-done");
     } else {
       alert(
-        "Maaf... Browser anda tidak didukung oleh aplikasi dengan metode penyimpanan Performance"
+        "Maaf... Browser anda tidak didukung oleh aplikasi dengan metode penyimpanan Performance",
       );
     }
   })(jQuery);
@@ -274,7 +285,7 @@ function kumpuljawaban(jawaban, c) {
           console.log(s);
           $("#ajax p").html(
             "Gagal Terkoneksi ke Server. Mengulangi Kirim Jawaban. Percobaan ke : " +
-              c
+              c,
           );
           if (c == 4) {
             alert("Jaringan terputus, Silakan Login Ulang");
@@ -299,7 +310,7 @@ function kumpuljawaban(jawaban, c) {
         console.log("Gagal Terkoneksi ke Server. Mengulangi Kirim Jawaban");
         $("#ajax p").html(
           "Gagal Terkoneksi ke Server. Mengulangi Kirim Jawaban. Percobaan ke : " +
-            c
+            c,
         );
         if (c == 4) {
           alert("Jaringan terputus, Silakan Login Ulang");
@@ -490,7 +501,7 @@ jQuery(document).ready(function ($) {
       sisawaktu,
       mapel,
       $("#kodetest").val(),
-      act_no
+      act_no,
     );
   });
 
@@ -524,7 +535,7 @@ jQuery(document).ready(function ($) {
       sisawaktu,
       mapel,
       $("#kodetest").val(),
-      act_no
+      act_no,
     );
   });
 
@@ -558,7 +569,7 @@ jQuery(document).ready(function ($) {
       sisawaktu,
       mapel,
       $("#kodetest").val(),
-      act_no
+      act_no,
     );
   });
 
