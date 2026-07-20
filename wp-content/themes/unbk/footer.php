@@ -1,6 +1,6 @@
 <?php
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.10.7'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.10.9'
 function bimasoft_print_footer()
 {
   $mapel = (isset($mapel)) ? $mapel : ""; ?>
