@@ -30,76 +30,91 @@
     return target.replace(new RegExp(search, 'g'), replacement);
   };
 
-
   jQuery(document).ready(function($) {
-
-    var nama_siswa2 = localStorage.getItem("siswa.namasiswa");
-    nama_siswa2 = nama_siswa2.replace("\\'", "'");
-
-    $("#refreshWindow").click(function() {
-      window.location.reload();
-    })
-
-    if (localStorage.getItem("data.finish") == 1) {
-      alert('Anda sudah selesai mengerjakan test ini');
-      window.location = '<?php echo $home_url ?>';
-      exit();
+    var token = localStorage.getItem('token');
+    localStorage.removeItem('token');
+    if (!token) {
+      alert('Token tidak ditemukan. Silakan masukkan token terlebih dahulu.');
+      window.location = './konfirmasi---' + localStorage.getItem("siswa.mapel");
+      return;
     }
 
-    $('#nama_siswa').text(localStorage.getItem("siswa.username"));
-    $('#nama_siswa2').text(nama_siswa2);
-    $('#localstorage').val(localStorage.getItem("data.localstorage"));
-
-    $('#mapel').val(localStorage.getItem("siswa.mapel"));
-    $('#userid').text(localStorage.getItem("siswa.username"));
-    $('#kodetest').val(localStorage.getItem("siswa.mapel"));
-
-    $.ajax({
-      url: '<?php echo get_stylesheet_directory_uri() ?>/images/foto/' + localStorage.getItem("siswa.username") + '.jpg',
-      type: 'HEAD',
-      error: function() {
-        console.log("Foto tidak ditemukan. Menggunakan Avatar Default");
-        $('#avatar img').prop({
-          src: '<?php echo get_stylesheet_directory_uri() ?>/images/avatar.png'
-        });
-      },
-      success: function() {
-        $('#avatar img').prop({
-          src: '<?php echo get_stylesheet_directory_uri() ?>/images/foto/' + localStorage.getItem("siswa.username") + '.jpg'
-        });
+    $.post(themedir2 + '/api-18575621/cektoken.php', { token_check: token }, function(response) {
+      response = response.trim();
+      if (response !== 'valid') {
+        alert('Token Salah, Silakan Hubungi Proktor untuk mendapatkan Token');
+        window.location = './konfirmasi---' + localStorage.getItem("siswa.mapel");
+        return;
       }
-    });
 
-    //LOAD SOAL JS PHP
+      var nama_siswa2 = localStorage.getItem("siswa.namasiswa");
+      nama_siswa2 = nama_siswa2.replace("\\'", "'");
 
-    var mapel = localStorage.getItem("siswa.mapel");
-    mapel = mapel.replaceAll(' ', '%20');
+      $("#refreshWindow").click(function() {
+        window.location.reload();
+      })
 
-    var soaljsphp = "<?php echo get_stylesheet_directory_uri() ?>/js/soal.js.php?bv=13.10.7&shuffle=" + localStorage.getItem("mapel.shuffle") + "&mapel_dikerjakan=" + localStorage.getItem("mapel.dikerjakan") + "&alokasi=" + localStorage.getItem("mapel.alokasi") + "&waktu=" + localStorage.getItem("mapel.waktu") + "&namasiswa=" + localStorage.getItem("siswa.namasiswa").replaceAll(" ", "%20") + "&siswa=" + localStorage.getItem("siswa.username") + "&mapel=" + mapel + "&kodetest=" + localStorage.getItem("siswa.mapel").replaceAll(" ", "%20") + "&_=" + Date.now();
+      if (localStorage.getItem("data.finish") == 1) {
+        alert('Anda sudah selesai mengerjakan test ini');
+        window.location = '<?php echo $home_url ?>';
+        exit();
+      }
 
-    var soaljsphp2 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/script.js?bv=13.10.7";
-    var soaljsphp0 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/soal.js?bv=13.10.7";
+      $('#nama_siswa').text(localStorage.getItem("siswa.username"));
+      $('#nama_siswa2').text(nama_siswa2);
+      $('#localstorage').val(localStorage.getItem("data.localstorage"));
 
-    $.ajaxSetup({
-      cache: true
-    });
+      $('#mapel').val(localStorage.getItem("siswa.mapel"));
+      $('#userid').text(localStorage.getItem("siswa.username"));
+      $('#kodetest').val(localStorage.getItem("siswa.mapel"));
 
-    console.log('Script 0 Loading : ' + soaljsphp0);
-    console.log('Script 1 Loading : ' + soaljsphp);
-    console.log('Script 2 Loading : ' + soaljsphp2);
-
-    $.getScript(soaljsphp0, function() {
-      console.log('Script 0 Loaded : ' + soaljsphp0);
-      $.getScript(soaljsphp, function() {
-        console.log('Script 1 Loaded : ' + soaljsphp);
-        $.getScript(soaljsphp2, function() {
-          console.log('Script 2 Loaded : ' + soaljsphp2);
-        })
+      $.ajax({
+        url: '<?php echo get_stylesheet_directory_uri() ?>/images/foto/' + localStorage.getItem("siswa.username") + '.jpg',
+        type: 'HEAD',
+        error: function() {
+          console.log("Foto tidak ditemukan. Menggunakan Avatar Default");
+          $('#avatar img').prop({
+            src: '<?php echo get_stylesheet_directory_uri() ?>/images/avatar.png'
+          });
+        },
+        success: function() {
+          $('#avatar img').prop({
+            src: '<?php echo get_stylesheet_directory_uri() ?>/images/foto/' + localStorage.getItem("siswa.username") + '.jpg'
+          });
+        }
       });
-    })
 
-    $('body').addClass('logged-in');
-    $('body').addClass('soal-in');
+      //LOAD SOAL JS PHP
+
+      var mapel = localStorage.getItem("siswa.mapel");
+      mapel = mapel.replaceAll(' ', '%20');
+
+      var soaljsphp = "<?php echo get_stylesheet_directory_uri() ?>/js/soal.js.php?bv=13.10.7&shuffle=" + localStorage.getItem("mapel.shuffle") + "&mapel_dikerjakan=" + localStorage.getItem("mapel.dikerjakan") + "&alokasi=" + localStorage.getItem("mapel.alokasi") + "&waktu=" + localStorage.getItem("mapel.waktu") + "&namasiswa=" + localStorage.getItem("siswa.namasiswa").replaceAll(" ", "%20") + "&siswa=" + localStorage.getItem("siswa.username") + "&mapel=" + mapel + "&kodetest=" + localStorage.getItem("siswa.mapel").replaceAll(" ", "%20") + "&_=" + Date.now();
+
+      var soaljsphp2 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/script.js?bv=13.10.7";
+      var soaljsphp0 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/soal.js?bv=13.10.7";
+
+      $.ajaxSetup({
+        cache: true
+      });
+
+      console.log('Script 0 Loading : ' + soaljsphp0);
+      console.log('Script 1 Loading : ' + soaljsphp);
+      console.log('Script 2 Loading : ' + soaljsphp2);
+
+      $.getScript(soaljsphp0, function() {
+        console.log('Script 0 Loaded : ' + soaljsphp0);
+        $.getScript(soaljsphp, function() {
+          console.log('Script 1 Loaded : ' + soaljsphp);
+          $.getScript(soaljsphp2, function() {
+            console.log('Script 2 Loaded : ' + soaljsphp2);
+          })
+        });
+      })
+
+      $('body').addClass('logged-in');
+      $('body').addClass('soal-in');
+    });
   });
 </script>
 

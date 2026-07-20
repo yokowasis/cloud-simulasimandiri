@@ -301,6 +301,7 @@
       return;
     }
 
+    localStorage.setItem('token', $('#token').val());
     window.location = './soalujian---' + $('#mapel').val();
   }
 
@@ -315,21 +316,8 @@
   });
 
   $('#mulai').click(function(event) {
-
     if ($('#timenow').html() >= $('#waktutest').html()) {
-      if (dataPT.autotoken === "1") {
-        do_start();
-      } else {
-        var token = $('#token').val();
-        $.post(themedir2 + '/api-18575621/cektoken.php', {}, function(e) {
-          e = e.trim();
-          if (token == e) {
-            do_start();
-          } else {
-            alert('Token Salah, Silakan Hubungi Proktor untuk mendapatkan Token');
-          }
-        })
-      }
+      do_start();
     } else {
       alert("Waktu Test Belum Dimulai");
     }

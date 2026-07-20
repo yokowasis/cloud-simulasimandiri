@@ -36,9 +36,17 @@
 		$stmt = $conn->prepare($v11sql);
 		$stmt->execute();
 		$stmt->close();
+	}
 
-		$token_updated = date("d-m-Y H:i",time());
-		echo $token;
+	if (isset($_POST['token_check'])) {
+		$submitted_token = $_POST['token_check'];
+		if ($submitted_token === 'AUTO' && isset($opt_autotoken) && $opt_autotoken == '1') {
+			echo 'valid';
+		} elseif ($submitted_token === $token) {
+			echo 'valid';
+		} else {
+			echo 'invalid';
+		}
 	} else {
 		echo $token;
 	}
