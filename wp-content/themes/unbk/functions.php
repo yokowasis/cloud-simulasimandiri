@@ -5,15 +5,15 @@ $currentPage = $_SERVER['SCRIPT_NAME'];
 function cekversi()
 {
   // read file and assign it to variable
-  return (file_get_contents(__DIR__ . "/versi.txt"));
-  // return 'Bimasoft 13.11.0';    
+  return (file_get_contents(__DIR__ . '/versi.txt'));
+  // return 'Bimasoft 13.11.0';
 }
 
 $cekversi = cekversi();
 
 if (strpos($currentPage, 'rpc.php') !== false) {
 } else {
-  @include(get_stylesheet_directory() .  '/lisensi.php');
+  @include (get_stylesheet_directory() . '/lisensi.php');
 }
 
 /*
@@ -30,7 +30,7 @@ if (strpos($currentPage, 'rpc.php') !== false) {
  */
 
 show_admin_bar(false);
-require_once("cacheoptimized.php");
+require_once ('cacheoptimized.php');
 
 function reset_role_akrr($role)
 {
@@ -161,16 +161,16 @@ function reset_role_akrr($role)
     ),
     'display_name' => array(
       'administrator' => 'Administrator',
-      'editor'        => 'Editor',
-      'author'        => 'Author',
-      'contributor'   => 'Contributor',
-      'subscriber'    => 'Subscriber',
+      'editor' => 'Editor',
+      'author' => 'Author',
+      'contributor' => 'Contributor',
+      'subscriber' => 'Subscriber',
     ),
   );
   $role = strtolower($role);
   remove_role($role);
   return add_role($role, $default_roles['display_name'][$role], $default_roles[$role]);
-} // function reset_role_akrr
+}  // function reset_role_akrr
 
 reset_role_akrr('author');
 get_role('author')->add_cap('manage_options');
@@ -195,11 +195,10 @@ function ambiltoken()
 {
   // check table exists
   global $wpdb;
-  $sql  = "SHOW TABLES LIKE '{$wpdb->prefix}bsfsm_aktif'";
+  $sql = "SHOW TABLES LIKE '{$wpdb->prefix}bsfsm_aktif'";
   $rows = $wpdb->get_results($wpdb->prepare($sql, array('string', 10)));
 
   if (count($rows)) {
-
     global $wpdb;
     $sql = "SELECT * FROM `{$wpdb->prefix}bsfsm_aktif`";
     $rows = $wpdb->get_results($wpdb->prepare($sql, array('string', 10)));
@@ -209,13 +208,13 @@ function ambiltoken()
       $token = $row->token;
     }
 
-    $token_updated = date("Y-m-d H:i", time());
+    $token_updated = date('Y-m-d H:i', time());
 
     $to_time = strtotime($token_updated);
     $from_time = strtotime($tokentime);
     $minutes = round(abs($to_time - $from_time) / 60, 2);
 
-    if ($minutes > get_option("waktutoken")) {
+    if ($minutes > get_option('waktutoken')) {
       $token = RandomString2();
 
       $sql = "DELETE FROM `{$wpdb->prefix}bsfsm_aktif`";
@@ -230,14 +229,14 @@ function ambiltoken()
       $rows = $wpdb->get_results($wpdb->prepare($sql, array('string', 10)));
     }
   } else {
-    $token = "";
+    $token = '';
   }
   return $token;
 }
 
 function display_hapusdatabase()
 {
-?>
+  ?>
   <button style="background: #d9534f; color : #fff;" id="deldb" type="button" class="button">Reset Database</button>
   <!-- <button style="background: #009688; color : #fff;" id="upgradedb" type="button" class="button">Upgrade Database</button> -->
 
@@ -291,14 +290,14 @@ function themename_customize_register($wp_customize)
   $wp_customize->add_section(
     'bimas_color_scheme',
     array(
-      'title'             =>  'Pengaturan Tampilan',
-      'description'       =>  'Pengubahan Warna'
+      'title' => 'Pengaturan Tampilan',
+      'description' => 'Pengubahan Warna'
     )
   );
   $wp_customize->add_setting(
     'background_color_header',
     array(
-      'default'       =>  '#336799'
+      'default' => '#336799'
     )
   );
   $wp_customize->add_control(
@@ -306,16 +305,16 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'background_color_header',
       array(
-        'label'       =>  'Warna Header',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'background_color_header'
+        'label' => 'Warna Header',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'background_color_header'
       )
     )
   );
   $wp_customize->add_setting(
     'background_color_footer',
     array(
-      'default'       =>  '#333'
+      'default' => '#333'
     )
   );
   $wp_customize->add_control(
@@ -323,16 +322,16 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'background_color_footer',
       array(
-        'label'       =>  'Warna Background Footer',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'background_color_footer'
+        'label' => 'Warna Background Footer',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'background_color_footer'
       )
     )
   );
   $wp_customize->add_setting(
     'text_color_footer',
     array(
-      'default'       =>  '#fff'
+      'default' => '#fff'
     )
   );
   $wp_customize->add_control(
@@ -340,16 +339,16 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'text_color_footer',
       array(
-        'label'       =>  'Warna Tulisan Footer',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'text_color_footer'
+        'label' => 'Warna Tulisan Footer',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'text_color_footer'
       )
     )
   );
   $wp_customize->add_setting(
     'background_color_footer_2',
     array(
-      'default'       =>  '#DCDCDC'
+      'default' => '#DCDCDC'
     )
   );
   $wp_customize->add_control(
@@ -357,16 +356,16 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'background_color_footer_2',
       array(
-        'label'       =>  'Warna Background Footer 2',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'background_color_footer_2'
+        'label' => 'Warna Background Footer 2',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'background_color_footer_2'
       )
     )
   );
   $wp_customize->add_setting(
     'text_color_footer_2',
     array(
-      'default'       =>  '#333'
+      'default' => '#333'
     )
   );
   $wp_customize->add_control(
@@ -374,16 +373,16 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'text_color_footer_2',
       array(
-        'label'       =>  'Warna Text Footer 2',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'text_color_footer_2'
+        'label' => 'Warna Text Footer 2',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'text_color_footer_2'
       )
     )
   );
   $wp_customize->add_setting(
     'warna_tombol',
     array(
-      'default'       =>  '#55A958'
+      'default' => '#55A958'
     )
   );
   $wp_customize->add_control(
@@ -391,16 +390,16 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'warna_tombol',
       array(
-        'label'       =>  'Warna Tombol Login',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'warna_tombol'
+        'label' => 'Warna Tombol Login',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'warna_tombol'
       )
     )
   );
   $wp_customize->add_setting(
     'warna_background_0',
     array(
-      'default'       =>  '#C9C9C9'
+      'default' => '#C9C9C9'
     )
   );
   $wp_customize->add_control(
@@ -408,9 +407,9 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'warna_background_0',
       array(
-        'label'       =>  'Warna Background',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'warna_background_0'
+        'label' => 'Warna Background',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'warna_background_0'
       )
     )
   );
@@ -423,9 +422,9 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'warna_background',
       array(
-        'label'       =>  'Background Login',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'warna_background'
+        'label' => 'Background Login',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'warna_background'
       )
     )
   );
@@ -438,9 +437,9 @@ function themename_customize_register($wp_customize)
       $wp_customize,
       'warna_background_2',
       array(
-        'label'       =>  'Background Test',
-        'section'     =>  'bimas_color_scheme',
-        'settings'    =>  'warna_background_2'
+        'label' => 'Background Test',
+        'section' => 'bimas_color_scheme',
+        'settings' => 'warna_background_2'
       )
     )
   );
@@ -448,7 +447,7 @@ function themename_customize_register($wp_customize)
 
 function bimasoft_css_customizer()
 {
-?>
+  ?>
   <style type="text/css">
     #header {
       background-color: <?php echo get_theme_mod('background_color_header') ?>;
@@ -469,14 +468,14 @@ function bimasoft_css_customizer()
     }
 
     body {
-      <?php if (get_theme_mod('warna_background') == '') : ?>background: <?php echo get_theme_mod('warna_background_0') ?>;
-      <?php else : ?>background: url('<?php echo get_theme_mod('warna_background') ?>');
+      <?php if (get_theme_mod('warna_background') == ''): ?>background: <?php echo get_theme_mod('warna_background_0') ?>;
+      <?php else: ?>background: url('<?php echo get_theme_mod('warna_background') ?>');
       <?php endif; ?>
     }
 
     body.logged-in {
-      <?php if (get_theme_mod('warna_background_2') == '') : ?>background: <?php echo get_theme_mod('warna_background_0') ?>;
-      <?php else : ?>background: url('<?php echo get_theme_mod('warna_background_2') ?>');
+      <?php if (get_theme_mod('warna_background_2') == ''): ?>background: <?php echo get_theme_mod('warna_background_0') ?>;
+      <?php else: ?>background: url('<?php echo get_theme_mod('warna_background_2') ?>');
       <?php endif; ?>
     }
   </style>
@@ -487,19 +486,19 @@ add_action('wp_head', 'bimasoft_css_customizer');
 add_action('customize_register', 'themename_customize_register');
 
 if (isset($_GET['cetak'])) {
-  include('cetak.php');
+  include ('cetak.php');
   exit;
 }
 
 function execute_multiline_sql($sql)
 {
   global $wpdb;
-  $sqlParts = array_filter(explode(";", $sql));
+  $sqlParts = array_filter(explode(';', $sql));
   foreach ($sqlParts as $part) {
     $wpdb->query($part);
     if ($wpdb->last_error != '') {
-      $error = new WP_Error("dberror", __("Database query error"), $wpdb->last_error);
-      $wpdb->query("rollback;");
+      $error = new WP_Error('dberror', __('Database query error'), $wpdb->last_error);
+      $wpdb->query('rollback;');
       return $error;
     }
   }
@@ -509,10 +508,10 @@ function execute_multiline_sql($sql)
 function verifikasitoken($token1)
 {
   if (!count($_POST) || !isset($_POST['pttoken'])) {
-    die("Gagal Terhubung");
+    die('Gagal Terhubung');
   } else {
     global $wpdb;
-    $sql  = "SHOW TABLES LIKE '{$wpdb->prefix}bsfsm_aktif'";
+    $sql = "SHOW TABLES LIKE '{$wpdb->prefix}bsfsm_aktif'";
     $rows = $wpdb->get_results($wpdb->prepare($sql, array('string', 10)));
 
     if (count($rows)) {
@@ -525,11 +524,11 @@ function verifikasitoken($token1)
           $token = $row->token;
         }
       } else {
-        die("0 results");
+        die('0 results');
       }
 
       if ($token != $token1) {
-        die("Token Tidak Valid. Refresh Browser");
+        die('Token Tidak Valid. Refresh Browser');
       }
       return (true);
     } else {
@@ -543,28 +542,26 @@ if (isset($_POST['deldb'])) {
 }
 
 if (isset($_POST['username_login'])) {
-  require_once('login_func.php');
+  require_once ('login_func.php');
 }
 
-include('options-db.php');
+include ('options-db.php');
 
-include('shortcode.php');
+include ('shortcode.php');
 
-include('orangtua.php');
+include ('orangtua.php');
 
-include('restapi.php');
+include ('restapi.php');
 
-//DISABLE EMOJI ---
-/**
- * Disable the emoji's
- */
+// DISABLE EMOJI ---
+/** Disable the emoji's */
 // function disable_emojis() {
 //  remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 //  remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 //  remove_action( 'wp_print_styles', 'print_emoji_styles' );
-//  remove_action( 'admin_print_styles', 'print_emoji_styles' ); 
+//  remove_action( 'admin_print_styles', 'print_emoji_styles' );
 //  remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
-//  remove_filter( 'comment_text_rss', 'wp_staticize_emoji' ); 
+//  remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
 //  remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 //  add_filter( 'tiny_mce_plugins', 'disable_emojis_tinymce' );
 //  add_filter( 'wp_resource_hints', 'disable_emojis_remove_dns_prefetch', 10, 2 );
@@ -573,8 +570,8 @@ include('restapi.php');
 
 /**
  * Filter function used to remove the tinymce emoji plugin.
- * 
- * @param array $plugins 
+ *
+ * @param array $plugins
  * @return array Difference betwen the two arrays
  */
 function disable_emojis_tinymce($plugins)
@@ -610,7 +607,7 @@ define('CONCATENATE_SCRIPTS', false);
 function delete_files($target)
 {
   if (is_dir($target)) {
-    $files = glob($target . '*', GLOB_MARK); //GLOB_MARK adds a slash to directories returned
+    $files = glob($target . '*', GLOB_MARK);  // GLOB_MARK adds a slash to directories returned
 
     foreach ($files as $file) {
       delete_files($file);
@@ -624,14 +621,13 @@ function delete_files($target)
 
 function bimasoft_reset_cache()
 {
-
   $ch = curl_init();
 
-  $cdnid = get_option("cdn_ID", false);
+  $cdnid = get_option('cdn_ID', false);
 
   if ($cdnid) {
     // error_log ("CDNID = $cdnid");
-    #        curl_setopt($ch, CURLOPT_URL,"https://api.cloudflare.com/client/v4/zones/$cdnid/purge_cache");
+    //        curl_setopt($ch, CURLOPT_URL,"https://api.cloudflare.com/client/v4/zones/$cdnid/purge_cache");
     curl_setopt($ch, CURLOPT_URL, "https://bunnycdn.com/api/pullzone/$cdnid/purgeCache");
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt(
@@ -653,7 +649,7 @@ function bimasoft_reset_cache()
 
     global $wpdb;
     $wpdb->insert(
-      $wpdb->prefix . "bsfsm_" . 'log',
+      $wpdb->prefix . 'bsfsm_' . 'log',
       array(
         'val' => $server_output
       )
@@ -670,33 +666,31 @@ function bimasoft_reset_cache()
 // @ioncube.dk cekversi() -> 'Bimasoft 13.11.0'
 function getLisensi($variable)
 {
-  if ($variable == "Tq8p9rMiQ8hpgNxd7EYOABGGUKCrJozAVIZNpUdArLCbsuvrwZ7xOTCW1aNh") {
+  if ($variable == 'Tq8p9rMiQ8hpgNxd7EYOABGGUKCrJozAVIZNpUdArLCbsuvrwZ7xOTCW1aNh') {
     $data = requestLisensi();
-    $logo = safeDecrypt($data["asdasdasdasd"]);
-    $namasekolah = safeDecrypt($data["asdasdasd"]);
+    $logo = safeDecrypt($data['asdasdasdasd']);
+    $namasekolah = safeDecrypt($data['asdasdasd']);
     return ([
-      "logo" => $logo,
-      "namasekolah" => $namasekolah,
+      'logo' => $logo,
+      'namasekolah' => $namasekolah,
     ]);
   }
 }
 
-
 function saveFile($filename, $content)
 {
-  $myfile = fopen($filename, "w") or die("Unable to open file (0) !");
+  $myfile = fopen($filename, 'w') or die('Unable to open file (0) !');
   if (fwrite($myfile, $content)) {
   } else {
-    die("Gagal Menyimpan, error : 102");
+    die('Gagal Menyimpan, error : 102');
   }
 }
 
 // @ioncube.dk cekversi() -> 'Bimasoft 13.11.0'
 function safeEncrypt(string $message, string $key): string
 {
-
   $simple_string = $message;
-  $ciphering = "AES-128-CTR";
+  $ciphering = 'AES-128-CTR';
   $iv_length = openssl_cipher_iv_length($ciphering);
   $options = 0;
   $encryption_iv = '1234567891011121';
@@ -715,19 +709,18 @@ function safeEncrypt(string $message, string $key): string
 
 /**
  * Decrypt a message
- * 
+ *
  * @param string $encrypted - message encrypted with safeEncrypt()
  * @param string $key - encryption key
  * @return string
  * @throws Exception
  */
-
 // @ioncube.dk cekversi() -> 'Bimasoft 13.11.0'
 function safeDecrypt(string $encrypted, string $key = NULL): string
 {
   $decryption_iv = '1234567891011121';
-  $decryption_key = "GppksforGppks";
-  $ciphering = "AES-128-CTR";
+  $decryption_key = 'GppksforGppks';
+  $ciphering = 'AES-128-CTR';
   $options = 0;
 
   $decryption = openssl_decrypt(
@@ -741,13 +734,10 @@ function safeDecrypt(string $encrypted, string $key = NULL): string
   return ($decryption);
 }
 
-require_once('admin-pages/pengaturan-test.php');
+require_once ('admin-pages/pengaturan-test.php');
 $user = wp_get_current_user();
-if (in_array('administrator', (array) $user->roles)) {
-  require_once('admin-pages/halaman-lisensi.php');
-}
-require_once('admin-pages/bimasoft-online-cdn.php');
-require_once('admin-pages/pengaturan-judul.php');
+require_once ('admin-pages/bimasoft-online-cdn.php');
+require_once ('admin-pages/pengaturan-judul.php');
 
 // global $wp_scripts, $wp_styles;
 
