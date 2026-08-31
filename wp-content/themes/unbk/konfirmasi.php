@@ -148,7 +148,7 @@
           <script>
             var dataTest = JSON.parse(localStorage.getItem('data.all'));
             var dataPT = JSON.parse(localStorage.getItem('data.pt'));
-            console.log(dataTest);
+            // console.log(dataTest);
             localStorage.setItem("mapel.kode", dataTest.mapel.kode);
             localStorage.setItem("mapel.nama", dataTest.mapel.nama);
             localStorage.setItem("mapel.tanggal", dataTest.mapel.tanggal);
@@ -309,7 +309,7 @@
     handlePinApp();
 
     $('body').addClass('logged-in');
-    console.log(dataPT);
+    // console.log(dataPT);
     if (dataPT.autotoken === "1") {
       $('#token').val('AUTO');
     }

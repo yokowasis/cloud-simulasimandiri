@@ -11,14 +11,17 @@ function checkRestorePenjodohan() {
 }
 
 var logoutTimer = null;
+var examTimer = 1000;
 
 function selesaiTest() {
   if (!logoutTimer) {
     logoutTimer = setTimeout(() => {
       window.location.href = "../";
-    }, 2000);
+    }, examTimer * 1000);
     toast(
-      "Anda teredeteksi keluar dari aplikasi, anda akan logout dalam 2 detik. Silakan menjawab soal untuk membatalkan logout",
+      "Anda teredeteksi keluar dari aplikasi, anda akan logout dalam " +
+        examTimer +
+        " detik. Silakan menjawab soal untuk membatalkan logout",
     );
   }
 }

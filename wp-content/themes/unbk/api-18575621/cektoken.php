@@ -1,52 +1,54 @@
-<?php 
-	require_once('../bimadb.php');
+<?php
+require_once ('../bimadb.php');
+global $conn, $opt_waktutoken, $opt_autotoken, $table_prefix;
 
-	function RandomString()
-	{
-	    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZZ';
-	    $randstring = '';
-	    for ($i = 0; $i < 6; $i++) {
-	        $randstring = $randstring.$characters[rand(0, strlen($characters))];
-	    }
-	    return $randstring;
-	}
+if (isset($_POST['token_check'])) {
+  $submitted_token = trim($_POST['token_check']);
 
-	$v11sql = "SELECT * FROM `{$table_prefix}bsfsm_aktif`";
-	$result = $conn->query($v11sql);
-	
-	if ($result->num_rows > 0) {
-	    // output data of each row
-	    while($row = $result->fetch_assoc()) {
-	        $tokentime = $row['tokentime'];
-	        $token = $row['token'];
-	    }
-	} else {
-	}
+  // 1. Handle Proctor/System "AUTO" bypass (if applicable)
+  if ($submitted_token === 'AUTO' && isset($opt_autotoken) && $opt_autotoken == '1') {
+    echo 'valid';
+    exit;
+  }
 
-	$token_updated = date("Y-m-d H:i",time());
+  // 2. Fetch the current active exam token from the database
+  // IMPORTANT: If you have multiple exams, add: WHERE exam_id = ?
+  $stmt = $conn->prepare("SELECT `token`, `tokentime` FROM `{$table_prefix}bsfsm_aktif` LIMIT 1");
+  $stmt->execute();
+  $row = $stmt->get_result()->fetch_assoc();
 
-	$to_time = strtotime($token_updated);
-	$from_time = strtotime($tokentime);
-	$minutes = round(abs($to_time - $from_time) / 60,2);
+  // If no token has been set by the proctor yet
+  if (!$row) {
+    echo 'invalid';
+    exit;
+  }
 
-	if ($minutes>$opt_waktutoken) {
-		$token = RandomString();
+  $db_token = $row['token'];
+  $db_tokentime = $row['tokentime'];
 
-		$v11sql = "UPDATE  `{$table_prefix}bsfsm_aktif` SET  `token` =  '".$token."',`tokentime` =  '".$token_updated."'";
-		$stmt = $conn->prepare($v11sql);
-		$stmt->execute();
-		$stmt->close();
-	}
+  // 3. Check if the student's token matches the proctor's token
+  if ($submitted_token !== $db_token) {
+    echo 'invalid';  // Wrong password
+    exit;
+  }
 
-	if (isset($_POST['token_check'])) {
-		$submitted_token = $_POST['token_check'];
-		if ($submitted_token === 'AUTO' && isset($opt_autotoken) && $opt_autotoken == '1') {
-			echo 'valid';
-		} elseif ($submitted_token === $token) {
-			echo 'valid';
-		} else {
-			echo 'invalid';
-		}
-	} else {
-		echo $token;
-	}
+  // 4. Token matches! Now check if it has expired
+  $current_time = time();
+  $token_time = strtotime($db_tokentime);
+
+  if ($token_time === false) {
+    echo 'invalid';  // Corrupted time in database
+    exit;
+  }
+
+  $minutes_elapsed = round(abs($current_time - $token_time) / 60, 2);
+
+  if ($minutes_elapsed > $opt_waktutoken) {
+    echo 'expired';  // Correct password, but time is up
+    exit;
+  }
+
+  // 5. Token matches and is within the allowed time
+  echo 'valid';
+}
+?>
