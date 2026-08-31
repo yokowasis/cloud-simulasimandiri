@@ -10,42 +10,6 @@ function checkRestorePenjodohan() {
   }
 }
 
-var logoutTimer = null;
-var examTimer = 1000;
-
-function selesaiTest() {
-  if (!logoutTimer) {
-    logoutTimer = setTimeout(() => {
-      window.location.href = "../";
-    }, examTimer * 1000);
-    toast(
-      "Anda teredeteksi keluar dari aplikasi, anda akan logout dalam " +
-        examTimer +
-        " detik. Silakan menjawab soal untuk membatalkan logout",
-    );
-  }
-}
-
-(function ($) {
-  // cancel logoutTimer when document is clicked
-  $(document).click(function () {
-    if (logoutTimer) {
-      clearTimeout(logoutTimer);
-      logoutTimer = null;
-      toast("Logout di dibatalkan");
-    }
-  });
-
-  // trigger focus-loss logout only on the exam question page
-  if (document.body.classList.contains("soal-in")) {
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden) {
-        selesaiTest();
-      }
-    });
-  }
-})(jQuery);
-
 function toast(text) {
   $.toast({
     heading: "Notifikasi",

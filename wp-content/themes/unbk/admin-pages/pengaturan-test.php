@@ -86,6 +86,7 @@ function savefiledb()
     'DB_PASSWORD' => DB_PASSWORD,
     'DB_NAME' => DB_NAME,
     'homeurl' => get_home_url() . '/',
+    'examtimer' => $_POST['exam-timer'],
     'bolehdaftar' => ($_POST['siswa-melakukan-pendaftaran-sendiri'] === 'Ya' ? 1 : 0),
     'autotoken' => ($_POST['token-secara-otomatis'] === 'Ya' ? 1 : 0),
     'bolehlogout' => ($_POST['siswa-boleh-logout-sebelum-selesai'] === 'Ya' ? 1 : 0),
@@ -192,6 +193,7 @@ function savefiledb()
 \t\t\t\$absolute_url\t\t= \"" . $txt_json['homeurl'] . "/\";
 \t\t\t\$home_url\t\t\t= \"" . $txt_json['homeurl'] . "/\";
 
+    \t\t\$opt_examtimer \t= \"" . (isset($txt_json['examtimer']) ? $txt_json['examtimer'] : '') . "\";
     \t\t\$opt_waktutoken \t= \"" . (isset($txt_json['waktutoken']) ? $txt_json['waktutoken'] : '') . "\";
     \t\t\$opt_bolehlogout \t= \"" . (isset($txt_json['bolehlogout']) ? $txt_json['bolehlogout'] : '') . "\";
     \t\t\$opt_excelkey \t\t= \"" . (isset($txt_json['excelkey']) ? $txt_json['excelkey'] : '') . "\";
@@ -253,6 +255,7 @@ function savePengaturanTest()
   $menu_pengaturan_test->add_option('Pengaturan Token', '', 'title');
   $menu_pengaturan_test->add_option('Masa Aktif Token', 'Dalam Menit. Contoh : isi <b>15</b> untuk masa aktif token 15 menit', 'text');
   $menu_pengaturan_test->add_option('Token Secara Otomatis', '', 'checkbox');
+  $menu_pengaturan_test->add_option('Exam Timer', 'Waktu jeda yang diperbolehkan siswa untuk keluar dari aplikasi. Dalam detik, isi di atas 0 (contoh : 2). Tidak diisi / kosong artinya siswa boleh keluar aplikasi tanpa batas.', 'text');
   $menu_pengaturan_test->add_option('', '', 'hr');
   // --------------------------------------------------
   $menu_pengaturan_test->add_option('Pengaturan Key', '', 'title');

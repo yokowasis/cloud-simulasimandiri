@@ -27,12 +27,41 @@ if (isset($_POST['ADMINDEBUG'])) {
 ?>
 
 <script>
+  var logoutTimer = null;
+  var examTimer = <?php echo $opt_examtimer ?>;
+
+  function selesaiTest() {
+    if (!logoutTimer) {
+      logoutTimer = setTimeout(() => {
+        window.location.href = "../";
+      }, examTimer * 1000);
+      toast(
+        "Anda teredeteksi keluar dari aplikasi, anda akan logout dalam " +
+          examTimer +
+          " detik. Silakan menjawab soal untuk membatalkan logout",
+      );
+    }
+  }
+
   String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
   };
 
   jQuery(document).ready(function($) {
+    // cancel logoutTimer when document is clicked
+    $(document).click(function () {
+      if (logoutTimer) {
+        clearTimeout(logoutTimer);
+        logoutTimer = null;
+        toast("Logout di dibatalkan");
+      }
+    });
+
+    document.addEventListener("visibilitychange", function () {
+      selesaiTest();
+    });
+
     var token = localStorage.getItem('token');
     if (!token) {
       alert('Token tidak ditemukan. Silakan masukkan token terlebih dahulu.');
