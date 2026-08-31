@@ -470,10 +470,25 @@ jQuery(document).ready(function ($) {
     var parent = $(this).closest("div");
 
     if (parent.hasClass("checklist")) {
+      const jumlahBenar = parent.data("jumlah-benar");
+
+      const parentTable = parent.closest("table");
+
+      //count jumlah option yang sudah dicentang
+      const jumlahChecked = parentTable.find(".option.checked").length;
+
       if ($(this).hasClass("checked")) {
         $(this).removeClass("checked");
         opt = "-" + $(this).attr("data-option-asli");
       } else {
+        if (jumlahChecked >= jumlahBenar) {
+          toast(
+            `Anda hanya bisa memilih ${jumlahBenar} jawaban untuk soal ini. Silakan hapus salah satu jawaban yang sudah dipilih terlebih dahulu.`,
+          );
+          $("#ajax").hide();
+          return false;
+        }
+
         $(this).addClass("checked");
         opt = $(this).attr("data-option-asli");
       }

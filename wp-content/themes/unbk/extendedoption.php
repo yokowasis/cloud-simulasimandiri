@@ -25,9 +25,17 @@ function shortcode_checklist($atts)
   $a = shortcode_atts(array(
     'no' => '1',
     'pg' => '',
+    'jumlah_benar' => '0',
   ), $atts);
+
+  $jumlah_benar = 0;
+
+  if (isset($a['jumlah_benar'])) {
+    $jumlah_benar = $a['jumlah_benar'];
+  }
+
   ob_start();
-  ?><div class="options checklist" style="display:inline-block; margin:0;">
+  ?><div class="options checklist" style="display:inline-block; margin:0;" data-jumlah-benar="<?php echo $jumlah_benar ?>">
             <span 
                 data-nomor-asli="<?php echo $a['no'] ?>" 
                 data-option-asli="<?php echo $a['pg'] ?>" 
