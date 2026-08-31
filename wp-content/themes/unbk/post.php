@@ -1,7 +1,8 @@
-<?php include('indb.php'); ?>
-<?php include('bimadb.php'); ?>
-<?php if (isset($_POST['ADMINDEBUG'])) {
-?>
+<?php include ('indb.php'); ?>
+<?php include ('bimadb.php'); ?>
+<?php
+if (isset($_POST['ADMINDEBUG'])) {
+  ?>
   <script>
     localStorage.clear();
     var mapel = "<?php echo $_POST['mapel'] ?>";
@@ -22,7 +23,8 @@
   </script>
 <?php
   exit;
-} ?>
+}
+?>
 
 <script>
   String.prototype.replaceAll = function(search, replacement) {
@@ -32,7 +34,6 @@
 
   jQuery(document).ready(function($) {
     var token = localStorage.getItem('token');
-    localStorage.removeItem('token');
     if (!token) {
       alert('Token tidak ditemukan. Silakan masukkan token terlebih dahulu.');
       window.location = './konfirmasi---' + localStorage.getItem("siswa.mapel");
@@ -199,7 +200,7 @@
           );
           query_posts($args);
           ?>
-          <?php if (have_posts()) : ?>
+          <?php if (have_posts()): ?>
             <?php the_post(); ?>
             <?php the_content(); ?>
           <?php endif; ?>
@@ -226,8 +227,8 @@
 
 <div id="jumlah_soal" style="display:none">1</div>
 
-<?php if ($opt_bolehkumpul == "1") : ?>
-<?php else : ?>
+<?php if ($opt_bolehkumpul == '1'): ?>
+<?php else: ?>
   <div class="modal" id='ragu-modal'>
     <div class="modal-dialog" role="document" style='margin: 120px auto'>
       <div class="modal-content">
