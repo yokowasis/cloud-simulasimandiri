@@ -470,7 +470,10 @@ jQuery(document).ready(function ($) {
     var parent = $(this).closest("div");
 
     if (parent.hasClass("checklist")) {
-      const jumlahBenar = parent.data("jumlah-benar");
+      let jumlahBenar = parent.data("jumlah-benar");
+      if (!jumlahBenar) {
+        jumlahBenar = 999;
+      }
 
       const parentTable = parent.closest("table");
 
