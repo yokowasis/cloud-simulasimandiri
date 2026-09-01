@@ -48,42 +48,7 @@ function bimasoft_database_slug_content()
   echo '</div>';
   echo "<div id='token2'>";
   echo '</div>';
-  if (isset($opt_backend) && $opt_backend) {
-    echo '<div>';
-    echo "<a href='#generate' id='gantitoken'>Ganti Token</a> | <a href='#generate' id='logsiswa'>Log Siswa</a>";
-    echo '</div>';
-  }
   echo '</div>';
-  if (isset($opt_backend) && $opt_backend) {
-    if ($opt_waktutoken) {
-      $timeout = (int) $opt_waktutoken * 60000;
-    } else {
-      $timeout = 0;
-    }
-    echo "
-        <script>
-            jQuery('document').ready(function(\$){
-
-                if ({$timeout}) {
-                    setTimeout(() => {
-                        \$('#gantitoken').click();
-                    }, {$timeout});
-                }
-
-                \$('#dataWrapper').load('{$opt_backend}wp-content/themes/unbk/api-18575621/getdatabase.php?backend=$opt_backend');
-                \$('#token').load('{$opt_backend}token');
-                \$('#token2').html('Interval : {$opt_waktutoken} Menit <br/> Jangan Close Window ini Agar Token Berubah Otomatis');
-                \$('#gantitoken').click(function(){
-                    \$('#token').html('Loading..');
-                    \$('#token').load('{$opt_backend}wp-content/themes/unbk/api-18575621/gantitoken.php');
-                })
-                \$('#logsiswa').click(function(){
-                    window.open('{$opt_backend}logSiswa');
-                })
-            })
-        </script>
-        ";
-  }
 }
 
 function bimasoft_database_hasil_slug_content()
