@@ -2,6 +2,41 @@
 
 $currentPage = $_SERVER['SCRIPT_NAME'];
 
+// Disable default WordPress REST API, but allow custom theme routes in restapi.php
+add_filter('rest_authentication_errors', function ($result) {
+    // If another authentication handler already produced an error, return it
+    if (!empty($result)) {
+        return $result;
+    }
+
+    // Get current REST route
+    $rest_route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
+    if (empty($rest_route) && isset($_SERVER['REQUEST_URI'])) {
+        $rest_prefix = rest_get_url_prefix();
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $pos = strpos($path, '/' . $rest_prefix);
+        if ($pos !== false) {
+            $rest_route = substr($path, $pos + strlen('/' . $rest_prefix));
+        }
+    }
+
+    // Allow custom endpoints from restapi.php (e.g., bimasoft-unbk)
+    if (strpos(ltrim($rest_route, '/'), 'bimasoft-unbk') === 0) {
+        return $result;
+    }
+
+    return new WP_Error(
+        'rest_disabled',
+        __('The REST API is disabled on this site.', 'unbk'),
+        array('status' => 403)
+    );
+});
+
+// Remove REST API links from HTML <head> and HTTP headers
+remove_action('wp_head', 'rest_output_link_wp_head', 10);
+remove_action('wp_head', 'wp_oembed_add_discovery_links', 10);
+remove_action('template_redirect', 'rest_output_link_header', 11);
+
 function cekversi()
 {
   // read file and assign it to variable
