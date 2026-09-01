@@ -4,256 +4,245 @@ namespace Bimasoft;
 
 class SQL
 {
+  public $conn = '';
 
-    public $conn = "";
+  /**
+   * Database SQL Class by Yokowasis
+   *
+   * @param string $host [Host Machine]
+   * @param string $user [ Username ]
+   * @param string $password [ Password ]
+   * @param string $db [ Database to connect to]
+   */
+  public function __construct(
+    $host,
+    $user,
+    $password,
+    $db,
+    $port = NULL,
+    $socket = NULL
+  ) {
+    if ($port == NULL) {
+      $port = '3306';
+    }
+    $port = (int) $port;
+    $this->conn = mysqli_connect($host, $user, $password, $db, $port, $socket);
 
-    /**
-     * Database SQL Class by Yokowasis
-     *
-     * @param string $host [Host Machine]
-     * @param string $user [ Username ]
-     * @param string $password [ Password ]
-     * @param string $db [ Database to connect to]
-     */
-    public function __construct(
-        $host,
-        $user,
-        $password,
-        $db,
-        $port = NULL,
-        $socket = NULL
-    ) {
+    if (mysqli_connect_errno()) {
+      echo 'Failed to connect to MySQL: ' . mysqli_connect_error();
+    }
+  }
 
-        if ($port == NULL) {
-            $port = "3306";
-        }
-        $port = (int)$port;
-        $this->conn = mysqli_connect($host, $user, $password, $db, $port, $socket);
-
-        if (mysqli_connect_errno()) {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
-
+  private function parsewhere($where)
+  {
+    if ($where == 'OPTIONAL [STRING OR ARRAY]') {
+      return '1=1';
     }
 
-    private function parsewhere($where)
-    {
-        if ($where == "OPTIONAL [STRING OR ARRAY]") {
-            return "1=1";
-        }
-
-        if (is_string($where)) {
-            return (htmlentities($where, ENT_QUOTES));
-
+    if (is_string($where)) {
+      return (htmlentities($where, ENT_QUOTES));
+    } else {
+      $keys = array_keys($where);
+      $whr = [];
+      foreach ($keys as $key) {
+        if ($where[$key] != 'null') {
+          array_push($whr, " {$key} = '" . htmlentities($where[$key], ENT_QUOTES) . "' ");
         } else {
-            $keys = array_keys($where);
-            $whr = [];
-            foreach ($keys as $key) {
-                if ($where[$key] != "null") {
-                    array_push($whr, " {$key} = '" . htmlentities($where[$key], ENT_QUOTES) . "' ");
-                } else {
-                    array_push($whr, " {$key} = null ");
-                }
-            }
-            $whr = implode(" AND ", $whr);
-            return $whr;
+          array_push($whr, " {$key} = null ");
         }
+      }
+      $whr = implode(' AND ', $whr);
+      return $whr;
+    }
+  }
 
+  private function run($sql)
+  {
+    /** DELETE AND UPDATE */
+    if ($this->conn->query($sql) === true) {
+      return ($this->conn->affected_rows);
+    } else {
+      return ('Error record: ' . $this->conn->error . " SQL : {$sql} ");
+    }
+  }
+
+  private function ins($sql)
+  {
+    /** INSERT */
+    if ($this->conn->query($sql) === true) {
+      return ($this->conn->insert_id);
+    } else {
+      return ('Error record: ' . $this->conn->error . " SQL : {$sql} ");
+    }
+  }
+
+  /**
+   * Retrieve SQL Query
+   *
+   * @param string $sql
+   * @return array
+   */
+  private function ret($sql)
+  {
+    $result = $this->conn->query($sql);
+
+    if ($result->num_rows > 0) {
+      // output data of each row
+      $data = [];
+      while ($row = $result->fetch_assoc()) {
+        array_push($data, $row);
+      }
+      return $data;
+    } else {
+      return (0);
+    }
+  }
+
+  /**
+   * Select Query. Return 2 Dimensional Arrray
+   * $rows[0]['columname]'
+   *
+   * @param string $column
+   * @param string $table
+   * @param string $where
+   * @return array rows
+   */
+  public function _select($column, $table, $where = NULL)
+  {
+    if ($where == NULL) {
+      $where = 'OPTIONAL [STRING OR ARRAY]';
     }
 
-    private function run($sql)
-    {
-        /**
-         * DELETE AND UPDATE
-         */
+    $column = htmlentities($column, ENT_QUOTES);
+    $table = htmlentities($table, ENT_QUOTES);
 
-        if ($this->conn->query($sql) === true) {
-            return ($this->conn->affected_rows);
-        } else {
-            return ("Error record: " . $this->conn->error . " SQL : {$sql} ");
-        }
+    $whr = $this->parsewhere($where);
 
+    return ($this->ret("SELECT {$column} FROM {$table} WHERE {$whr};"));
+  }
+
+  /**
+   * Delete Query
+   *
+   * @param string $table
+   * @param string $where
+   * @return int affected rows
+   */
+  public function _delete($table, $where = NULL)
+  {
+    if ($where == NULL) {
+      $where = 'OPTIONAL [STRING OR ARRAY]';
+    }
+    $whr = $this->parsewhere($where);
+
+    return ($this->run("DELETE FROM {$table} WHERE {$whr};"));
+  }
+
+  /**
+   * Update Query
+   *
+   * @param string $table
+   * @param array $update
+   * @param string $where
+   * @return int Affected Rows
+   */
+  public function _update($table, $update, $where = NULL)
+  {
+    if ($where == NULL) {
+      $where = 'OPTIONAL [OR ARRAY]';
+    }
+    $table = htmlentities($table, ENT_QUOTES);
+    $whr = $this->parsewhere($where);
+    $update = $this->parsewhere($update);
+    $update = str_ireplace('AND', ',', $update);
+
+    $sql = "UPDATE {$table} SET {$update} WHERE {$whr};";
+    return ($this->run($sql));
+  }
+
+  /**
+   * Insert Query
+   *
+   * @param string $table
+   * @param array $data
+   * @return int insert_id
+   */
+  public function _insert($table, $data)
+  {
+    $keys = array_keys($data);
+
+    $values = [];
+
+    foreach ($keys as $key) {
+      array_push($values, "'" . htmlentities($data[$key], ENT_QUOTES) . "'");
     }
 
-    private function ins($sql)
-    {
-        /**
-         * INSERT
-         */
+    $keys = implode(',', $keys);
+    $values = implode(',', $values);
 
-        if ($this->conn->query($sql) === true) {
-            return ($this->conn->insert_id);
-        } else {
-            return ("Error record: " . $this->conn->error . " SQL : {$sql} ");
-        }
+    return ($this->ins("INSERT INTO {$table} ({$keys}) VALUES ({$values});"));
+  }
 
+  public function _insertUpdate($table, $data, $where)
+  {
+    $res = $this->_select('1', $table, $where);
+    if ($res) {
+      $this->_update($table, $data, $where);
+    } else {
+      $this->_insert($table, $data);
+    }
+  }
+
+  /**
+   * Render data tables based on query
+   *
+   * @param string $query [Full Complete Sanitized Query]
+   * @return void
+   */
+  public function render($query, $table = NULL)
+  {
+    if ($table == NULL) {
+      $table = '';
+    }
+    if (isset($_POST['rowdelete'])) {
+      $this->_delete($table, [
+        $_POST['colid'] => $_POST['rowdelete']
+      ]);
     }
 
-    /**
-     * Retrieve SQL Query
-     *
-     * @param string $sql
-     * @return array
-     */
-    private function ret($sql)
-    {
-        $result = $this->conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            // output data of each row
-            $data = [];
-            while ($row = $result->fetch_assoc()) {
-                array_push($data, $row);
-            }
-            return $data;
-        } else {
-            return (0);
-        }
+    if (isset($_POST['rowsave'])) {
+      $data = (array) json_decode(str_ireplace('\\', '', $_POST['data']));
+      $this->_update($table, $data, [
+        $_POST['colid'] => $_POST['rowsave']
+      ]);
     }
 
-    /**
-     * Select Query. Return 2 Dimensional Arrray
-     * $rows[0]['columname]'
-     *
-     * @param string $column
-     * @param string $table
-     * @param string $where
-     * @return array rows
-     */
-    public function _select($column, $table, $where = NULL)
-    {
-
-        if ($where == NULL) {$where="OPTIONAL [STRING OR ARRAY]";}
-
-        $column = htmlentities($column, ENT_QUOTES);
-        $table = htmlentities($table, ENT_QUOTES);
-
-        $whr = $this->parsewhere($where);
-
-        return ($this->ret("SELECT {$column} FROM {$table} WHERE {$whr};"));
+    $res = $this->ret($query);
+    if ($res == 0) {
+      return 'Tidak ada Data saat ini';
     }
-
-    /**
-     * Delete Query
-     *
-     * @param string $table
-     * @param string $where
-     * @return int affected rows
-     */
-    public function _delete($table, $where = NULL)
-    {
-        if ($where == NULL) {
-            $where = "OPTIONAL [STRING OR ARRAY]";
-        }
-        $whr = $this->parsewhere($where);
-
-        return ($this->run("DELETE FROM {$table} WHERE {$whr};"));
-
-    }
-
-    /**
-     * Update Query
-     *
-     * @param string $table
-     * @param array $update
-     * @param string $where
-     * @return int Affected Rows
-     */
-    public function _update($table, $update, $where = NULL)
-    {
-        if ($where == NULL) {$where="OPTIONAL [OR ARRAY]";}
-        $table = htmlentities($table, ENT_QUOTES);
-        $whr = $this->parsewhere($where);
-        $update = $this->parsewhere($update);
-        $update = str_ireplace("AND", ",", $update);
-
-        $sql = "UPDATE {$table} SET {$update} WHERE {$whr};";
-        return ($this->run($sql));
-
-    }
-
-    /**
-     * Insert Query
-     *
-     * @param string $table
-     * @param array $data
-     * @return int insert_id
-     */
-    public function _insert($table, $data)
-    {
-
-        $keys = array_keys($data);
-
-        $values = [];
-
-        foreach ($keys as $key) {
-            array_push($values, "'" . htmlentities($data[$key], ENT_QUOTES) . "'");
-        }
-
-        $keys = implode(",", $keys);
-        $values = implode(",", $values);
-
-        return ($this->ins("INSERT INTO {$table} ({$keys}) VALUES ({$values});"));
-
-    }
-
-    public function _insertUpdate($table, $data, $where) {
-        $res = $this->_select("1",$table,$where);
-        if ($res) {
-            $this->_update($table,$data,$where);
-        } else {
-            $this->_insert($table,$data);
-        }
-    }
-
-
-    /**
-     * Render data tables based on query
-     *
-     * @param string $query [Full Complete Sanitized Query]
-     * @return void
-     */
-    public function render($query, $table=NULL){
-        if ($table == NULL) {$table="";}
-        if (isset($_POST['rowdelete'])) {
-            $this->_delete($table,[
-                $_POST['colid'] => $_POST['rowdelete']
-            ]);
-        }
-
-        if (isset($_POST['rowsave'])) {
-            $data =  (array) json_decode(str_ireplace("\\","",$_POST['data']));
-            $this->_update($table,$data,[
-                $_POST['colid'] => $_POST['rowsave']
-            ]);
-        }
-
-
-        $res = $this->ret($query);
-        if ($res == 0) {
-            return "Tidak ada Data saat ini";
-        }
-        ob_start();
-        //Do Something
-        ?> 
+    ob_start();
+    // Do Something
+    ?> 
             <table class="dataTables">
                 <thead>
                     <th><input id="checkall" type="checkbox" /></th>
                     <?php $keys = array_keys($res[0]) ?>
-                    <?php foreach ($keys as $key) : ?>
-                    <th><?php echo ucwords(str_ireplace("_"," ",$key)) ?></th>
+                    <?php foreach ($keys as $key): ?>
+                    <th><?php echo ucwords(str_ireplace('_', ' ', $key)) ?></th>
                     <?php endforeach ?>
                     <th>Action</th>
                 </thead>
                 <tbody>
-                    <?php foreach ($res as $row) : ?>
+                    <?php foreach ($res as $row): ?>
                     <tr>
                         <td style="text-align:center"><input class="rowcheck" type="checkbox" /></td>
-                        <?php foreach ($keys as $key) : ?>
+                        <?php foreach ($keys as $key): ?>
                         <td><?php echo $row[$key] ?></td>
                         <?php endforeach ?>
                         <td style='text-align:center'>
                             <a style='color:red;font-weight:bold' href='#delete' class='rowdelete'>Del</a> | 
+                            <a href='#edit' class='rowceksoal'>Cek Soal</a> |
                             <a href='#edit' class='rowedit'>Edit</a> |
                             <a href='#save' class='rowsave'>Save</a> |
                             <a href='#cancel' class='rowcancel'>Cancel</a> 
@@ -267,6 +256,25 @@ class SQL
                     $('.dataTables').dataTable({
                         "stripeClasses" : ['odd', 'even'],
                     });
+
+                    $('body').on('click','.rowceksoal',function(){
+                        var thisrow = $(this).closest('tr');
+                        var colid = $(this).closest('table').find('th').eq(1).text().toLowerCase();
+                        var rowid = thisrow.find('td').eq(1).text();
+
+                        const url = window.location.href;
+
+                        // Use the built-in URL class
+                        const parsed = new URL(url);
+
+                        // Get everything up to the fixed path
+                        const fixedPath = "/wp-admin";
+                        const baseUrl = url.split(fixedPath)[0];
+
+
+                        window.open(baseUrl + "/archives/soalujian---" + rowid, '_blank');
+                    })
+
 
                     $('body').on('click','.rowcancel',function(){
                         var i = 0;
@@ -378,6 +386,6 @@ class SQL
                 tr.even td { background : #f3f3f3;}
             </style>
         <?php
-        return ob_get_clean();
-    }
+    return ob_get_clean();
+  }
 }
