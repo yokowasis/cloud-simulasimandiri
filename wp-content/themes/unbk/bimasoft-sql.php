@@ -270,7 +270,38 @@ class SQL
                         // Get everything up to the fixed path
                         const fixedPath = "/wp-admin";
                         const baseUrl = url.split(fixedPath)[0];
+                        const fullUrl = baseUrl + "/archives/soalujian---" + rowid;
 
+                        // 1. Create a hidden form element
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = fullUrl; 
+                        form.target = '_blank';    
+                        form.style.display = 'none'; 
+
+                        // Data you want to send
+                        const data = {
+                            ADMINDEBUG: 'Bimasoft',
+                            mapel: rowid,
+                        };
+
+                        // 2. Loop through data and append standard hidden inputs
+                        Object.entries(data).forEach(([key, value]) => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = key;
+                            input.value = value;
+                            form.appendChild(input);
+                        });
+
+                        // 3. Document body must contain the form to submit it in some browsers
+                        document.body.appendChild(form);
+                        form.submit();
+
+                        // 4. Clean up and remove the form from the DOM
+                        document.body.removeChild(form);
+
+                        localStorage.setItem("siswa.mapel", rowid)
 
                         window.open(baseUrl + "/archives/soalujian---" + rowid, '_blank');
                     })

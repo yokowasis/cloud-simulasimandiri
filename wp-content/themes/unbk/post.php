@@ -4,22 +4,12 @@
 if (isset($_POST['ADMINDEBUG'])) {
   ?>
   <script>
-    localStorage.clear();
     var mapel = "<?php echo $_POST['mapel'] ?>";
     localStorage.setItem('siswa.namasiswa', '__ADMINTESTSOAL__');
     localStorage.setItem('ADMINDEBUG', 1);
     localStorage.setItem('siswa.mapel', mapel);
     localStorage.setItem('mapel.kode', mapel);
-    var url = `<?php echo $_POST['backend'] ?>wp-json/bimasoft-unbk/v1/uploadsoal/` + mapel;
-    $.ajax({
-      url: url,
-      type: 'GET',
-    }).done(function(e) {
-      window.location.href = './archives/soalujian---' + mapel;
-    }).fail(function(e) {
-      console.log(e);
-      alert(e);
-    });
+    window.location.href = './soalujian---' + mapel;
   </script>
 <?php
   exit;
