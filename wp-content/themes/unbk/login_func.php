@@ -3,7 +3,17 @@
 include 'indb.php';
 
 function loginSiswa() {
-	global $opt_autologin;
+	global $opt_autologin, $opt_useragent;
+	if (empty($opt_useragent) && function_exists('get_option')) {
+		$opt_useragent = get_option('useragent');
+	}
+	if (!empty($opt_useragent)) {
+		$ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+		if (stripos($ua, trim($opt_useragent)) === false) {
+			echo 'Access Denied';
+			exit;
+		}
+	}
 	$autologin = $opt_autologin;
 	$keterangan = "";
 

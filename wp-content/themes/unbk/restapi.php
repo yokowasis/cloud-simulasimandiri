@@ -1342,6 +1342,18 @@ add_action('rest_api_init', function () {
     'methods'  => 'GET',
     'callback' => function ($request) {
       include('./indb.php');
+      global $opt_useragent;
+      if (empty($opt_useragent) && function_exists('get_option')) {
+        $opt_useragent = get_option('useragent');
+      }
+      if (!empty($opt_useragent)) {
+        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        if (stripos($ua, trim($opt_useragent)) === false) {
+          $res = array();
+          $res['status'] = "Access Denied";
+          return $res;
+        }
+      }
       $mapel = urldecode($request['mapel']);
       $username = urldecode($request['username']);
       $password = urldecode($request['password']);
