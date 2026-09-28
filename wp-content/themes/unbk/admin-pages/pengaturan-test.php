@@ -110,6 +110,7 @@ function savefiledb()
     'wajibreset' => ($_POST['wajib-reset-ketika-keluar-dari-ujian'] === 'Ya' ? 1 : 0),
     'welcome' => $_POST['pesan-homepage'],
     'examkey' => $_POST['examkey'],
+    'useragent' => (isset($_POST['useragent']) ? trim($_POST['useragent']) : (isset($_POST['user-agent']) ? trim($_POST['user-agent']) : '')),
     'pesanbanned' => $_POST['pesan-error-siswa-diblokir'],
     'pesangagallogin' => $_POST['pesan-error-siswa-gagal-login'],
     'minimalsisawaktu' => $_POST['minimal-sisa-waktu-sebelum-boleh-mengumpulkan'],
@@ -225,6 +226,7 @@ function savefiledb()
     \t\t\$opt_pesanbanned \t\t= \"" . (isset($txt_json['pesanbanned']) ? $txt_json['pesanbanned'] : '') . "\";
     \t\t\$opt_minimalsisawaktu \t\t= \"" . (isset($txt_json['minimalsisawaktu']) ? $txt_json['minimalsisawaktu'] : '') . "\";
     \t\t\$opt_examkey \t\t    = \"" . (isset($txt_json['examkey']) ? $txt_json['examkey'] : '') . "\";
+    \t\t\$opt_useragent \t\t    = \"" . (isset($txt_json['useragent']) ? $txt_json['useragent'] : '') . "\";
 \t\t\t\$opt_timezone \t\t    = \"" . (isset($txt_json['timezone']) ? $txt_json['timezone'] : '') . "\";
 
     \t\tdate_default_timezone_set(\"" . (isset($txt_json['timezone']) ? $txt_json['timezone'] : '') . "\");
@@ -261,6 +263,7 @@ function savePengaturanTest()
   $menu_pengaturan_test->add_option('Pengaturan Key', '', 'title');
   $menu_pengaturan_test->add_option('Excel Key', 'Samakan dengan yg ada di Template Excel (Excel Key)', 'text');
   $menu_pengaturan_test->add_option('Examkey', "Keterangan Examkey : <a href='https://wiki.bimasoft.web.id/index.php/2018/11/17/exam-key/'>Wiki Bimasoft</a>", 'text');
+  $menu_pengaturan_test->add_option('Useragent', 'Hanya siswa dengan browser yang memiliki User-Agent ini yang diperbolehkan login. Kosongkan jika tidak dibatasi.', 'text');
   $menu_pengaturan_test->add_option('Timezone', '', 'select', ['Asia/Jakarta', 'Asia/Makassar', 'Asia/Jayapura']);
   $menu_pengaturan_test->add_option('Minimal Sisa Waktu Sebelum Boleh Mengumpulkan', 'Dalam Menit. Contoh : isi 10, jika ingin siswa hanya boleh mengumpulkan ketika sisa waktunya 10 menit.', 'text');
   $menu_pengaturan_test->add_option('', '', 'hr');
