@@ -40,7 +40,7 @@ remove_action('template_redirect', 'rest_output_link_header', 11);
 function cekversi()
 {
   // read file and assign it to variable
-  return (file_get_contents(__DIR__ . '/versi.txt'));
+  return trim(file_get_contents(__DIR__ . '/versi.txt'));
   // return 'Bimasoft 13.11.0';
 }
 

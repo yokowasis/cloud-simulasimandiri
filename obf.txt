@@ -988,3 +988,4 @@ register_rest_route
 file_exists
 checkkey
 embed
+cekversi
