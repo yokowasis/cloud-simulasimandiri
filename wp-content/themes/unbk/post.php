@@ -1,8 +1,8 @@
-<?php include ('indb.php'); ?>
-<?php include ('bimadb.php'); ?>
+<?php include('indb.php'); ?>
+<?php include('bimadb.php'); ?>
 <?php
 if (isset($_POST['ADMINDEBUG'])) {
-  ?>
+?>
   <script>
     var mapel = "<?php echo $_POST['mapel'] ?>";
     localStorage.setItem('siswa.namasiswa', '__ADMINTESTSOAL__');
@@ -27,8 +27,8 @@ if (isset($_POST['ADMINDEBUG'])) {
       }, examTimer * 1000);
       toast(
         "Anda teredeteksi keluar dari aplikasi, anda akan logout dalam " +
-          examTimer +
-          " detik. Silakan menjawab soal untuk membatalkan logout",
+        examTimer +
+        " detik. Silakan menjawab soal untuk membatalkan logout",
       );
     }
   }
@@ -40,7 +40,7 @@ if (isset($_POST['ADMINDEBUG'])) {
 
   jQuery(document).ready(function($) {
     // cancel logoutTimer when document is clicked
-    $(document).click(function () {
+    $(document).click(function() {
       if (logoutTimer) {
         clearTimeout(logoutTimer);
         logoutTimer = null;
@@ -48,7 +48,7 @@ if (isset($_POST['ADMINDEBUG'])) {
       }
     });
 
-    document.addEventListener("visibilitychange", function () {
+    document.addEventListener("visibilitychange", function() {
       selesaiTest();
     });
 
@@ -59,7 +59,9 @@ if (isset($_POST['ADMINDEBUG'])) {
       return;
     }
 
-    $.post(themedir2 + '/api-18575621/cektoken.php', { token_check: token }, function(response) {
+    $.post(themedir2 + '/api-18575621/cektoken.php', {
+      token_check: token
+    }, function(response) {
       response = response.trim();
       if (response !== 'valid') {
         alert('Token Salah, Silakan Hubungi Proktor untuk mendapatkan Token');
@@ -109,10 +111,10 @@ if (isset($_POST['ADMINDEBUG'])) {
       var mapel = localStorage.getItem("siswa.mapel");
       mapel = mapel.replaceAll(' ', '%20');
 
-      var soaljsphp = "<?php echo get_stylesheet_directory_uri() ?>/js/soal.js.php?bv=13.11.0&shuffle=" + localStorage.getItem("mapel.shuffle") + "&mapel_dikerjakan=" + localStorage.getItem("mapel.dikerjakan") + "&alokasi=" + localStorage.getItem("mapel.alokasi") + "&waktu=" + localStorage.getItem("mapel.waktu") + "&namasiswa=" + localStorage.getItem("siswa.namasiswa").replaceAll(" ", "%20") + "&siswa=" + localStorage.getItem("siswa.username") + "&mapel=" + mapel + "&kodetest=" + localStorage.getItem("siswa.mapel").replaceAll(" ", "%20") + "&_=" + Date.now();
+      var soaljsphp = "<?php echo get_stylesheet_directory_uri() ?>/js/soal.js.php?bv=13.11.1&shuffle=" + localStorage.getItem("mapel.shuffle") + "&mapel_dikerjakan=" + localStorage.getItem("mapel.dikerjakan") + "&alokasi=" + localStorage.getItem("mapel.alokasi") + "&waktu=" + localStorage.getItem("mapel.waktu") + "&namasiswa=" + localStorage.getItem("siswa.namasiswa").replaceAll(" ", "%20") + "&siswa=" + localStorage.getItem("siswa.username") + "&mapel=" + mapel + "&kodetest=" + localStorage.getItem("siswa.mapel").replaceAll(" ", "%20") + "&_=" + Date.now();
 
-      var soaljsphp2 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/script.js?bv=13.11.0";
-      var soaljsphp0 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/soal.js?bv=13.11.0";
+      var soaljsphp2 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/script.js?bv=13.11.1";
+      var soaljsphp0 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/soal.js?bv=13.11.1";
 
       $.ajaxSetup({
         cache: true

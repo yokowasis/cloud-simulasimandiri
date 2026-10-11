@@ -1,8 +1,8 @@
 <?php
 
-require_once ('functions.php');
+require_once('functions.php');
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.11.0'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.11.1'
 function resetdatabase()
 {
   global $wpdb;
@@ -18,10 +18,10 @@ function resetdatabase()
   if ($conn->connect_error) {
     die('Connection failed: ' . $conn->connect_error);
   }
-  include (get_stylesheet_directory() . '/api-18575621/trun.php');
+  include(get_stylesheet_directory() . '/api-18575621/trun.php');
   $conn->multi_query($v11sql);
 
-  include (get_stylesheet_directory() . '/indb.php');
+  include(get_stylesheet_directory() . '/indb.php');
   if (isset($opt_backend) && $opt_backend) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $opt_backend . 'wp-content/themes/unbk/api-18575621/remresetdatabase.php');
@@ -155,7 +155,7 @@ function savefiledb()
 \tAuthor: Bimasoft 
 \tAuthor URI: https://bimasoft.web.id;
     Description: Aplikasi Bimasoft Simulasi Mandiri UNBK 2020. Jika Anda Mendapatkan Aplikasi ini Dari Pihak Lain Selain Bimasoft / Atau Reseller / Help Desk yg tertera di Website Bimasoft. Itu Artinya Anda Telah Ditipu, Dan Mengeluarkan Uang Untuk Membeli Barang Curian. Hati - Hati Terhadap Aplikasi Bajakan. Karena Anda Tidak Akan Mendapatkan Update dan Support Jika Terjadi Masalah. Pastikan hanya membeli aplikasi lewat Jalur Resmi di No. HP / WA. 08234-003-9781 atau Authorized Reseller : Seperti https://test.co.id/
-\tVersion: 13.11.0
+\tVersion: 13.11.1
 \tText Domain: unbk
 \t*/";
 
@@ -241,7 +241,7 @@ function savefiledb()
 
 function savePengaturanTest()
 {
-  include (get_stylesheet_directory() . '/indb.php');
+  include(get_stylesheet_directory() . '/indb.php');
 
   $menu_pengaturan_test = new Bimasoft_Page(
     'Pengaturan Test',

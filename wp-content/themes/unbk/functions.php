@@ -4,32 +4,32 @@ $currentPage = $_SERVER['SCRIPT_NAME'];
 
 // Disable default WordPress REST API, but allow custom theme routes in restapi.php
 add_filter('rest_authentication_errors', function ($result) {
-    // If another authentication handler already produced an error, return it
-    if (!empty($result)) {
-        return $result;
-    }
+  // If another authentication handler already produced an error, return it
+  if (!empty($result)) {
+    return $result;
+  }
 
-    // Get current REST route
-    $rest_route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
-    if (empty($rest_route) && isset($_SERVER['REQUEST_URI'])) {
-        $rest_prefix = rest_get_url_prefix();
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $pos = strpos($path, '/' . $rest_prefix);
-        if ($pos !== false) {
-            $rest_route = substr($path, $pos + strlen('/' . $rest_prefix));
-        }
+  // Get current REST route
+  $rest_route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
+  if (empty($rest_route) && isset($_SERVER['REQUEST_URI'])) {
+    $rest_prefix = rest_get_url_prefix();
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $pos = strpos($path, '/' . $rest_prefix);
+    if ($pos !== false) {
+      $rest_route = substr($path, $pos + strlen('/' . $rest_prefix));
     }
+  }
 
-    // Allow custom endpoints from restapi.php (e.g., bimasoft-unbk)
-    if (strpos(ltrim($rest_route, '/'), 'bimasoft-unbk') === 0) {
-        return $result;
-    }
+  // Allow custom endpoints from restapi.php (e.g., bimasoft-unbk)
+  if (strpos(ltrim($rest_route, '/'), 'bimasoft-unbk') === 0) {
+    return $result;
+  }
 
-    return new WP_Error(
-        'rest_disabled',
-        __('The REST API is disabled on this site.', 'unbk'),
-        array('status' => 403)
-    );
+  return new WP_Error(
+    'rest_disabled',
+    __('The REST API is disabled on this site.', 'unbk'),
+    array('status' => 403)
+  );
 });
 
 // Remove REST API links from HTML <head> and HTTP headers
@@ -41,14 +41,14 @@ function cekversi()
 {
   // read file and assign it to variable
   return trim(file_get_contents(__DIR__ . '/versi.txt'));
-  // return 'Bimasoft 13.11.0';
+  // return 'Bimasoft 13.11.1';
 }
 
 $cekversi = cekversi();
 
 if (strpos($currentPage, 'rpc.php') !== false) {
 } else {
-  @include (get_stylesheet_directory() . '/lisensi.php');
+  @include(get_stylesheet_directory() . '/lisensi.php');
 }
 
 /*
@@ -65,7 +65,7 @@ if (strpos($currentPage, 'rpc.php') !== false) {
  */
 
 show_admin_bar(false);
-require_once ('cacheoptimized.php');
+require_once('cacheoptimized.php');
 
 function reset_role_akrr($role)
 {
@@ -271,7 +271,7 @@ function ambiltoken()
 
 function display_hapusdatabase()
 {
-  ?>
+?>
   <button style="background: #d9534f; color : #fff;" id="deldb" type="button" class="button">Reset Database</button>
   <!-- <button style="background: #009688; color : #fff;" id="upgradedb" type="button" class="button">Upgrade Database</button> -->
 
@@ -482,7 +482,7 @@ function themename_customize_register($wp_customize)
 
 function bimasoft_css_customizer()
 {
-  ?>
+?>
   <style type="text/css">
     #header {
       background-color: <?php echo get_theme_mod('background_color_header') ?>;
@@ -521,7 +521,7 @@ add_action('wp_head', 'bimasoft_css_customizer');
 add_action('customize_register', 'themename_customize_register');
 
 if (isset($_GET['cetak'])) {
-  include ('cetak.php');
+  include('cetak.php');
   exit;
 }
 
@@ -577,16 +577,16 @@ if (isset($_POST['deldb'])) {
 }
 
 if (isset($_POST['username_login'])) {
-  require_once ('login_func.php');
+  require_once('login_func.php');
 }
 
-include ('options-db.php');
+include('options-db.php');
 
-include ('shortcode.php');
+include('shortcode.php');
 
-include ('orangtua.php');
+include('orangtua.php');
 
-include ('restapi.php');
+include('restapi.php');
 
 // DISABLE EMOJI ---
 /** Disable the emoji's */
@@ -698,7 +698,7 @@ function bimasoft_reset_cache()
 
 // VERSI 13 ----------------------
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.11.0'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.11.1'
 function getLisensi($variable)
 {
   if ($variable == 'Tq8p9rMiQ8hpgNxd7EYOABGGUKCrJozAVIZNpUdArLCbsuvrwZ7xOTCW1aNh') {
@@ -721,7 +721,7 @@ function saveFile($filename, $content)
   }
 }
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.11.0'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.11.1'
 function safeEncrypt(string $message, string $key): string
 {
   $simple_string = $message;
@@ -750,7 +750,7 @@ function safeEncrypt(string $message, string $key): string
  * @return string
  * @throws Exception
  */
-// @ioncube.dk cekversi() -> 'Bimasoft 13.11.0'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.11.1'
 function safeDecrypt(string $encrypted, string $key = NULL): string
 {
   $decryption_iv = '1234567891011121';
@@ -769,10 +769,10 @@ function safeDecrypt(string $encrypted, string $key = NULL): string
   return ($decryption);
 }
 
-require_once ('admin-pages/pengaturan-test.php');
+require_once('admin-pages/pengaturan-test.php');
 $user = wp_get_current_user();
-require_once ('admin-pages/bimasoft-online-cdn.php');
-require_once ('admin-pages/pengaturan-judul.php');
+require_once('admin-pages/bimasoft-online-cdn.php');
+require_once('admin-pages/pengaturan-judul.php');
 
 // global $wp_scripts, $wp_styles;
 
