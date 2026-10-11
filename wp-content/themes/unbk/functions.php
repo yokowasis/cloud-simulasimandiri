@@ -41,7 +41,7 @@ function cekversi()
 {
   // read file and assign it to variable
   return trim(file_get_contents(__DIR__ . '/versi.txt'));
-  // return 'Bimasoft 13.11.1';
+  // return 'Bimasoft 13.11.2';
 }
 
 $cekversi = cekversi();
@@ -698,7 +698,7 @@ function bimasoft_reset_cache()
 
 // VERSI 13 ----------------------
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.11.1'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.11.2'
 function getLisensi($variable)
 {
   if ($variable == 'Tq8p9rMiQ8hpgNxd7EYOABGGUKCrJozAVIZNpUdArLCbsuvrwZ7xOTCW1aNh') {
@@ -721,7 +721,7 @@ function saveFile($filename, $content)
   }
 }
 
-// @ioncube.dk cekversi() -> 'Bimasoft 13.11.1'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.11.2'
 function safeEncrypt(string $message, string $key): string
 {
   $simple_string = $message;
@@ -750,7 +750,7 @@ function safeEncrypt(string $message, string $key): string
  * @return string
  * @throws Exception
  */
-// @ioncube.dk cekversi() -> 'Bimasoft 13.11.1'
+// @ioncube.dk cekversi() -> 'Bimasoft 13.11.2'
 function safeDecrypt(string $encrypted, string $key = NULL): string
 {
   $decryption_iv = '1234567891011121';

@@ -111,10 +111,10 @@ if (isset($_POST['ADMINDEBUG'])) {
       var mapel = localStorage.getItem("siswa.mapel");
       mapel = mapel.replaceAll(' ', '%20');
 
-      var soaljsphp = "<?php echo get_stylesheet_directory_uri() ?>/js/soal.js.php?bv=13.11.1&shuffle=" + localStorage.getItem("mapel.shuffle") + "&mapel_dikerjakan=" + localStorage.getItem("mapel.dikerjakan") + "&alokasi=" + localStorage.getItem("mapel.alokasi") + "&waktu=" + localStorage.getItem("mapel.waktu") + "&namasiswa=" + localStorage.getItem("siswa.namasiswa").replaceAll(" ", "%20") + "&siswa=" + localStorage.getItem("siswa.username") + "&mapel=" + mapel + "&kodetest=" + localStorage.getItem("siswa.mapel").replaceAll(" ", "%20") + "&_=" + Date.now();
+      var soaljsphp = "<?php echo get_stylesheet_directory_uri() ?>/js/soal.js.php?bv=13.11.2&shuffle=" + localStorage.getItem("mapel.shuffle") + "&mapel_dikerjakan=" + localStorage.getItem("mapel.dikerjakan") + "&alokasi=" + localStorage.getItem("mapel.alokasi") + "&waktu=" + localStorage.getItem("mapel.waktu") + "&namasiswa=" + localStorage.getItem("siswa.namasiswa").replaceAll(" ", "%20") + "&siswa=" + localStorage.getItem("siswa.username") + "&mapel=" + mapel + "&kodetest=" + localStorage.getItem("siswa.mapel").replaceAll(" ", "%20") + "&_=" + Date.now();
 
-      var soaljsphp2 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/script.js?bv=13.11.1";
-      var soaljsphp0 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/soal.js?bv=13.11.1";
+      var soaljsphp2 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/script.js?bv=13.11.2";
+      var soaljsphp0 = "<?php echo get_stylesheet_directory_uri() ?>/archives/js/soal.js?bv=13.11.2";
 
       $.ajaxSetup({
         cache: true
