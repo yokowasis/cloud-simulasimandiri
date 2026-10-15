@@ -1,6 +1,17 @@
 <?php
 
 class Bimasoft_Page {
+    public $page_title;
+    public $menu_title;
+    public $menu_slug;
+    public $icon;
+    public $position;
+    public $childs;
+    public $options;
+    public $jsonSaveLocation;
+    public $saveCallback;
+    public $callback;
+
     function __construct($page_title,$icon,$position,$childs = [],$jsonSaveLocation=NULL,$saveCallback=NULL)
     {
         $slug = strtolower(str_ireplace(" ","-",$page_title));
