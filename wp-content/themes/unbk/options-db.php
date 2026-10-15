@@ -209,12 +209,11 @@ function bimasoft_database_add_admin_page()
   // Top-Level Menu: Database Test
   add_menu_page($page_title, $menu_title, 'manage_options', $menu_slug, $callback, $icon, $position);
 
-  // Generate Admin Sub-Page for Database Test
-  $page_title = 'Data Test Siswa';
-  $menu_title = 'Data Test Siswa';
-  $menu_slug = 'bimasoft_database_hasil_slug';
-  $callback = 'bimasoft_database_hasil_slug_content';
-  add_submenu_page('bimasoft_database_slug', $page_title, $menu_title, 'manage_options', $menu_slug, $callback);
+  // Sub-Pages for Database Test
+  add_submenu_page('bimasoft_database_slug', 'Database Test', 'Database Test', 'manage_options', 'bimasoft_database_slug', 'bimasoft_database_slug_content');
+  add_submenu_page('bimasoft_database_slug', 'Tambah Test', 'Tambah Test', 'manage_options', 'bimasoft_database_tambah_test_slug', 'bimasoft_database_tambah_test_slug_content');
+  add_submenu_page('bimasoft_database_slug', 'Tambah Kunci', 'Tambah Kunci', 'manage_options', 'bimasoft_database_tambah_kunci_slug', 'bimasoft_database_tambah_kunci_slug_content');
+  add_submenu_page('bimasoft_database_slug', 'Data Test Siswa', 'Data Test Siswa', 'manage_options', 'bimasoft_database_hasil_slug', 'bimasoft_database_hasil_slug_content');
 }
 
 function bimasoft_database_tambah_siswa_slug_content()
@@ -363,6 +362,318 @@ function bimasoft_database_tambah_siswa_slug_content()
     });
     </script>
     ";
+}
+
+function bimasoft_ajax_save_test()
+{
+  require_once (__DIR__ . '/bimasoft-sql.php');
+  include (__DIR__ . '/indb.php');
+  global $wpdb;
+  $tableoptions = $wpdb->prefix . 'bsfsm_options';
+
+  $kode = strtoupper(trim($_POST['kode'] ?? ''));
+  $nama = trim($_POST['nama'] ?? '');
+  $status = trim($_POST['status'] ?? '');
+  $subtest = trim($_POST['subtest'] ?? '');
+  $tanggal = trim($_POST['tanggal'] ?? date('Y-m-d'));
+  $waktu = trim($_POST['waktu'] ?? '08:00');
+  $alokasi = trim($_POST['alokasi'] ?? '90');
+  $shuffle = intval($_POST['shuffle'] ?? 0);
+  $shuffle2 = intval($_POST['shuffle2'] ?? 0);
+  $jumlahsoal = intval($_POST['jumlahsoal'] ?? 40);
+  $dikerjakan = intval($_POST['dikerjakan'] ?? 40);
+
+  if (empty($kode)) {
+    echo "Kode Test tidak boleh kosong";
+    wp_die();
+  }
+
+  $stmt = $conn->prepare("INSERT INTO `{$tableoptions}` 
+    (`kode`, `nama`, `status`, `subtest`, `tanggal`, `waktu`, `alokasi`, `shuffle`, `shuffle2`, `jumlahsoal`, `dikerjakan`)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE
+    `nama` = VALUES(`nama`),
+    `status` = VALUES(`status`),
+    `subtest` = VALUES(`subtest`),
+    `tanggal` = VALUES(`tanggal`),
+    `waktu` = VALUES(`waktu`),
+    `alokasi` = VALUES(`alokasi`),
+    `shuffle` = VALUES(`shuffle`),
+    `shuffle2` = VALUES(`shuffle2`),
+    `jumlahsoal` = VALUES(`jumlahsoal`),
+    `dikerjakan` = VALUES(`dikerjakan`)");
+
+  $stmt->bind_param("sssssssiiii", $kode, $nama, $status, $subtest, $tanggal, $waktu, $alokasi, $shuffle, $shuffle2, $jumlahsoal, $dikerjakan);
+  if ($stmt->execute()) {
+    $stmt->close();
+    echo "OK";
+  } else {
+    echo "Gagal menyimpan test: " . $stmt->error;
+    $stmt->close();
+  }
+  wp_die();
+}
+add_action('wp_ajax_bimasoft_save_test', 'bimasoft_ajax_save_test');
+
+function bimasoft_ajax_save_kunci()
+{
+  require_once (__DIR__ . '/bimasoft-sql.php');
+  include (__DIR__ . '/indb.php');
+  global $wpdb;
+  $tablekuncipg = $wpdb->prefix . 'bsfsm_kuncipg';
+  $tablekunciessay = $wpdb->prefix . 'bsfsm_kunciessay';
+  $tablebobot = $wpdb->prefix . 'bsfsm_bobot';
+
+  $kode = strtoupper(trim($_POST['kode'] ?? ''));
+  if (empty($kode)) {
+    echo "Kode Test harus dipilih atau diisi";
+    wp_die();
+  }
+
+  $items = [];
+  $batch = trim($_POST['kunciBatch'] ?? '');
+  if (!empty($batch)) {
+    $lines = explode("\n", $batch);
+    foreach ($lines as $line) {
+      $line = trim($line);
+      if (empty($line)) continue;
+      if (strpos($line, "\t") !== false) {
+        $cols = explode("\t", $line);
+      } else {
+        $cols = preg_split('/\s+/', $line);
+      }
+      if (count($cols) >= 2) {
+        $b = (isset($cols[2]) && is_numeric(trim($cols[2]))) ? floatval(trim($cols[2])) : 1.0;
+        $items[] = [
+          'no' => intval($cols[0]),
+          'kunci' => strtoupper(trim($cols[1])),
+          'bobot' => $b
+        ];
+      }
+    }
+  } else {
+    $no = intval($_POST['no'] ?? 1);
+    $kunci = strtoupper(trim($_POST['kunci'] ?? ''));
+    $b = (isset($_POST['bobot']) && is_numeric(trim($_POST['bobot']))) ? floatval(trim($_POST['bobot'])) : 1.0;
+    if (!empty($kunci)) {
+      $items[] = [
+        'no' => $no,
+        'kunci' => $kunci,
+        'bobot' => $b
+      ];
+    }
+  }
+
+  if (empty($items)) {
+    echo "Mohon masukkan kunci jawaban";
+    wp_die();
+  }
+
+  foreach ($items as $item) {
+    $indexkey = "{$kode}-{$item['no']}";
+    $kunciVal = $item['kunci'];
+    $bobotVal = floatval($item['bobot']);
+
+    if (strlen($kunciVal) > 1) {
+      $stmt = $conn->prepare("INSERT INTO `{$tablekunciessay}` (`indexkey`, `item`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `item` = VALUES(`item`)");
+      $stmt->bind_param("ss", $indexkey, $kunciVal);
+      $stmt->execute();
+      $stmt->close();
+    } else {
+      $stmt = $conn->prepare("INSERT INTO `{$tablekuncipg}` (`indexkey`, `item`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `item` = VALUES(`item`)");
+      $stmt->bind_param("ss", $indexkey, $kunciVal);
+      $stmt->execute();
+      $stmt->close();
+    }
+
+    $stmtB = $conn->prepare("INSERT INTO `{$tablebobot}` (`indexkey`, `item`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `item` = VALUES(`item`)");
+    $stmtB->bind_param("sd", $indexkey, $bobotVal);
+    $stmtB->execute();
+    $stmtB->close();
+  }
+
+  echo "OK";
+  wp_die();
+}
+add_action('wp_ajax_bimasoft_save_kunci', 'bimasoft_ajax_save_kunci');
+
+function bimasoft_database_tambah_test_slug_content()
+{
+  echo "<div align='center' style='border: solid 1px #5b9dd9;margin:10px; padding:10px;background:#fff'>";
+  echo '<h2>Tambah Test</h2>';
+
+  echo "<form id='tambahTestForm' method='POST'>";
+  echo "<table style='width:100%;max-width:600px;margin:0 auto'>";
+  echo "<tr><td style='padding:5px;text-align:left'>Kode Test:</td><td style='padding:5px'>";
+  echo "<input type='text' id='testKode' name='kode' required placeholder='Contoh: MATEMATIKA' style='width:100%;padding:5px;text-transform:uppercase'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Nama Test:</td><td style='padding:5px'>";
+  echo "<input type='text' id='testNama' name='nama' required placeholder='Contoh: Matematika' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Status / Keterangan:</td><td style='padding:5px'>";
+  echo "<input type='text' id='testStatus' name='status' placeholder='Contoh: Matematika Kelas 9' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Subtest:</td><td style='padding:5px'>";
+  echo "<input type='text' id='testSubtest' name='subtest' placeholder='Contoh: Matematika Kelas 9' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Tanggal:</td><td style='padding:5px'>";
+  echo "<input type='date' id='testTanggal' name='tanggal' value='" . date('Y-m-d') . "' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Waktu Mulai:</td><td style='padding:5px'>";
+  echo "<input type='text' id='testWaktu' name='waktu' value='08:00' placeholder='08:00' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Alokasi Waktu (Menit):</td><td style='padding:5px'>";
+  echo "<input type='number' id='testAlokasi' name='alokasi' value='90' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Acak Soal:</td><td style='padding:5px'>";
+  echo "<select id='testShuffle' name='shuffle' style='width:100%;padding:5px'><option value='1' selected>Ya</option><option value='0'>Tidak</option></select>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Acak Opsi Jawaban:</td><td style='padding:5px'>";
+  echo "<select id='testShuffle2' name='shuffle2' style='width:100%;padding:5px'><option value='1' selected>Ya</option><option value='0'>Tidak</option></select>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Jumlah Soal:</td><td style='padding:5px'>";
+  echo "<input type='number' id='testJumlahSoal' name='jumlahsoal' value='40' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Jumlah Dikerjakan:</td><td style='padding:5px'>";
+  echo "<input type='number' id='testDikerjakan' name='dikerjakan' value='40' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td colspan='2' style='padding:10px;text-align:center'>";
+  echo "<button type='submit' id='simpanTestBtn' class='button button-primary' style='padding:6px 20px'>Simpan Test</button>";
+  echo "</td></tr>";
+  echo "</table>";
+  echo "</form>";
+
+  echo "<div id='testResult' style='margin-top:20px;padding:10px;display:none'></div>";
+  echo "</div>";
+
+  echo "
+  <script>
+  jQuery('document').ready(function(\$){
+    \$('#tambahTestForm').submit(function(e){
+      e.preventDefault();
+      var btn = \$('#simpanTestBtn');
+      btn.prop('disabled', true).text('Menyimpan...');
+      var endpoint = (typeof ajaxurl !== 'undefined') ? ajaxurl : 'admin-ajax.php';
+      \$.ajax({
+        url: endpoint,
+        type: 'POST',
+        data: \$(this).serialize() + '&action=bimasoft_save_test',
+        success: function(res) {
+          \$('#testResult').show();
+          if (res.trim() === 'OK') {
+            \$('#testResult').html('<div style=\"padding:10px;background:#d4edda;color:#155724;border:1px solid #c3e6cb\">Data Test Berhasil di Simpan</div>');
+            \$('#tambahTestForm')[0].reset();
+          } else {
+            \$('#testResult').html('<div style=\"padding:10px;background:#f8d7da;color:#721c24;border:1px solid #f5c6cb\">' + res + '</div>');
+          }
+          btn.prop('disabled', false).text('Simpan Test');
+        },
+        error: function(err) {
+          \$('#testResult').show().html('<div style=\"padding:10px;background:#f8d7da;color:#721c24;border:1px solid #f5c6cb\">GAGAL TERHUBUNG KE SERVER</div>');
+          btn.prop('disabled', false).text('Simpan Test');
+        }
+      });
+    });
+  });
+  </script>
+  ";
+}
+
+function bimasoft_database_tambah_kunci_slug_content()
+{
+  require_once (__DIR__ . '/bimasoft-sql.php');
+  include (__DIR__ . '/indb.php');
+  global $wpdb;
+  $tableoptions = $wpdb->prefix . 'bsfsm_options';
+
+  $test_result = $conn->query("SELECT kode, nama FROM `{$tableoptions}` ORDER BY kode ASC");
+
+  echo "<div align='center' style='border: solid 1px #5b9dd9;margin:10px; padding:10px;background:#fff'>";
+  echo '<h2>Tambah Kunci</h2>';
+
+  echo "<form id='tambahKunciForm' method='POST'>";
+  echo "<table style='width:100%;max-width:600px;margin:0 auto'>";
+  echo "<tr><td style='padding:5px;text-align:left'>Kode Test / Mapel:</td><td style='padding:5px'>";
+  echo "<select id='kunciKodeSelect' name='kode' style='width:100%;padding:5px'>";
+  echo "<option value=''>-- Pilih Mapel --</option>";
+  if ($test_result) {
+    while ($row = $test_result->fetch_assoc()) {
+      echo "<option value='" . strtoupper($row['kode']) . "'>" . strtoupper($row['kode']) . " - " . htmlspecialchars($row['nama']) . "</option>";
+    }
+  }
+  echo "</select>";
+  echo "</td></tr>";
+
+  echo "<tr><td colspan='2' style='padding:10px 5px 5px;text-align:left'><b>Opsi 1: Tambah / Edit 1 Kunci</b></td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Nomor Soal:</td><td style='padding:5px'>";
+  echo "<input type='number' id='kunciNo' name='no' value='1' min='1' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Kunci Jawaban:</td><td style='padding:5px'>";
+  echo "<input type='text' id='kunciVal' name='kunci' placeholder='Contoh: A (atau teks untuk essay)' style='width:100%;padding:5px;text-transform:uppercase'>";
+  echo "</td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left'>Bobot Nilai:</td><td style='padding:5px'>";
+  echo "<input type='number' id='kunciBobot' name='bobot' value='1' step='any' style='width:100%;padding:5px'>";
+  echo "</td></tr>";
+
+  echo "<tr><td colspan='2' style='padding:10px 5px 5px;text-align:left'><b>Opsi 2: Batch Paste Kunci (Banyak Soal Sekaligus)</b></td></tr>";
+  echo "<tr><td style='padding:5px;text-align:left;vertical-align:top'>Data Kunci:</td><td style='padding:5px'>";
+  echo "<textarea id='kunciBatch' name='kunciBatch' rows='6' style='width:100%;padding:5px' placeholder='Format: NO [tab/spasi] KUNCI [tab/spasi] BOBOT&#10;Contoh:&#10;1&#9;A&#9;1&#10;2&#9;B&#9;1&#10;3&#9;C&#9;1'></textarea>";
+  echo "<small style='color:#666'>Format: Nomor [tab/spasi] Kunci [tab/spasi] Bobot (opsional). Jika diisi, input Opsi 1 diabaikan.</small>";
+  echo "</td></tr>";
+
+  echo "<tr><td colspan='2' style='padding:15px;text-align:center'>";
+  echo "<button type='submit' id='simpanKunciBtn' class='button button-primary' style='padding:6px 20px'>Simpan Kunci</button>";
+  echo "</td></tr>";
+  echo "</table>";
+  echo "</form>";
+
+  echo "<div id='kunciResult' style='margin-top:20px;padding:10px;display:none'></div>";
+  echo "</div>";
+
+  echo "
+  <script>
+  jQuery('document').ready(function(\$){
+    \$('#tambahKunciForm').submit(function(e){
+      e.preventDefault();
+      var kode = \$('#kunciKodeSelect').val();
+      if (!kode) {
+        alert('Mohon pilih Mapel / Test');
+        return;
+      }
+      var singleKunci = \$('#kunciVal').val().trim();
+      var batchKunci = \$('#kunciBatch').val().trim();
+      if (!singleKunci && !batchKunci) {
+        alert('Mohon masukkan kunci jawaban (bisa single atau batch)');
+        return;
+      }
+
+      var btn = \$('#simpanKunciBtn');
+      btn.prop('disabled', true).text('Menyimpan...');
+      var endpoint = (typeof ajaxurl !== 'undefined') ? ajaxurl : 'admin-ajax.php';
+      \$.ajax({
+        url: endpoint,
+        type: 'POST',
+        data: \$(this).serialize() + '&action=bimasoft_save_kunci',
+        success: function(res) {
+          \$('#kunciResult').show();
+          if (res.trim() === 'OK') {
+            \$('#kunciResult').html('<div style=\"padding:10px;background:#d4edda;color:#155724;border:1px solid #c3e6cb\">Kunci Jawaban Berhasil di Simpan</div>');
+            \$('#kunciVal').val('');
+            \$('#kunciBatch').val('');
+          } else {
+            \$('#kunciResult').html('<div style=\"padding:10px;background:#f8d7da;color:#721c24;border:1px solid #f5c6cb\">' + res + '</div>');
+          }
+          btn.prop('disabled', false).text('Simpan Kunci');
+        },
+        error: function(err) {
+          \$('#kunciResult').show().html('<div style=\"padding:10px;background:#f8d7da;color:#721c24;border:1px solid #f5c6cb\">GAGAL TERHUBUNG KE SERVER</div>');
+          btn.prop('disabled', false).text('Simpan Kunci');
+        }
+      });
+    });
+  });
+  </script>
+  ";
 }
 
 add_action('admin_menu', 'bimasoft_database_add_admin_page');
