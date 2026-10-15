@@ -20,5 +20,8 @@
   "homepage": "https://github.com/yokowasis/cloud-simulasimandiri#readme",
   "devDependencies": {
     "@playwright/test": "^1.64.1"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
   }
 }

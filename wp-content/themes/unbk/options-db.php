@@ -194,26 +194,26 @@ function bimasoft_database_add_admin_page()
    * 99	- Separator
    */
 
-  // Generate Admin Page
+  // Top-Level Menu: Siswa / Data Siswa
+  $siswa_page_title = 'Data Siswa';
+  $siswa_menu_title = 'Data Siswa';
+  $siswa_menu_slug = 'bimasoft_database_reset_siswa_slug';
+  $siswa_callback = 'bimasoft_database_reset_siswa_slug_content';
+  $siswa_icon = 'dashicons-groups';
+  $siswa_position = 108;
+
+  add_menu_page($siswa_page_title, $siswa_menu_title, 'manage_options', $siswa_menu_slug, $siswa_callback, $siswa_icon, $siswa_position);
+  add_submenu_page($siswa_menu_slug, 'Data Siswa', 'Data Siswa', 'manage_options', $siswa_menu_slug, $siswa_callback);
+  add_submenu_page($siswa_menu_slug, 'Tambah Siswa', 'Tambah Siswa', 'manage_options', 'bimasoft_database_tambah_siswa_slug', 'bimasoft_database_tambah_siswa_slug_content');
+
+  // Top-Level Menu: Database Test
   add_menu_page($page_title, $menu_title, 'manage_options', $menu_slug, $callback, $icon, $position);
 
-  // Generate Admin Sub-Page
-  $page_title = 'Data Siswa';
-  $menu_title = 'Data Siswa';
-  $menu_slug = 'bimasoft_database_reset_siswa_slug';
-  $callback = 'bimasoft_database_reset_siswa_slug_content';
-  add_submenu_page('bimasoft_database_slug', $page_title, $menu_title, 'manage_options', $menu_slug, $callback);
-
+  // Generate Admin Sub-Page for Database Test
   $page_title = 'Data Test Siswa';
   $menu_title = 'Data Test Siswa';
   $menu_slug = 'bimasoft_database_hasil_slug';
   $callback = 'bimasoft_database_hasil_slug_content';
-  add_submenu_page('bimasoft_database_slug', $page_title, $menu_title, 'manage_options', $menu_slug, $callback);
-
-  $page_title = 'Tambah Siswa';
-  $menu_title = 'Tambah Siswa';
-  $menu_slug = 'bimasoft_database_tambah_siswa_slug';
-  $callback = 'bimasoft_database_tambah_siswa_slug_content';
   add_submenu_page('bimasoft_database_slug', $page_title, $menu_title, 'manage_options', $menu_slug, $callback);
 }
 
@@ -246,17 +246,15 @@ function bimasoft_database_tambah_siswa_slug_content()
   echo '</select>';
   echo '</td></tr>';
 
-  echo "<tr><td style='padding:5px;text-align:left'>Key:</td><td style='padding:5px'>";
-  echo "<input type='text' id='examKey' name='key' value='{$opt_excelkey}' style='width:100%;padding:5px' readonly>";
-  echo '</td></tr>';
-
+  echo "<input type='hidden' id='examKey' name='key' value='{$opt_excelkey}'>";
   echo "<tr><td style='padding:5px;text-align:left;vertical-align:top'>Data (Tab Delimited):</td><td style='padding:5px'>";
   echo "<textarea id='siswaData' name='siswaData' rows='10' style='width:100%;padding:5px' placeholder='Paste data siswa dari excel ke sini'></textarea>";
   echo "<small style='color:#666'>Format: NIS | USER | NAMA | PASS | NIK | NIK2 | SERVER | SESI</small>";
   echo '</td></tr>';
 
   echo "<tr><td colspan='2' style='padding:10px;text-align:center'>";
-  echo "<button type='submit' id='uploadBtn' style='padding:8px 20px'>Upload</button>";
+  echo "<a href='" . get_stylesheet_directory_uri() . "/sample.xlsx' download='sample.xlsx' id='downloadSampleBtn' class='button' style='padding:6px 15px;margin-right:10px;text-decoration:none;display:inline-block'>Download sample.xlsx</a>";
+  echo "<button type='submit' id='uploadBtn' class='button button-primary' style='padding:6px 20px'>Upload</button>";
   echo '</td></tr>';
   echo '</table>';
   echo '</form>';
@@ -318,7 +316,7 @@ function bimasoft_database_tambah_siswa_slug_content()
             }
             
             var lines = data.split('\\n');
-            var postData = 'first=1&count=' + lines.length + '&mapel-1=' + mapel + '&key=' + \$('#examKey').val();
+            var postData = 'count=' + lines.length + '&mapel-1=' + mapel + '&key=' + \$('#examKey').val();
             
             for(var i=0;i<lines.length;i++) {
                 var cols = lines[i].split('\\t');
