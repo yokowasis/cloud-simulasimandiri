@@ -435,37 +435,27 @@ function bimasoft_ajax_save_kunci()
   if (!empty($batch)) {
     $lines = explode("\n", $batch);
     foreach ($lines as $line) {
-      $line = trim($line);
-      if (empty($line)) continue;
-      if (strpos($line, "\t") !== false) {
-        $cols = explode("\t", $line);
-      } else {
-        $cols = preg_split('/\s+/', $line);
-      }
+      $line = trim($line, "\r\n");
+      if ($line === '') continue;
+      // Strictly use TAB as delimiter
+      $cols = explode("\t", $line);
       if (count($cols) >= 2) {
-        $b = (isset($cols[2]) && is_numeric(trim($cols[2]))) ? floatval(trim($cols[2])) : 1.0;
-        $items[] = [
-          'no' => intval($cols[0]),
-          'kunci' => strtoupper(trim($cols[1])),
-          'bobot' => $b
-        ];
+        $no = intval(trim($cols[0]));
+        $kunci = trim($cols[1]);
+        if ($no > 0 && $kunci !== '') {
+          $b = (isset($cols[2]) && is_numeric(trim($cols[2]))) ? floatval(trim($cols[2])) : 1.0;
+          $items[] = [
+            'no' => $no,
+            'kunci' => $kunci,
+            'bobot' => $b
+          ];
+        }
       }
-    }
-  } else {
-    $no = intval($_POST['no'] ?? 1);
-    $kunci = strtoupper(trim($_POST['kunci'] ?? ''));
-    $b = (isset($_POST['bobot']) && is_numeric(trim($_POST['bobot']))) ? floatval(trim($_POST['bobot'])) : 1.0;
-    if (!empty($kunci)) {
-      $items[] = [
-        'no' => $no,
-        'kunci' => $kunci,
-        'bobot' => $b
-      ];
     }
   }
 
   if (empty($items)) {
-    echo "Mohon masukkan kunci jawaban";
+    echo "Mohon masukkan kunci jawaban dengan pemisah TAB (Nomor\\tKunci\\tBobot)";
     wp_die();
   }
 
@@ -604,28 +594,23 @@ function bimasoft_database_tambah_kunci_slug_content()
   echo "</select>";
   echo "</td></tr>";
 
-  echo "<tr><td colspan='2' style='padding:10px 5px 5px;text-align:left'><b>Opsi 1: Tambah / Edit 1 Kunci</b></td></tr>";
-  echo "<tr><td style='padding:5px;text-align:left'>Nomor Soal:</td><td style='padding:5px'>";
-  echo "<input type='number' id='kunciNo' name='no' value='1' min='1' style='width:100%;padding:5px'>";
-  echo "</td></tr>";
-  echo "<tr><td style='padding:5px;text-align:left'>Kunci Jawaban:</td><td style='padding:5px'>";
-  echo "<input type='text' id='kunciVal' name='kunci' placeholder='Contoh: A (atau teks untuk essay)' style='width:100%;padding:5px;text-transform:uppercase'>";
-  echo "</td></tr>";
-  echo "<tr><td style='padding:5px;text-align:left'>Bobot Nilai:</td><td style='padding:5px'>";
-  echo "<input type='number' id='kunciBobot' name='bobot' value='1' step='any' style='width:100%;padding:5px'>";
-  echo "</td></tr>";
-
-  echo "<tr><td colspan='2' style='padding:10px 5px 5px;text-align:left'><b>Opsi 2: Batch Paste Kunci (Banyak Soal Sekaligus)</b></td></tr>";
-  echo "<tr><td style='padding:5px;text-align:left;vertical-align:top'>Data Kunci:</td><td style='padding:5px'>";
-  echo "<textarea id='kunciBatch' name='kunciBatch' rows='6' style='width:100%;padding:5px' placeholder='Format: NO [tab/spasi] KUNCI [tab/spasi] BOBOT&#10;Contoh:&#10;1&#9;A&#9;1&#10;2&#9;B&#9;1&#10;3&#9;C&#9;1'></textarea>";
-  echo "<small style='color:#666'>Format: Nomor [tab/spasi] Kunci [tab/spasi] Bobot (opsional). Jika diisi, input Opsi 1 diabaikan.</small>";
+  echo "<tr><td style='padding:5px;text-align:left;vertical-align:top'>Data Kunci (Tab Delimited):</td><td style='padding:5px'>";
+  echo "<textarea id='kunciBatch' name='kunciBatch' rows='10' style='width:100%;padding:5px' placeholder='Paste data kunci dari excel ke sini&#10;Contoh:&#10;1&#9;A&#9;1&#10;2&#9;B&#9;1&#10;3&#9;C&#9;1'></textarea>";
+  echo "<small style='color:#666'>Format: Nomor [TAB] Kunci [TAB] Bobot (opsional, default 1). Gunakan TAB sebagai pemisah antar kolom (copy langsung dari Excel).</small>";
   echo "</td></tr>";
 
   echo "<tr><td colspan='2' style='padding:15px;text-align:center'>";
+  echo "<a href='" . get_stylesheet_directory_uri() . "/sample_kunci.xlsx' download='sample.xlsx' id='downloadSampleKunciBtn' class='button' style='padding:6px 15px;margin-right:10px;text-decoration:none;display:inline-block'>Download sample.xlsx</a>";
   echo "<button type='submit' id='simpanKunciBtn' class='button button-primary' style='padding:6px 20px'>Simpan Kunci</button>";
   echo "</td></tr>";
   echo "</table>";
   echo "</form>";
+
+  echo "<div id='previewKunciResult' style='margin-top:20px;padding:10px;background:#f5f5f5;border:1px solid #ddd;display:none;max-width:600px;margin-left:auto;margin-right:auto'>";
+  echo "<h3>Preview</h3>";
+  echo "<p><b>Jumlah Kunci:</b> <span id='jumlahKunci'>0</span></p>";
+  echo "<div id='kunciPreviewList' style='max-height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;background:#fff;text-align:left'></div>";
+  echo "</div>";
 
   echo "<div id='kunciResult' style='margin-top:20px;padding:10px;display:none'></div>";
   echo "</div>";
@@ -633,6 +618,32 @@ function bimasoft_database_tambah_kunci_slug_content()
   echo "
   <script>
   jQuery('document').ready(function(\$){
+    \$('#kunciBatch').on('input paste', function(){
+      var data = \$(this).val().trim();
+      if (!data) {
+        \$('#previewKunciResult').hide();
+        return;
+      }
+      var lines = data.split('\\n');
+      var list = [];
+      var count = 0;
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (!line) continue;
+        var cols = line.split('\\t');
+        if (cols.length >= 2 && cols[0].trim() !== '') {
+          count++;
+          var no = cols[0].trim();
+          var kunci = cols[1].trim().toUpperCase();
+          var bobot = (cols[2] && cols[2].trim() !== '') ? cols[2].trim() : '1';
+          list.push('No ' + no + ': <b>' + kunci + '</b> (Bobot: ' + bobot + ')');
+        }
+      }
+      \$('#jumlahKunci').text(count);
+      \$('#kunciPreviewList').html('<ul style=\"margin:0;padding-left:20px\">' + list.map(function(item){ return '<li>' + item + '</li>'; }).join('') + '</ul>');
+      \$('#previewKunciResult').show();
+    });
+
     \$('#tambahKunciForm').submit(function(e){
       e.preventDefault();
       var kode = \$('#kunciKodeSelect').val();
@@ -640,10 +651,9 @@ function bimasoft_database_tambah_kunci_slug_content()
         alert('Mohon pilih Mapel / Test');
         return;
       }
-      var singleKunci = \$('#kunciVal').val().trim();
       var batchKunci = \$('#kunciBatch').val().trim();
-      if (!singleKunci && !batchKunci) {
-        alert('Mohon masukkan kunci jawaban (bisa single atau batch)');
+      if (!batchKunci) {
+        alert('Mohon masukkan data kunci jawaban');
         return;
       }
 
@@ -658,8 +668,8 @@ function bimasoft_database_tambah_kunci_slug_content()
           \$('#kunciResult').show();
           if (res.trim() === 'OK') {
             \$('#kunciResult').html('<div style=\"padding:10px;background:#d4edda;color:#155724;border:1px solid #c3e6cb\">Kunci Jawaban Berhasil di Simpan</div>');
-            \$('#kunciVal').val('');
             \$('#kunciBatch').val('');
+            \$('#previewKunciResult').hide();
           } else {
             \$('#kunciResult').html('<div style=\"padding:10px;background:#f8d7da;color:#721c24;border:1px solid #f5c6cb\">' + res + '</div>');
           }

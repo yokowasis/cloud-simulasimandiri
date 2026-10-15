@@ -60,24 +60,28 @@ test.describe.serial('Tambah Test & Tambah Kunci Management', () => {
     await page.goto(`${BASE}/wp-admin/admin.php?page=bimasoft_database_tambah_kunci_slug`);
     await expect(page.locator('h2')).toContainText('Tambah Kunci');
 
+    // Verify Download sample.xlsx button exists
+    const downloadBtn = page.locator('#downloadSampleKunciBtn');
+    await expect(downloadBtn).toBeVisible();
+    await expect(downloadBtn).toContainText('Download sample.xlsx');
+
     // Select the created test from dropdown
     await page.selectOption('#kunciKodeSelect', TEST_CODE);
 
-    // Test single key entry (Question 1 -> A)
-    await page.fill('#kunciNo', '1');
-    await page.fill('#kunciVal', 'A');
-    await page.fill('#kunciBobot', '1');
+    // Enter tab-delimited keys (Question 1 -> A, Question 2 -> B, Question 3 -> ESSAY)
+    await page.fill('#kunciBatch', "1\tA\t1\n2\tB\t1\n3\tESSAY ANSWER\t2.5");
+
+    // Verify live preview is displayed
+    const previewResult = page.locator('#previewKunciResult');
+    await expect(previewResult).toBeVisible();
+    await expect(page.locator('#jumlahKunci')).toContainText('3');
+
+    // Submit form
     await page.click('#simpanKunciBtn');
 
+    // Assert success message
     const resultDiv = page.locator('#kunciResult');
     await expect(resultDiv).toBeVisible();
-    await expect(resultDiv).toContainText('Kunci Jawaban Berhasil di Simpan');
-
-    // Test batch key entry (Question 2 -> B, Question 3 -> C)
-    await page.selectOption('#kunciKodeSelect', TEST_CODE);
-    await page.fill('#kunciBatch', "2\tB\t1\n3\tC\t1");
-    await page.click('#simpanKunciBtn');
-
     await expect(resultDiv).toContainText('Kunci Jawaban Berhasil di Simpan');
   });
 
