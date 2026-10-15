@@ -7,7 +7,7 @@ function loginSiswa() {
 	if (empty($opt_useragent) && function_exists('get_option')) {
 		$opt_useragent = get_option('useragent');
 	}
-	if (!empty($opt_useragent)) {
+	if (!empty($opt_useragent) && $opt_useragent !== '*' && $opt_useragent !== '0') {
 		$ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		if (stripos($ua, trim($opt_useragent)) === false) {
 			echo 'Access Denied';

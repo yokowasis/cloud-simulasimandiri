@@ -24,14 +24,28 @@ test('pengaturan-test: login to wp-admin, go to pengaturan test, click save chan
   await page.goto(`${BASE}/wp-admin/admin.php?page=pengaturan-test`);
   await expect(page.locator('h2')).toContainText('Pengaturan Test');
 
-  // Step 3: Click Save Changes and wait for page to reload
+  // Step 3: Verify all fields have non-empty default values
+  const checkNonEmptyFields = async () => {
+    const emptyCount = await page.evaluate(() => {
+      const inputs = Array.from(document.querySelectorAll('.bimasoft_pages form table input[type=text], .bimasoft_pages form table select, .bimasoft_pages form table textarea'));
+      return inputs.filter(el => !el.value || el.value.trim() === '').length;
+    });
+    expect(emptyCount).toBe(0);
+  };
+
+  await checkNonEmptyFields();
+
+  // Step 4: Click Save Changes and wait for page to reload
   await page.click('#submit');
   await page.waitForLoadState('networkidle');
 
-  // Step 4: Assert no fatal/error occurred
+  // Step 5: Assert no fatal/error occurred
   await expect(page.locator('body')).not.toContainText('Fatal error');
   await expect(page.locator('body')).not.toContainText('There has been a critical error');
   await expect(page.locator('body')).not.toContainText('Unable to open file');
   await expect(page.locator('body')).not.toContainText('Gagal Menyimpan');
   await expect(page.locator('body')).not.toContainText('Permission denied');
+
+  // Step 6: Verify all fields remain non-empty after saving
+  await checkNonEmptyFields();
 });

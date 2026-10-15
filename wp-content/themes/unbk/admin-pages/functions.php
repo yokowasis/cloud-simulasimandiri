@@ -141,13 +141,21 @@ class Bimasoft_Page {
         $slug = str_ireplace("_","",$slug);
         $title = str_ireplace("_"," ",$title);
         $name = $slug;
+        $saved = get_option($name);
+        if ($name === 'reset-database-?') {
+            $val = 'Tidak';
+        } else if ($saved !== false && $saved !== '') {
+            $val = stripslashes($saved);
+        } else {
+            $val = ($value !== false ? $value : '');
+        }
         array_push($this->options, [
             'name' => $name,
             'title' => $title,
             'notes' => $notes,
             'type' => $type,
             'data' => $data,
-            'value' => ( $value ? $value : stripslashes(get_option($name)) )
+            'value' => $val
         ]);
     }
 

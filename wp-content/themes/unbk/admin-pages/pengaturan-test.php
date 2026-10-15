@@ -85,36 +85,36 @@ function savefiledb()
     'DB_PASSWORD' => DB_PASSWORD,
     'DB_NAME' => DB_NAME,
     'homeurl' => get_home_url() . '/',
-    'examtimer' => $_POST['exam-timer'],
-    'bolehdaftar' => ($_POST['siswa-melakukan-pendaftaran-sendiri'] === 'Ya' ? 1 : 0),
-    'autotoken' => ($_POST['token-secara-otomatis'] === 'Ya' ? 1 : 0),
-    'bolehlogout' => ($_POST['siswa-boleh-logout-sebelum-selesai'] === 'Ya' ? 1 : 0),
-    'bolehkumpul' => ($_POST['tidak-wajib-menjawab-semua-soal'] === 'Ya' ? 1 : 0),
-    'shownamasekolah' => ($_POST['tampilkan-nama-sekolah'] === 'Ya' ? 1 : 0),
+    'examtimer' => (isset($_POST['exam-timer']) && $_POST['exam-timer'] !== '') ? $_POST['exam-timer'] : '5',
+    'bolehdaftar' => (isset($_POST['siswa-melakukan-pendaftaran-sendiri']) && $_POST['siswa-melakukan-pendaftaran-sendiri'] === 'Ya' ? 1 : 0),
+    'autotoken' => (isset($_POST['token-secara-otomatis']) && $_POST['token-secara-otomatis'] === 'Ya' ? 1 : 0),
+    'bolehlogout' => (isset($_POST['siswa-boleh-logout-sebelum-selesai']) && $_POST['siswa-boleh-logout-sebelum-selesai'] === 'Ya' ? 1 : 0),
+    'bolehkumpul' => (isset($_POST['tidak-wajib-menjawab-semua-soal']) && $_POST['tidak-wajib-menjawab-semua-soal'] === 'Ya' ? 1 : 0),
+    'shownamasekolah' => (isset($_POST['tampilkan-nama-sekolah']) && $_POST['tampilkan-nama-sekolah'] === 'Ya' ? 1 : 0),
     'cdnid' => (isset($_POST['cdnid']) ? $_POST['cdnid'] : ''),
     'backend' => (isset($_POST['backend']) ? $_POST['backend'] : ''),
     'gdrive_token' => (isset($_POST['gdrivetoken']) ? $_POST['gdrivetoken'] : ''),
     'gdrive_parent' => (isset($_POST['gdriveparent']) ? $_POST['gdriveparent'] : ''),
-    'blogdescription' => $_POST['tagline'],
+    'blogdescription' => !empty($_POST['tagline']) ? $_POST['tagline'] : 'Aplikasi Ujian Berbasis Komputer',
     // "option_page" => "section",
     // "action" => "update",
     // "_wpnonce" => "e3074852a2",
     // "_wp_http_referer" => "/cloud-simulasimandiri/wp-admin/admin.php?page=theme-panel",
-    'waktutoken' => ($_POST['masa-aktif-token']),
-    'excelkey' => ($_POST['excel-key'] ? $_POST['excel-key'] : ''),
-    'timezone' => ($_POST['timezone']),
+    'waktutoken' => !empty($_POST['masa-aktif-token']) ? $_POST['masa-aktif-token'] : '15',
+    'excelkey' => !empty($_POST['excel-key']) ? $_POST['excel-key'] : '123456',
+    'timezone' => !empty($_POST['timezone']) ? $_POST['timezone'] : 'Asia/Jakarta',
     'autologin' => $autologin,
     'allmapel' => $allmapel,
-    'shownilai' => ($_POST['tampilkan-nilai-siswa-di-akhir-ujian'] === 'Ya' ? 1 : 0),
-    'wajibreset' => ($_POST['wajib-reset-ketika-keluar-dari-ujian'] === 'Ya' ? 1 : 0),
-    'welcome' => $_POST['pesan-homepage'],
-    'examkey' => $_POST['examkey'],
-    'useragent' => (isset($_POST['useragent']) ? trim($_POST['useragent']) : (isset($_POST['user-agent']) ? trim($_POST['user-agent']) : '')),
-    'pesanbanned' => $_POST['pesan-error-siswa-diblokir'],
-    'pesangagallogin' => $_POST['pesan-error-siswa-gagal-login'],
-    'minimalsisawaktu' => $_POST['minimal-sisa-waktu-sebelum-boleh-mengumpulkan'],
-    'modetimer' => $_POST['metode-penghitungan-waktu'],
-    'localstorage' => ($_POST['metode-penyimpanan-jawaban'] === 'Realtime' ? 'realtime' : 'performance'),
+    'shownilai' => (isset($_POST['tampilkan-nilai-siswa-di-akhir-ujian']) && $_POST['tampilkan-nilai-siswa-di-akhir-ujian'] === 'Ya' ? 1 : 0),
+    'wajibreset' => (isset($_POST['wajib-reset-ketika-keluar-dari-ujian']) && $_POST['wajib-reset-ketika-keluar-dari-ujian'] === 'Ya' ? 1 : 0),
+    'welcome' => !empty($_POST['pesan-homepage']) ? $_POST['pesan-homepage'] : 'Selamat Datang di Ujian Berbasis Komputer (CBT). Silakan login dengan username dan password Anda.',
+    'examkey' => (isset($_POST['examkey']) && $_POST['examkey'] !== '') ? $_POST['examkey'] : '0',
+    'useragent' => !empty($_POST['useragent']) ? trim($_POST['useragent']) : (!empty($_POST['user-agent']) ? trim($_POST['user-agent']) : 'Mozilla'),
+    'pesanbanned' => !empty($_POST['pesan-error-siswa-diblokir']) ? $_POST['pesan-error-siswa-diblokir'] : 'Akun Anda Diblokir, Silakan Hubungi Proktor / Pengawas Ujian',
+    'pesangagallogin' => !empty($_POST['pesan-error-siswa-gagal-login']) ? $_POST['pesan-error-siswa-gagal-login'] : 'Login Gagal, Username / Password Salah',
+    'minimalsisawaktu' => (isset($_POST['minimal-sisa-waktu-sebelum-boleh-mengumpulkan']) && $_POST['minimal-sisa-waktu-sebelum-boleh-mengumpulkan'] !== '') ? $_POST['minimal-sisa-waktu-sebelum-boleh-mengumpulkan'] : '0',
+    'modetimer' => !empty($_POST['metode-penghitungan-waktu']) ? $_POST['metode-penghitungan-waktu'] : 'Dynamic',
+    'localstorage' => (isset($_POST['metode-penyimpanan-jawaban']) && $_POST['metode-penyimpanan-jawaban'] === 'Performance' ? 'performance' : 'realtime'),
     'logo' => $lisensi['logo'],
     'namasekolah' => $lisensi['namasekolah'],
   ];
@@ -254,41 +254,41 @@ function savePengaturanTest()
   );
 
   $menu_pengaturan_test->add_option('Pengaturan Token', '', 'title');
-  $menu_pengaturan_test->add_option('Masa Aktif Token', 'Dalam Menit. Contoh : isi <b>15</b> untuk masa aktif token 15 menit', 'text');
-  $menu_pengaturan_test->add_option('Token Secara Otomatis', '', 'checkbox');
-  $menu_pengaturan_test->add_option('Exam Timer', 'Waktu jeda yang diperbolehkan siswa untuk keluar dari aplikasi. Dalam detik, isi di atas 0 (contoh : 2). Tidak diisi / kosong artinya siswa boleh keluar aplikasi tanpa batas.', 'text');
+  $menu_pengaturan_test->add_option('Masa Aktif Token', 'Dalam Menit. Contoh : isi <b>15</b> untuk masa aktif token 15 menit', 'text', [], '15');
+  $menu_pengaturan_test->add_option('Token Secara Otomatis', '', 'checkbox', [], 'Tidak');
+  $menu_pengaturan_test->add_option('Exam Timer', 'Waktu jeda yang diperbolehkan siswa untuk keluar dari aplikasi. Dalam detik, isi di atas 0 (contoh : 2). Tidak diisi / kosong artinya siswa boleh keluar aplikasi tanpa batas.', 'text', [], '5');
   $menu_pengaturan_test->add_option('', '', 'hr');
   // --------------------------------------------------
   $menu_pengaturan_test->add_option('Pengaturan Key', '', 'title');
-  $menu_pengaturan_test->add_option('Excel Key', 'Samakan dengan yg ada di Template Excel (Excel Key)', 'text');
-  $menu_pengaturan_test->add_option('Examkey', "Keterangan Examkey : <a href='https://wiki.bimasoft.web.id/index.php/2018/11/17/exam-key/'>Wiki Bimasoft</a>", 'text');
-  $menu_pengaturan_test->add_option('Useragent', 'Hanya siswa dengan browser yang memiliki User-Agent ini yang diperbolehkan login. Kosongkan jika tidak dibatasi.', 'text');
-  $menu_pengaturan_test->add_option('Timezone', '', 'select', ['Asia/Jakarta', 'Asia/Makassar', 'Asia/Jayapura']);
-  $menu_pengaturan_test->add_option('Minimal Sisa Waktu Sebelum Boleh Mengumpulkan', 'Dalam Menit. Contoh : isi 10, jika ingin siswa hanya boleh mengumpulkan ketika sisa waktunya 10 menit.', 'text');
+  $menu_pengaturan_test->add_option('Excel Key', 'Samakan dengan yg ada di Template Excel (Excel Key)', 'text', [], '123456');
+  $menu_pengaturan_test->add_option('Examkey', "Keterangan Examkey : <a href='https://wiki.bimasoft.web.id/index.php/2018/11/17/exam-key/'>Wiki Bimasoft</a>", 'text', [], '0');
+  $menu_pengaturan_test->add_option('Useragent', 'Hanya siswa dengan browser yang memiliki User-Agent ini yang diperbolehkan login. Kosongkan jika tidak dibatasi.', 'text', [], 'Mozilla');
+  $menu_pengaturan_test->add_option('Timezone', '', 'select', ['Asia/Jakarta', 'Asia/Makassar', 'Asia/Jayapura'], 'Asia/Jakarta');
+  $menu_pengaturan_test->add_option('Minimal Sisa Waktu Sebelum Boleh Mengumpulkan', 'Dalam Menit. Contoh : isi 10, jika ingin siswa hanya boleh mengumpulkan ketika sisa waktunya 10 menit.', 'text', [], '0');
   $menu_pengaturan_test->add_option('', '', 'hr');
   // --------------------------------------------------
   $menu_pengaturan_test->add_option('Pengaturan Tampilan Homepage', '', 'title');
-  $menu_pengaturan_test->add_option('Tampilkan Nama Sekolah', 'Pilih Ya, jika ingin menampilkan Nama dan Logo Sekolah. Tidak, jika hanya ingin Logo', 'checkbox');
-  $menu_pengaturan_test->add_option('Tagline', 'Tulisan di bawah nama sekolah', 'text');
-  $menu_pengaturan_test->add_option('Pesan Homepage', '', 'textarea');
-  $menu_pengaturan_test->add_option('Pesan Error Siswa Gagal Login', '', 'textarea');
-  $menu_pengaturan_test->add_option('Pesan Error Siswa Diblokir', '', 'textarea');
+  $menu_pengaturan_test->add_option('Tampilkan Nama Sekolah', 'Pilih Ya, jika ingin menampilkan Nama dan Logo Sekolah. Tidak, jika hanya ingin Logo', 'checkbox', [], 'Tidak');
+  $menu_pengaturan_test->add_option('Tagline', 'Tulisan di bawah nama sekolah', 'text', [], 'Aplikasi Ujian Berbasis Komputer');
+  $menu_pengaturan_test->add_option('Pesan Homepage', '', 'textarea', [], 'Selamat Datang di Ujian Berbasis Komputer (CBT). Silakan login dengan username dan password Anda.');
+  $menu_pengaturan_test->add_option('Pesan Error Siswa Gagal Login', '', 'textarea', [], 'Login Gagal, Username / Password Salah');
+  $menu_pengaturan_test->add_option('Pesan Error Siswa Diblokir', '', 'textarea', [], 'Akun Anda Diblokir, Silakan Hubungi Proktor / Pengawas Ujian');
   $menu_pengaturan_test->add_option('', '', 'hr');
   // --------------------------------------------------
   $menu_pengaturan_test->add_option('Pengaturan Mapel', '', 'title');
-  $menu_pengaturan_test->add_option('Pilihan Mapel', 'WARNING !!! : Tampilkan semua mapel akan membuat semua test bisa dikerjakan tanpa harus mengikuti jadwal', 'select', ['Tampilkan', 'Sembunyikan', 'Tampilkan Semua Mapel Walau Bukan Jadwalnya']);
-  $menu_pengaturan_test->add_option('catatan', 'catatan', 'text');
-  $menu_pengaturan_test->add_option('Metode Penghitungan Waktu', 'Contoh Kasus : Test Mulai Jam 08.00 dengan Alokasi 120 menit. <br/>Dynamic : Siswa bisa login di atas jam 08.00, dan akan mendapat alokasi waktu 2 jam. Jadi siswa bisa saja mulai jam 10.00 dan selesia jam 12.00. <br/> Classic : Siswa bisa login di atas jam 08.00 tapi di bawah 10.00. Siswa yg login di atas jam 10.00 langsung logout otomatis', 'select', ['Dynamic', 'Classic']);
-  $menu_pengaturan_test->add_option('Metode Penyimpanan Jawaban', 'Realtime : Setiap siswa menjawab langsung di kirim ke server.<br/>Performance : Jawaban siswa dikirim hanya ketika siswa selesai. Jadi pastikan status siswa sudah selesai sebelum siswa meninggalkan ruangan. Beban ke server lebih ringan.<br/>Catatan : Tidak berpengaruh ke Pengguna Cloud Server Bimasoft', 'select', ['Realtime', 'Performance']);
+  $menu_pengaturan_test->add_option('Pilihan Mapel', 'WARNING !!! : Tampilkan semua mapel akan membuat semua test bisa dikerjakan tanpa harus mengikuti jadwal', 'select', ['Tampilkan', 'Sembunyikan', 'Tampilkan Semua Mapel Walau Bukan Jadwalnya'], 'Tampilkan Semua Mapel Walau Bukan Jadwalnya');
+  $menu_pengaturan_test->add_option('catatan', 'catatan', 'text', [], 'Catatan Pelaksanaan Ujian');
+  $menu_pengaturan_test->add_option('Metode Penghitungan Waktu', 'Contoh Kasus : Test Mulai Jam 08.00 dengan Alokasi 120 menit. <br/>Dynamic : Siswa bisa login di atas jam 08.00, dan akan mendapat alokasi waktu 2 jam. Jadi siswa bisa saja mulai jam 10.00 dan selesia jam 12.00. <br/> Classic : Siswa bisa login di atas jam 08.00 tapi di bawah 10.00. Siswa yg login di atas jam 10.00 langsung logout otomatis', 'select', ['Dynamic', 'Classic'], 'Dynamic');
+  $menu_pengaturan_test->add_option('Metode Penyimpanan Jawaban', 'Realtime : Setiap siswa menjawab langsung di kirim ke server.<br/>Performance : Jawaban siswa dikirim hanya ketika siswa selesai. Jadi pastikan status siswa sudah selesai sebelum siswa meninggalkan ruangan. Beban ke server lebih ringan.<br/>Catatan : Tidak berpengaruh ke Pengguna Cloud Server Bimasoft', 'select', ['Realtime', 'Performance'], 'Realtime');
   $menu_pengaturan_test->add_option('', '', 'hr');
   // --------------------------------------------------
   $menu_pengaturan_test->add_option('Pengaturan Lain - Lain', '', 'title');
-  $menu_pengaturan_test->add_option('Tampilkan Nilai Siswa di Akhir Ujian', '', 'checkbox');
-  $menu_pengaturan_test->add_option('Wajib Reset Ketika Keluar Dari Ujian', 'Aktifkan jika ingin mencegah siswa login menggunakan lebih dari 1 device', 'checkbox');
-  $menu_pengaturan_test->add_option('Siswa Boleh Logout Sebelum Selesai', '', 'checkbox');
-  $menu_pengaturan_test->add_option('Siswa Melakukan Pendaftaran Sendiri', '', 'checkbox');
-  $menu_pengaturan_test->add_option('Tidak Wajib Menjawab Semua Soal', '', 'checkbox');
-  $menu_pengaturan_test->add_option('Login Menggunakan Account Google', 'Khusus pengguna Cloud Bimasoft. Laporkan nama domain untuk menggunakan Feature ini', 'checkbox');
+  $menu_pengaturan_test->add_option('Tampilkan Nilai Siswa di Akhir Ujian', '', 'checkbox', [], 'Tidak');
+  $menu_pengaturan_test->add_option('Wajib Reset Ketika Keluar Dari Ujian', 'Aktifkan jika ingin mencegah siswa login menggunakan lebih dari 1 device', 'checkbox', [], 'Tidak');
+  $menu_pengaturan_test->add_option('Siswa Boleh Logout Sebelum Selesai', '', 'checkbox', [], 'Tidak');
+  $menu_pengaturan_test->add_option('Siswa Melakukan Pendaftaran Sendiri', '', 'checkbox', [], 'Ya');
+  $menu_pengaturan_test->add_option('Tidak Wajib Menjawab Semua Soal', '', 'checkbox', [], 'Tidak');
+  $menu_pengaturan_test->add_option('Login Menggunakan Account Google', 'Khusus pengguna Cloud Bimasoft. Laporkan nama domain untuk menggunakan Feature ini', 'checkbox', [], 'Tidak');
   // $menu_pengaturan_test->add_option("Wajib Exam Client Android", "Ujian Hanya bisa diakses menggunakan Bimasoft exam client. Pilih 'Tidak' jika client campuran antar HP dan PC / Laptop", "checkbox");
   $menu_pengaturan_test->add_option('', '', 'hr');
   // --------------------------------------------------
@@ -296,7 +296,7 @@ function savePengaturanTest()
   $menu_pengaturan_test->add_option('Reset Database ?', '', 'select', ['Tidak', 'YA. HAPUS SEMUA DATA YANG ADA. Termasuk Jawaban dan Nilai Siswa'], 'Tidak');
   $menu_pengaturan_test->add_option('', '', 'hr');
   // --------------------------------------------------
-  $menu_pengaturan_test->add_option('token', '', 'hidden', []);
+  $menu_pengaturan_test->add_option('token', '', 'hidden', [], 'ASBTTQ');
 
   if (get_option('backend')) {
     $menu_pengaturan_test->add_option('cdnid', '', 'hidden', [], get_option('cdn_ID'));

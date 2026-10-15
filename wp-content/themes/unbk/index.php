@@ -27,7 +27,7 @@ function indexPage()
     ($absolute_url == get_home_url(null, '', null) . '/') ||
     strpos($absolute_url, get_home_url(null, '', null) . '/?') >= 0
   ) {
-    if ($opt_examkey) {
+    if ($opt_examkey && $opt_examkey !== '0') {
       $examkey = (isset($_GET['examkey'])) ? $_GET['examkey'] : false;
       if ($examkey === $opt_examkey) {
         printLogin();
