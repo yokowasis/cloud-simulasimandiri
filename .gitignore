@@ -32,4 +32,6 @@ wp-content/themes/.vscode
 
 *.json
 !.vscode/settings.json
-unbk.zip
+unbk.zipnode_modules/
+test-results/
+playwright-report/

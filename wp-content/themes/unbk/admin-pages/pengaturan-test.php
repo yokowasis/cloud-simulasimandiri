@@ -51,9 +51,8 @@ function savefiledb()
 
   // SAVE PENTEST
 
-  chmod(get_stylesheet_directory() . '/archives/pentest.html', '0644');
+  chmod(get_stylesheet_directory() . '/archives/pentest.html', 0644);
   $myfile = fopen(get_stylesheet_directory() . '/archives/pentest.html', 'w') or die('Unable to open file (0) !');
-  chmod(get_stylesheet_directory() . '/archives/pentest.html', '0600');
 
   $autologin = 0;
   $allmapel = 0;

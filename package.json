@@ -1,0 +1,24 @@
+{
+  "name": "cloud-simulasimandiri",
+  "version": "1.0.0",
+  "description": "A **cloud-ready WordPress development environment** designed for **rapid deployment** and **collaborative development** on **Gitpod**. This template provides a complete WordPress setup optimized for cloud development with modern DevOps practices and deployment automation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yokowasis/cloud-simulasimandiri.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yokowasis/cloud-simulasimandiri/issues"
+  },
+  "homepage": "https://github.com/yokowasis/cloud-simulasimandiri#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.64.1"
+  }
+}
